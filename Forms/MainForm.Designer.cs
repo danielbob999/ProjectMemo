@@ -32,15 +32,18 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainInputTextBox = new System.Windows.Forms.TextBox();
             this.mainFormattingPanel = new System.Windows.Forms.Panel();
+            this.formatHighlightNode = new System.Windows.Forms.Button();
+            this.formatUnderline = new System.Windows.Forms.Button();
+            this.formatCodeInText = new System.Windows.Forms.Button();
             this.formatEditCode = new System.Windows.Forms.Button();
+            this.pathTextBox = new System.Windows.Forms.TextBox();
             this.formatTextColourChoice = new System.Windows.Forms.ComboBox();
+            this.saveButton = new System.Windows.Forms.Button();
             this.formatTextColor = new System.Windows.Forms.Button();
             this.formatItalic = new System.Windows.Forms.Button();
             this.formatHeadingChoice = new System.Windows.Forms.ComboBox();
             this.formatHeading = new System.Windows.Forms.Button();
             this.boldButton = new System.Windows.Forms.Button();
-            this.saveButton = new System.Windows.Forms.Button();
-            this.pathTextBox = new System.Windows.Forms.TextBox();
             this.titleLabel = new System.Windows.Forms.Label();
             this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,9 +56,6 @@
             this.titleLabelL = new System.Windows.Forms.Label();
             this.mainFormLoop = new System.Windows.Forms.Timer(this.components);
             this.versionLabel = new System.Windows.Forms.Label();
-            this.formatCodeInText = new System.Windows.Forms.Button();
-            this.formatUnderline = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.mainFormattingPanel.SuspendLayout();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -66,13 +66,13 @@
             this.mainInputTextBox.Multiline = true;
             this.mainInputTextBox.Name = "mainInputTextBox";
             this.mainInputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.mainInputTextBox.Size = new System.Drawing.Size(1075, 608);
+            this.mainInputTextBox.Size = new System.Drawing.Size(1075, 566);
             this.mainInputTextBox.TabIndex = 0;
             this.mainInputTextBox.TextChanged += new System.EventHandler(this.mainInputTextBox_TextChanged);
             // 
             // mainFormattingPanel
             // 
-            this.mainFormattingPanel.Controls.Add(this.button1);
+            this.mainFormattingPanel.Controls.Add(this.formatHighlightNode);
             this.mainFormattingPanel.Controls.Add(this.formatUnderline);
             this.mainFormattingPanel.Controls.Add(this.formatCodeInText);
             this.mainFormattingPanel.Controls.Add(this.formatEditCode);
@@ -89,6 +89,39 @@
             this.mainFormattingPanel.Size = new System.Drawing.Size(245, 513);
             this.mainFormattingPanel.TabIndex = 1;
             // 
+            // formatHighlightNode
+            // 
+            this.formatHighlightNode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.formatHighlightNode.Location = new System.Drawing.Point(0, 309);
+            this.formatHighlightNode.Name = "formatHighlightNode";
+            this.formatHighlightNode.Size = new System.Drawing.Size(245, 42);
+            this.formatHighlightNode.TabIndex = 9;
+            this.formatHighlightNode.Text = "Format: Hightlight Note";
+            this.formatHighlightNode.UseVisualStyleBackColor = true;
+            this.formatHighlightNode.Click += new System.EventHandler(this.formatHighlightNode_Click);
+            // 
+            // formatUnderline
+            // 
+            this.formatUnderline.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.formatUnderline.Location = new System.Drawing.Point(0, 143);
+            this.formatUnderline.Name = "formatUnderline";
+            this.formatUnderline.Size = new System.Drawing.Size(245, 42);
+            this.formatUnderline.TabIndex = 8;
+            this.formatUnderline.Text = "Format: Underline";
+            this.formatUnderline.UseVisualStyleBackColor = true;
+            this.formatUnderline.Click += new System.EventHandler(this.formatUnderline_Click);
+            // 
+            // formatCodeInText
+            // 
+            this.formatCodeInText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.formatCodeInText.Location = new System.Drawing.Point(0, 262);
+            this.formatCodeInText.Name = "formatCodeInText";
+            this.formatCodeInText.Size = new System.Drawing.Size(245, 42);
+            this.formatCodeInText.TabIndex = 7;
+            this.formatCodeInText.Text = "Format: Hightlight Method/Variable";
+            this.formatCodeInText.UseVisualStyleBackColor = true;
+            this.formatCodeInText.Click += new System.EventHandler(this.formatCodeInText_Click);
+            // 
             // formatEditCode
             // 
             this.formatEditCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -99,6 +132,17 @@
             this.formatEditCode.Text = "Format: Edit Code";
             this.formatEditCode.UseVisualStyleBackColor = true;
             this.formatEditCode.Click += new System.EventHandler(this.formatEditCode_Click);
+            // 
+            // pathTextBox
+            // 
+            this.pathTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pathTextBox.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.pathTextBox.Location = new System.Drawing.Point(3, 482);
+            this.pathTextBox.Name = "pathTextBox";
+            this.pathTextBox.ReadOnly = true;
+            this.pathTextBox.Size = new System.Drawing.Size(237, 23);
+            this.pathTextBox.TabIndex = 3;
+            this.pathTextBox.Text = "lovely";
             // 
             // formatTextColourChoice
             // 
@@ -116,6 +160,17 @@
             this.formatTextColourChoice.Name = "formatTextColourChoice";
             this.formatTextColourChoice.Size = new System.Drawing.Size(201, 21);
             this.formatTextColourChoice.TabIndex = 5;
+            // 
+            // saveButton
+            // 
+            this.saveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveButton.Location = new System.Drawing.Point(0, 439);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(245, 37);
+            this.saveButton.TabIndex = 2;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // formatTextColor
             // 
@@ -174,28 +229,6 @@
             this.boldButton.Text = "Format: Bold";
             this.boldButton.UseVisualStyleBackColor = true;
             this.boldButton.Click += new System.EventHandler(this.boldButton_Click);
-            // 
-            // saveButton
-            // 
-            this.saveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveButton.Location = new System.Drawing.Point(0, 439);
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(245, 37);
-            this.saveButton.TabIndex = 2;
-            this.saveButton.Text = "Save";
-            this.saveButton.UseVisualStyleBackColor = true;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
-            // 
-            // pathTextBox
-            // 
-            this.pathTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pathTextBox.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.pathTextBox.Location = new System.Drawing.Point(3, 482);
-            this.pathTextBox.Name = "pathTextBox";
-            this.pathTextBox.ReadOnly = true;
-            this.pathTextBox.Size = new System.Drawing.Size(237, 23);
-            this.pathTextBox.TabIndex = 3;
-            this.pathTextBox.Text = "lovely";
             // 
             // titleLabel
             // 
@@ -264,7 +297,7 @@
             // 
             // directoryLabel
             // 
-            this.directoryLabel.Location = new System.Drawing.Point(13, 700);
+            this.directoryLabel.Location = new System.Drawing.Point(12, 657);
             this.directoryLabel.Name = "directoryLabel";
             this.directoryLabel.Size = new System.Drawing.Size(1074, 23);
             this.directoryLabel.TabIndex = 11;
@@ -294,43 +327,11 @@
             this.versionLabel.TabIndex = 13;
             this.versionLabel.Text = "label1";
             // 
-            // formatCodeInText
-            // 
-            this.formatCodeInText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.formatCodeInText.Location = new System.Drawing.Point(0, 262);
-            this.formatCodeInText.Name = "formatCodeInText";
-            this.formatCodeInText.Size = new System.Drawing.Size(245, 42);
-            this.formatCodeInText.TabIndex = 7;
-            this.formatCodeInText.Text = "Format: Hightlight Method/Variable";
-            this.formatCodeInText.UseVisualStyleBackColor = true;
-            this.formatCodeInText.Click += new System.EventHandler(this.formatCodeInText_Click);
-            // 
-            // formatUnderline
-            // 
-            this.formatUnderline.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.formatUnderline.Location = new System.Drawing.Point(0, 143);
-            this.formatUnderline.Name = "formatUnderline";
-            this.formatUnderline.Size = new System.Drawing.Size(245, 42);
-            this.formatUnderline.TabIndex = 8;
-            this.formatUnderline.Text = "Format: Underline";
-            this.formatUnderline.UseVisualStyleBackColor = true;
-            this.formatUnderline.Click += new System.EventHandler(this.formatUnderline_Click);
-            // 
-            // button1
-            // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(0, 309);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(245, 42);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Format: Hightlight Method/Variable";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1350, 729);
+            this.ClientSize = new System.Drawing.Size(1350, 689);
             this.Controls.Add(this.versionLabel);
             this.Controls.Add(this.titleLabelL);
             this.Controls.Add(this.directoryLabel);
@@ -381,7 +382,7 @@
         private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.Button formatUnderline;
         private System.Windows.Forms.Button formatCodeInText;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button formatHighlightNode;
     }
 }
 

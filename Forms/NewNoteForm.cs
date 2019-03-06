@@ -15,6 +15,7 @@ namespace UniversityNoteProgram
         public string courseStr;
         public string classTypeStr;
         public bool exited = false;
+        public bool selectedValue = false;
 
         public NewNoteForm()
         {
@@ -31,6 +32,18 @@ namespace UniversityNoteProgram
         private void NewNoteForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             exited = true;
+
+            if (coursePicker.Text == "Blank")
+            {
+                selectedValue = true;
+                return;
+            }
+
+            if (coursePicker.Text != "Select Course" && classTypePicker.Text != "Select Class Type")
+            {
+                selectedValue = true;
+                return;
+            }
         }
     }
 }

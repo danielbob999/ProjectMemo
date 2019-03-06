@@ -125,17 +125,18 @@ namespace UniversityNoteProgram
 
             string cStr;
             string ctStr;
-            bool formExited = false;
+            bool formEndedWithValue = false;
 
             using (NewNoteForm form = new NewNoteForm())
             {
                 form.ShowDialog();
                 cStr = form.courseStr;
                 ctStr = form.classTypeStr;
-                formExited = form.exited;
+                formEndedWithValue = form.selectedValue;
             }
 
-            if (formExited)
+            //Console.WriteLine(formExited);
+            if (!formEndedWithValue)
                 return;
 
             if (cStr == "Blank")
@@ -257,6 +258,12 @@ namespace UniversityNoteProgram
         {
             if (mainInputTextBox.SelectedText != "")
                 mainInputTextBox.SelectedText = mainInputTextBox.SelectedText.Replace(mainInputTextBox.SelectedText, string.Format("<span class='method-variable'>{0}</span>", mainInputTextBox.SelectedText));
+        }
+
+        private void formatHighlightNode_Click(object sender, EventArgs e)
+        {
+            if (mainInputTextBox.SelectedText != "")
+                mainInputTextBox.SelectedText = mainInputTextBox.SelectedText.Replace(mainInputTextBox.SelectedText, string.Format("<span class='standout-note'>{0}</span>", mainInputTextBox.SelectedText));
         }
     }
 }
