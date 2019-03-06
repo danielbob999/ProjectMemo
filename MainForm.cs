@@ -203,5 +203,17 @@ namespace UniversityNoteProgram
         {
             Close();
         }
+
+        private void formatUnderline_Click(object sender, EventArgs e)
+        {
+            if (mainInputTextBox.SelectedText != "")
+                mainInputTextBox.SelectedText = mainInputTextBox.SelectedText.Replace(mainInputTextBox.SelectedText, string.Format("<{0}>{1}</{0}>", "u", mainInputTextBox.SelectedText));
+        }
+
+        private void formatCodeInText_Click(object sender, EventArgs e)
+        {
+            if (mainInputTextBox.SelectedText != "")
+                mainInputTextBox.SelectedText = mainInputTextBox.SelectedText.Replace(mainInputTextBox.SelectedText, string.Format("<span class='method-variable'>{0}</span>", mainInputTextBox.SelectedText));
+        }
     }
 }

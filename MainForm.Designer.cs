@@ -53,6 +53,8 @@
             this.titleLabelL = new System.Windows.Forms.Label();
             this.mainFormLoop = new System.Windows.Forms.Timer(this.components);
             this.versionLabel = new System.Windows.Forms.Label();
+            this.formatCodeInText = new System.Windows.Forms.Button();
+            this.formatUnderline = new System.Windows.Forms.Button();
             this.mainFormattingPanel.SuspendLayout();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -69,6 +71,8 @@
             // 
             // mainFormattingPanel
             // 
+            this.mainFormattingPanel.Controls.Add(this.formatUnderline);
+            this.mainFormattingPanel.Controls.Add(this.formatCodeInText);
             this.mainFormattingPanel.Controls.Add(this.formatEditCode);
             this.mainFormattingPanel.Controls.Add(this.formatTextColourChoice);
             this.mainFormattingPanel.Controls.Add(this.formatTextColor);
@@ -84,7 +88,7 @@
             // formatEditCode
             // 
             this.formatEditCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.formatEditCode.Location = new System.Drawing.Point(0, 244);
+            this.formatEditCode.Location = new System.Drawing.Point(0, 308);
             this.formatEditCode.Name = "formatEditCode";
             this.formatEditCode.Size = new System.Drawing.Size(245, 42);
             this.formatEditCode.TabIndex = 6;
@@ -104,15 +108,15 @@
             "pink",
             "purple",
             "yellow"});
-            this.formatTextColourChoice.Location = new System.Drawing.Point(4, 217);
+            this.formatTextColourChoice.Location = new System.Drawing.Point(20, 236);
             this.formatTextColourChoice.Name = "formatTextColourChoice";
-            this.formatTextColourChoice.Size = new System.Drawing.Size(237, 21);
+            this.formatTextColourChoice.Size = new System.Drawing.Size(201, 21);
             this.formatTextColourChoice.TabIndex = 5;
             // 
             // formatTextColor
             // 
             this.formatTextColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.formatTextColor.Location = new System.Drawing.Point(1, 170);
+            this.formatTextColor.Location = new System.Drawing.Point(0, 190);
             this.formatTextColor.Name = "formatTextColor";
             this.formatTextColor.Size = new System.Drawing.Size(245, 42);
             this.formatTextColor.TabIndex = 4;
@@ -122,8 +126,8 @@
             // 
             // formatItalic
             // 
-            this.formatItalic.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.formatItalic.Location = new System.Drawing.Point(0, 122);
+            this.formatItalic.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.formatItalic.Location = new System.Drawing.Point(0, 96);
             this.formatItalic.Name = "formatItalic";
             this.formatItalic.Size = new System.Drawing.Size(245, 42);
             this.formatItalic.TabIndex = 3;
@@ -134,14 +138,15 @@
             // formatHeadingChoice
             // 
             this.formatHeadingChoice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.formatHeadingChoice.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.formatHeadingChoice.FormattingEnabled = true;
             this.formatHeadingChoice.Items.AddRange(new object[] {
             "h1",
             "h2",
             "h3"});
-            this.formatHeadingChoice.Location = new System.Drawing.Point(4, 47);
+            this.formatHeadingChoice.Location = new System.Drawing.Point(170, 5);
             this.formatHeadingChoice.Name = "formatHeadingChoice";
-            this.formatHeadingChoice.Size = new System.Drawing.Size(237, 21);
+            this.formatHeadingChoice.Size = new System.Drawing.Size(71, 33);
             this.formatHeadingChoice.TabIndex = 2;
             // 
             // formatHeading
@@ -149,7 +154,7 @@
             this.formatHeading.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.formatHeading.Location = new System.Drawing.Point(0, 0);
             this.formatHeading.Name = "formatHeading";
-            this.formatHeading.Size = new System.Drawing.Size(245, 42);
+            this.formatHeading.Size = new System.Drawing.Size(165, 42);
             this.formatHeading.TabIndex = 1;
             this.formatHeading.Text = "Format: Heading";
             this.formatHeading.UseVisualStyleBackColor = true;
@@ -157,8 +162,8 @@
             // 
             // boldButton
             // 
-            this.boldButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.boldButton.Location = new System.Drawing.Point(0, 74);
+            this.boldButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.boldButton.Location = new System.Drawing.Point(0, 48);
             this.boldButton.Name = "boldButton";
             this.boldButton.Size = new System.Drawing.Size(245, 42);
             this.boldButton.TabIndex = 0;
@@ -285,6 +290,28 @@
             this.versionLabel.TabIndex = 13;
             this.versionLabel.Text = "label1";
             // 
+            // formatCodeInText
+            // 
+            this.formatCodeInText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.formatCodeInText.Location = new System.Drawing.Point(0, 262);
+            this.formatCodeInText.Name = "formatCodeInText";
+            this.formatCodeInText.Size = new System.Drawing.Size(245, 42);
+            this.formatCodeInText.TabIndex = 7;
+            this.formatCodeInText.Text = "Format: Hightlight Method/Variable";
+            this.formatCodeInText.UseVisualStyleBackColor = true;
+            this.formatCodeInText.Click += new System.EventHandler(this.formatCodeInText_Click);
+            // 
+            // formatUnderline
+            // 
+            this.formatUnderline.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.formatUnderline.Location = new System.Drawing.Point(0, 143);
+            this.formatUnderline.Name = "formatUnderline";
+            this.formatUnderline.Size = new System.Drawing.Size(245, 42);
+            this.formatUnderline.TabIndex = 8;
+            this.formatUnderline.Text = "Format: Underline";
+            this.formatUnderline.UseVisualStyleBackColor = true;
+            this.formatUnderline.Click += new System.EventHandler(this.formatUnderline_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -339,6 +366,8 @@
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
         private System.Windows.Forms.Label versionLabel;
+        private System.Windows.Forms.Button formatUnderline;
+        private System.Windows.Forms.Button formatCodeInText;
     }
 }
 
