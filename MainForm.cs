@@ -115,6 +115,14 @@ namespace UniversityNoteProgram
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (mainInputTextBox.Text != "")
+            {
+                var result = MessageBox.Show("Do you want create a new note without saving this one?", "Warning", MessageBoxButtons.YesNo);
+
+                if (result == DialogResult.No)
+                    return;
+            }
+
             string cStr;
             string ctStr;
 
@@ -165,6 +173,9 @@ namespace UniversityNoteProgram
 
                 ctrl.Enabled = true;
             }
+
+            mainInputTextBox.Text = "";
+            MainContent.codeFragments.Clear();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
