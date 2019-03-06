@@ -52,7 +52,8 @@
             "158.212",
             "158.244",
             "159.201",
-            "159.234"});
+            "159.234",
+            "Blank"});
             this.coursePicker.Location = new System.Drawing.Point(6, 43);
             this.coursePicker.Name = "coursePicker";
             this.coursePicker.Size = new System.Drawing.Size(160, 21);

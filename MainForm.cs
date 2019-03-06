@@ -125,11 +125,34 @@ namespace UniversityNoteProgram
                 ctStr = form.classTypeStr;
             }
 
-            //Console.WriteLine("Picked a new note " + cStr + " " + ctStr);
-            workingDirectory = string.Format("{0}\\{1}\\{2}\\", Directory.GetCurrentDirectory(), cStr.Replace(".", ""), "Notes");
-            directoryLabel.Text = workingDirectory;
-            workingFileName = string.Format("{0}-{1}-{2}_{3}.html", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, ctStr);
-            pathTextBox.Text = workingFileName;
+            if (cStr == "Blank")
+            {
+                workingDirectory = Directory.GetCurrentDirectory() + "\\";
+                directoryLabel.Text = workingDirectory;
+
+                int indx = 0;
+
+                while (indx < 100)
+                {
+                    if (File.Exists(workingDirectory + "BlankNote" + indx + ".html"))
+                    {
+                        indx++;
+                        continue;
+                    }
+
+                    workingFileName = string.Format("BlankNote" + indx + ".html");
+                    pathTextBox.Text = workingFileName;
+                    break;
+                }
+
+            }
+            else
+            {
+                workingDirectory = string.Format("{0}\\{1}\\{2}\\", Directory.GetCurrentDirectory(), cStr.Replace(".", ""), "Notes");
+                directoryLabel.Text = workingDirectory;
+                workingFileName = string.Format("{0}-{1}-{2}_{3}.html", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, ctStr);
+                pathTextBox.Text = workingFileName;
+            }
 
             // Enable all controls
             foreach (Control ctrl in this.Controls)
