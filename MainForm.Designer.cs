@@ -55,6 +55,7 @@
             this.versionLabel = new System.Windows.Forms.Label();
             this.formatCodeInText = new System.Windows.Forms.Button();
             this.formatUnderline = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.mainFormattingPanel.SuspendLayout();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -65,30 +66,33 @@
             this.mainInputTextBox.Multiline = true;
             this.mainInputTextBox.Name = "mainInputTextBox";
             this.mainInputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.mainInputTextBox.Size = new System.Drawing.Size(886, 513);
+            this.mainInputTextBox.Size = new System.Drawing.Size(1075, 608);
             this.mainInputTextBox.TabIndex = 0;
             this.mainInputTextBox.TextChanged += new System.EventHandler(this.mainInputTextBox_TextChanged);
             // 
             // mainFormattingPanel
             // 
+            this.mainFormattingPanel.Controls.Add(this.button1);
             this.mainFormattingPanel.Controls.Add(this.formatUnderline);
             this.mainFormattingPanel.Controls.Add(this.formatCodeInText);
             this.mainFormattingPanel.Controls.Add(this.formatEditCode);
+            this.mainFormattingPanel.Controls.Add(this.pathTextBox);
             this.mainFormattingPanel.Controls.Add(this.formatTextColourChoice);
+            this.mainFormattingPanel.Controls.Add(this.saveButton);
             this.mainFormattingPanel.Controls.Add(this.formatTextColor);
             this.mainFormattingPanel.Controls.Add(this.formatItalic);
             this.mainFormattingPanel.Controls.Add(this.formatHeadingChoice);
             this.mainFormattingPanel.Controls.Add(this.formatHeading);
             this.mainFormattingPanel.Controls.Add(this.boldButton);
-            this.mainFormattingPanel.Location = new System.Drawing.Point(904, 86);
+            this.mainFormattingPanel.Location = new System.Drawing.Point(1093, 86);
             this.mainFormattingPanel.Name = "mainFormattingPanel";
-            this.mainFormattingPanel.Size = new System.Drawing.Size(245, 435);
+            this.mainFormattingPanel.Size = new System.Drawing.Size(245, 513);
             this.mainFormattingPanel.TabIndex = 1;
             // 
             // formatEditCode
             // 
             this.formatEditCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.formatEditCode.Location = new System.Drawing.Point(0, 308);
+            this.formatEditCode.Location = new System.Drawing.Point(0, 355);
             this.formatEditCode.Name = "formatEditCode";
             this.formatEditCode.Size = new System.Drawing.Size(245, 42);
             this.formatEditCode.TabIndex = 6;
@@ -174,7 +178,7 @@
             // saveButton
             // 
             this.saveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveButton.Location = new System.Drawing.Point(904, 527);
+            this.saveButton.Location = new System.Drawing.Point(0, 439);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(245, 37);
             this.saveButton.TabIndex = 2;
@@ -186,7 +190,7 @@
             // 
             this.pathTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pathTextBox.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.pathTextBox.Location = new System.Drawing.Point(908, 568);
+            this.pathTextBox.Location = new System.Drawing.Point(3, 482);
             this.pathTextBox.Name = "pathTextBox";
             this.pathTextBox.ReadOnly = true;
             this.pathTextBox.Size = new System.Drawing.Size(237, 23);
@@ -209,7 +213,7 @@
             this.editToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Size = new System.Drawing.Size(1157, 24);
+            this.mainMenuStrip.Size = new System.Drawing.Size(1350, 24);
             this.mainMenuStrip.TabIndex = 9;
             this.mainMenuStrip.Text = "MainMenuStrip";
             // 
@@ -260,9 +264,9 @@
             // 
             // directoryLabel
             // 
-            this.directoryLabel.Location = new System.Drawing.Point(12, 605);
+            this.directoryLabel.Location = new System.Drawing.Point(13, 700);
             this.directoryLabel.Name = "directoryLabel";
-            this.directoryLabel.Size = new System.Drawing.Size(886, 23);
+            this.directoryLabel.Size = new System.Drawing.Size(1074, 23);
             this.directoryLabel.TabIndex = 11;
             this.directoryLabel.Text = "label1";
             // 
@@ -284,7 +288,7 @@
             // 
             this.versionLabel.AutoSize = true;
             this.versionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.versionLabel.Location = new System.Drawing.Point(1111, 24);
+            this.versionLabel.Location = new System.Drawing.Point(1304, 24);
             this.versionLabel.Name = "versionLabel";
             this.versionLabel.Size = new System.Drawing.Size(46, 17);
             this.versionLabel.TabIndex = 13;
@@ -312,17 +316,25 @@
             this.formatUnderline.UseVisualStyleBackColor = true;
             this.formatUnderline.Click += new System.EventHandler(this.formatUnderline_Click);
             // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(0, 309);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(245, 42);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Format: Hightlight Method/Variable";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1157, 627);
+            this.ClientSize = new System.Drawing.Size(1350, 729);
             this.Controls.Add(this.versionLabel);
             this.Controls.Add(this.titleLabelL);
             this.Controls.Add(this.directoryLabel);
             this.Controls.Add(this.titleLabel);
-            this.Controls.Add(this.pathTextBox);
-            this.Controls.Add(this.saveButton);
             this.Controls.Add(this.mainFormattingPanel);
             this.Controls.Add(this.mainInputTextBox);
             this.Controls.Add(this.mainMenuStrip);
@@ -334,6 +346,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.mainFormattingPanel.ResumeLayout(false);
+            this.mainFormattingPanel.PerformLayout();
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -368,6 +381,7 @@
         private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.Button formatUnderline;
         private System.Windows.Forms.Button formatCodeInText;
+        private System.Windows.Forms.Button button1;
     }
 }
 

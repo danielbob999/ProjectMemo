@@ -13,8 +13,8 @@ namespace UniversityNoteProgram
 {
     public partial class MainForm : Form
     {
-        public const int VERSION_MAJOR = 1;
-        public const int VERSION_MINOR = 1;
+        public const int VERSION_MAJOR = 2;
+        public const int VERSION_MINOR = 0;
 
         public string workingDirectory = "";
         public string workingFileName = "";
@@ -82,6 +82,10 @@ namespace UniversityNoteProgram
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            if (Screen.PrimaryScreen.WorkingArea.Size.Width <= 1366 && Screen.PrimaryScreen.WorkingArea.Size.Height <= 728)
+            {
+                Size = Screen.PrimaryScreen.WorkingArea.Size;
+            }
 
             defaultName = string.Format("{0} v{1}.{2}", this.Text, VERSION_MAJOR, VERSION_MINOR);
             versionLabel.Text = string.Format("v{0}.{1}", VERSION_MAJOR, VERSION_MINOR);
