@@ -46,36 +46,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeEditorForm.cs">
+    <Compile Include="Forms\CodeEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CodeEditorForm.Designer.cs">
+    <Compile Include="Forms\CodeEditorForm.Designer.cs">
       <DependentUpon>CodeEditorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomConsole.cs" />
     <Compile Include="MainContent.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="NewNoteForm.cs">
+    <Compile Include="Forms\NewNoteForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NewNoteForm.Designer.cs">
+    <Compile Include="Forms\NewNoteForm.Designer.cs">
       <DependentUpon>NewNoteForm.cs</DependentUpon>
     </Compile>
     <Compile Include="OutputModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CodeEditorForm.resx">
+    <EmbeddedResource Include="Forms\CodeEditorForm.resx">
       <DependentUpon>CodeEditorForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NewNoteForm.resx">
+    <EmbeddedResource Include="Forms\NewNoteForm.resx">
       <DependentUpon>NewNoteForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
