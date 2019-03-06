@@ -46,12 +46,12 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.directoryLabel = new System.Windows.Forms.Label();
             this.titleLabelL = new System.Windows.Forms.Label();
             this.mainFormLoop = new System.Windows.Forms.Timer(this.components);
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.versionLabel = new System.Windows.Forms.Label();
             this.mainFormattingPanel.SuspendLayout();
             this.mainMenuStrip.SuspendLayout();
@@ -62,6 +62,7 @@
             this.mainInputTextBox.Location = new System.Drawing.Point(12, 86);
             this.mainInputTextBox.Multiline = true;
             this.mainInputTextBox.Name = "mainInputTextBox";
+            this.mainInputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.mainInputTextBox.Size = new System.Drawing.Size(886, 513);
             this.mainInputTextBox.TabIndex = 0;
             this.mainInputTextBox.TextChanged += new System.EventHandler(this.mainInputTextBox_TextChanged);
@@ -221,16 +222,30 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // quitToolStripMenuItem
+            // 
+            this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.quitToolStripMenuItem.Text = "Quit";
+            this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -259,20 +274,6 @@
             // mainFormLoop
             // 
             this.mainFormLoop.Tick += new System.EventHandler(this.mainFormLoop_Tick);
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveButton_Click);
-            // 
-            // quitToolStripMenuItem
-            // 
-            this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.quitToolStripMenuItem.Text = "Quit";
-            this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
             // versionLabel
             // 

@@ -14,7 +14,7 @@ namespace UniversityNoteProgram
     public partial class MainForm : Form
     {
         public const int VERSION_MAJOR = 1;
-        public const int VERSION_MINOR = 0;
+        public const int VERSION_MINOR = 1;
 
         public string workingDirectory = "";
         public string workingFileName = "";
