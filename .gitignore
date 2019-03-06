@@ -1,0 +1,6 @@
+# .gitignore for UniversityNoteProgram
+
+[Bb]in/Debug/*
+[Bb]in/Release/*
+[Oo]bj/Debug/*
+[Oo]bj/Release/*
