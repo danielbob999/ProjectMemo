@@ -76,6 +76,7 @@
             this.fontSizeChanger.Name = "fontSizeChanger";
             this.fontSizeChanger.Size = new System.Drawing.Size(37, 21);
             this.fontSizeChanger.TabIndex = 15;
+            this.fontSizeChanger.TabStop = false;
             this.fontSizeChanger.Value = new decimal(new int[] {
             9,
             0,
