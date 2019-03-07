@@ -56,8 +56,10 @@
             this.titleLabelL = new System.Windows.Forms.Label();
             this.mainFormLoop = new System.Windows.Forms.Timer(this.components);
             this.versionLabel = new System.Windows.Forms.Label();
+            this.fontSizeChanger = new System.Windows.Forms.NumericUpDown();
             this.mainFormattingPanel.SuspendLayout();
             this.mainMenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.fontSizeChanger)).BeginInit();
             this.SuspendLayout();
             // 
             // mainInputTextBox
@@ -327,11 +329,36 @@
             this.versionLabel.TabIndex = 13;
             this.versionLabel.Text = "label1";
             // 
+            // fontSizeChanger
+            // 
+            this.fontSizeChanger.AutoSize = true;
+            this.fontSizeChanger.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fontSizeChanger.Location = new System.Drawing.Point(1027, 91);
+            this.fontSizeChanger.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.fontSizeChanger.Minimum = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.fontSizeChanger.Name = "fontSizeChanger";
+            this.fontSizeChanger.Size = new System.Drawing.Size(37, 21);
+            this.fontSizeChanger.TabIndex = 14;
+            this.fontSizeChanger.Value = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1350, 689);
+            this.Controls.Add(this.fontSizeChanger);
             this.Controls.Add(this.versionLabel);
             this.Controls.Add(this.titleLabelL);
             this.Controls.Add(this.directoryLabel);
@@ -350,6 +377,7 @@
             this.mainFormattingPanel.PerformLayout();
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.fontSizeChanger)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -383,6 +411,7 @@
         private System.Windows.Forms.Button formatUnderline;
         private System.Windows.Forms.Button formatCodeInText;
         private System.Windows.Forms.Button formatHighlightNode;
+        private System.Windows.Forms.NumericUpDown fontSizeChanger;
     }
 }
 

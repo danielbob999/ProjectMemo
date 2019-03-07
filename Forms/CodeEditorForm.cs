@@ -22,11 +22,12 @@ namespace UniversityNoteProgram
 
         private void formTimer_Tick(object sender, EventArgs e)
         {
-            
+            mainInputBox.Font = new Font("Consolas", (float)fontSizeChanger.Value, FontStyle.Regular);
         }
 
         private void CodeEditorForm_Load(object sender, EventArgs e)
         {
+            formTimer.Start();
             titleLabel.Text = editingCodeFragId;
 
             if (MainContent.GetCodeFragment(editingCodeFragId) != null)

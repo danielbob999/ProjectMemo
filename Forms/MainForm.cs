@@ -215,6 +215,8 @@ namespace UniversityNoteProgram
 
         private void mainFormLoop_Tick(object sender, EventArgs e)
         {
+            mainInputTextBox.Font = new Font("Microsoft Sans Serif", (float)fontSizeChanger.Value, FontStyle.Regular);
+
             if (!MainContent.saveData.DoesCurrentDataMatch(mainInputTextBox.Text, MainContent.codeFragments))
             {
                 this.Text = defaultName + "*";
