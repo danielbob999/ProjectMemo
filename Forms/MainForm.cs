@@ -13,8 +13,8 @@ namespace UniversityNoteProgram
 {
     public partial class MainForm : Form
     {
-        public const int VERSION_MAJOR = 2;
-        public const int VERSION_MINOR = 1;
+        public const int VERSION_MAJOR = 3;
+        public const int VERSION_MINOR = 0;
 
         public string workingDirectory = ""; // The directory that this exe is running from
         public string workingFileName = ""; // The relative path of the file being edited in relation to the workingDirectory
@@ -227,7 +227,16 @@ namespace UniversityNoteProgram
             pathTextBox.Text = workingFileName;
             titleLabel.Text = workingFileName.Replace("..\\", "");
 
-            Console.WriteLine("If svaing was a thing: " +);
+            //Console.WriteLine("If svaing was a thing: " +);
+
+            if (workingFileName == "")
+            {
+                currentNoteToolStripMenuItem.Enabled = false;
+            }
+            else
+            {
+                currentNoteToolStripMenuItem.Enabled = true;
+            }
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -267,6 +276,68 @@ namespace UniversityNoteProgram
         {
             if (mainInputTextBox.SelectedText != "")
                 mainInputTextBox.SelectedText = mainInputTextBox.SelectedText.Replace(mainInputTextBox.SelectedText, string.Format("<span class='standout-note'>{0}</span>", mainInputTextBox.SelectedText));
+        }
+
+        private void otherNoteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.ShowDialog();
+
+            string path = openFile.FileName;
+
+            openFile.Dispose();
+
+            using (NoteViewerForm form = new NoteViewerForm(path))
+            {
+                form.ShowDialog();
+            }
+        }
+
+        private void currentNoteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var result = MessageBox.Show("This note isn't saved. Do you want to save this Note?", "Warning", MessageBoxButtons.YesNo);
+                string fullPath = "";
+                bool savedToTemp = false;
+
+                if (!File.Exists(workingDirectory + workingFileName))
+                {
+                    if (result == DialogResult.Yes)
+                    {
+                        saveButton.PerformClick();
+                        fullPath = workingDirectory + workingFileName;
+                    }
+                    else
+                    {
+                        string tempPath = workingDirectory + "temp\\";
+                        string tempFileName = "tempSaveFile.temp";
+                        fullPath = tempPath + tempFileName;
+                        savedToTemp = true;
+
+                        OutputModule.SaveToHtml(mainInputTextBox, fullPath);
+                    }
+                }
+                else
+                {
+                    fullPath = workingDirectory + workingFileName;
+                }
+
+                using (NoteViewerForm form = new NoteViewerForm(fullPath))
+                {
+                    form.ShowDialog();
+                }
+
+                if (savedToTemp)
+                {
+                    File.Delete(fullPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                CustomConsole.Log("An error has occured when trying to view the current note");
+                CustomConsole.Log(ex.Message);
+            }
         }
     }
 }

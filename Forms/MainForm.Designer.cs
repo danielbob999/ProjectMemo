@@ -57,6 +57,10 @@
             this.mainFormLoop = new System.Windows.Forms.Timer(this.components);
             this.versionLabel = new System.Windows.Forms.Label();
             this.fontSizeChanger = new System.Windows.Forms.NumericUpDown();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewOpenNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.currentNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.otherNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainFormattingPanel.SuspendLayout();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fontSizeChanger)).BeginInit();
@@ -245,7 +249,8 @@
             // 
             this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.editToolStripMenuItem});
+            this.editToolStripMenuItem,
+            this.viewToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
             this.mainMenuStrip.Size = new System.Drawing.Size(1350, 24);
@@ -354,6 +359,37 @@
             0,
             0});
             // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewOpenNoteToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // viewOpenNoteToolStripMenuItem
+            // 
+            this.viewOpenNoteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.currentNoteToolStripMenuItem,
+            this.otherNoteToolStripMenuItem});
+            this.viewOpenNoteToolStripMenuItem.Name = "viewOpenNoteToolStripMenuItem";
+            this.viewOpenNoteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.viewOpenNoteToolStripMenuItem.Text = "View Note";
+            // 
+            // currentNoteToolStripMenuItem
+            // 
+            this.currentNoteToolStripMenuItem.Name = "currentNoteToolStripMenuItem";
+            this.currentNoteToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.currentNoteToolStripMenuItem.Text = "Current Note";
+            this.currentNoteToolStripMenuItem.Click += new System.EventHandler(this.currentNoteToolStripMenuItem_Click);
+            // 
+            // otherNoteToolStripMenuItem
+            // 
+            this.otherNoteToolStripMenuItem.Name = "otherNoteToolStripMenuItem";
+            this.otherNoteToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.otherNoteToolStripMenuItem.Text = "Note From Disk";
+            this.otherNoteToolStripMenuItem.Click += new System.EventHandler(this.otherNoteToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -371,7 +407,7 @@
             this.MainMenuStrip = this.mainMenuStrip;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "University Note Taker";
+            this.Text = "University Note Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.mainFormattingPanel.ResumeLayout(false);
@@ -413,6 +449,10 @@
         private System.Windows.Forms.Button formatCodeInText;
         private System.Windows.Forms.Button formatHighlightNode;
         private System.Windows.Forms.NumericUpDown fontSizeChanger;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewOpenNoteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem currentNoteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem otherNoteToolStripMenuItem;
     }
 }
 
