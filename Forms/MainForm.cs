@@ -16,8 +16,8 @@ namespace UniversityNoteProgram
         public const int VERSION_MAJOR = 2;
         public const int VERSION_MINOR = 1;
 
-        public string workingDirectory = "";
-        public string workingFileName = "";
+        public string workingDirectory = ""; // The directory that this exe is running from
+        public string workingFileName = ""; // The relative path of the file being edited in relation to the workingDirectory
         public string defaultName;
 
         public MainForm()
@@ -88,6 +88,7 @@ namespace UniversityNoteProgram
                 Size = Screen.PrimaryScreen.WorkingArea.Size;
             }*/
 
+            workingDirectory = Directory.GetCurrentDirectory() + "\\";
             defaultName = string.Format("{0} v{1}.{2}", this.Text, VERSION_MAJOR, VERSION_MINOR);
             versionLabel.Text = string.Format("v{0}.{1}", VERSION_MAJOR, VERSION_MINOR);
             mainFormLoop.Start();
@@ -102,14 +103,6 @@ namespace UniversityNoteProgram
 
                 ctrl.Enabled = false;
             }
-
-            // Set the working directory
-            //workingDirectory = string.Format("{0}\\{1}\\{2}\\", Directory.GetCurrentDirectory(), coursePicker.SelectedItem.ToString().Replace(".", ""), "Notes");
-            directoryLabel.Text = workingDirectory;
-
-            // Set the filename
-            //workingFileName = string.Format("{0}-{1}-{2}_{3}_Notes.html", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, classTypePicker.SelectedItem);
-            pathTextBox.Text = workingFileName;
 
             titleLabel.Text = workingFileName;
         }
@@ -143,30 +136,31 @@ namespace UniversityNoteProgram
             if (cStr == "Blank")
             {
                 workingDirectory = Directory.GetCurrentDirectory() + "\\";
-                directoryLabel.Text = workingDirectory;
 
                 int indx = 0;
 
+                string tempBlankFilename = workingDirectory + string.Format("..\\19_s1\\BankNote{0}.html", indx);
+
                 while (indx < 100)
                 {
-                    if (File.Exists(workingDirectory + "BlankNote" + indx + ".html"))
+                    tempBlankFilename = workingDirectory + string.Format("..\\19_s1\\BankNote{0}.html", indx);
+
+                    if (File.Exists(tempBlankFilename))
                     {
                         indx++;
                         continue;
                     }
 
-                    workingFileName = string.Format("BlankNote" + indx + ".html");
-                    pathTextBox.Text = workingFileName;
+                    //workingFileName = string.Format("BlankNote" + indx + ".html");
+                    workingFileName = string.Format("..\\19_s1\\BankNote{0}.html", indx);
                     break;
                 }
 
             }
             else
             {
-                workingDirectory = string.Format("{0}\\{1}\\{2}\\", Directory.GetCurrentDirectory(), cStr.Replace(".", ""), "Notes");
-                directoryLabel.Text = workingDirectory;
-                workingFileName = string.Format("{0}-{1}-{2}_{3}.html", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, ctStr);
-                pathTextBox.Text = workingFileName;
+                //workingFileName = string.Format("{0}{0}-{1}-{2}_{3}.html", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, ctStr);
+                workingFileName = string.Format("..\\19_s1\\{0}\\Notes\\{1}-{2}-{3}_{4}.html", cStr.Replace(".", ""), DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, ctStr);
             }
 
             // Enable all controls
@@ -228,6 +222,12 @@ namespace UniversityNoteProgram
                 this.Text = defaultName;
                 //saveButton.Enabled = true;
             }
+
+            directoryLabel.Text = workingDirectory;
+            pathTextBox.Text = workingFileName;
+            titleLabel.Text = workingFileName.Replace("..\\", "");
+
+            Console.WriteLine("If svaing was a thing: " +);
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
