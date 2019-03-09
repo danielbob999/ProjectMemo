@@ -36,7 +36,6 @@
             this.formatUnderline = new System.Windows.Forms.Button();
             this.formatCodeInText = new System.Windows.Forms.Button();
             this.formatEditCode = new System.Windows.Forms.Button();
-            this.pathTextBox = new System.Windows.Forms.TextBox();
             this.formatTextColourChoice = new System.Windows.Forms.ComboBox();
             this.saveButton = new System.Windows.Forms.Button();
             this.formatTextColor = new System.Windows.Forms.Button();
@@ -50,17 +49,18 @@
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewOpenNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.currentNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.otherNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.directoryLabel = new System.Windows.Forms.Label();
             this.titleLabelL = new System.Windows.Forms.Label();
             this.mainFormLoop = new System.Windows.Forms.Timer(this.components);
             this.versionLabel = new System.Windows.Forms.Label();
             this.fontSizeChanger = new System.Windows.Forms.NumericUpDown();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewOpenNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.currentNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.otherNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainFormattingPanel.SuspendLayout();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fontSizeChanger)).BeginInit();
@@ -82,7 +82,6 @@
             this.mainFormattingPanel.Controls.Add(this.formatUnderline);
             this.mainFormattingPanel.Controls.Add(this.formatCodeInText);
             this.mainFormattingPanel.Controls.Add(this.formatEditCode);
-            this.mainFormattingPanel.Controls.Add(this.pathTextBox);
             this.mainFormattingPanel.Controls.Add(this.formatTextColourChoice);
             this.mainFormattingPanel.Controls.Add(this.saveButton);
             this.mainFormattingPanel.Controls.Add(this.formatTextColor);
@@ -92,7 +91,7 @@
             this.mainFormattingPanel.Controls.Add(this.boldButton);
             this.mainFormattingPanel.Location = new System.Drawing.Point(1093, 86);
             this.mainFormattingPanel.Name = "mainFormattingPanel";
-            this.mainFormattingPanel.Size = new System.Drawing.Size(245, 513);
+            this.mainFormattingPanel.Size = new System.Drawing.Size(245, 566);
             this.mainFormattingPanel.TabIndex = 1;
             // 
             // formatHighlightNode
@@ -139,17 +138,6 @@
             this.formatEditCode.UseVisualStyleBackColor = true;
             this.formatEditCode.Click += new System.EventHandler(this.formatEditCode_Click);
             // 
-            // pathTextBox
-            // 
-            this.pathTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pathTextBox.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.pathTextBox.Location = new System.Drawing.Point(3, 482);
-            this.pathTextBox.Name = "pathTextBox";
-            this.pathTextBox.ReadOnly = true;
-            this.pathTextBox.Size = new System.Drawing.Size(237, 23);
-            this.pathTextBox.TabIndex = 3;
-            this.pathTextBox.Text = "lovely";
-            // 
             // formatTextColourChoice
             // 
             this.formatTextColourChoice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -170,7 +158,7 @@
             // saveButton
             // 
             this.saveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveButton.Location = new System.Drawing.Point(0, 439);
+            this.saveButton.Location = new System.Drawing.Point(0, 529);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(245, 37);
             this.saveButton.TabIndex = 2;
@@ -263,6 +251,7 @@
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
             this.saveToolStripMenuItem,
+            this.preferencesToolStripMenuItem,
             this.quitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -271,28 +260,35 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // preferencesToolStripMenuItem
+            // 
+            this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.preferencesToolStripMenuItem.Text = "Preferences";
+            this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
@@ -301,6 +297,37 @@
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewOpenNoteToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // viewOpenNoteToolStripMenuItem
+            // 
+            this.viewOpenNoteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.currentNoteToolStripMenuItem,
+            this.otherNoteToolStripMenuItem});
+            this.viewOpenNoteToolStripMenuItem.Name = "viewOpenNoteToolStripMenuItem";
+            this.viewOpenNoteToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.viewOpenNoteToolStripMenuItem.Text = "View Note";
+            // 
+            // currentNoteToolStripMenuItem
+            // 
+            this.currentNoteToolStripMenuItem.Name = "currentNoteToolStripMenuItem";
+            this.currentNoteToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.currentNoteToolStripMenuItem.Text = "Current Note";
+            this.currentNoteToolStripMenuItem.Click += new System.EventHandler(this.currentNoteToolStripMenuItem_Click);
+            // 
+            // otherNoteToolStripMenuItem
+            // 
+            this.otherNoteToolStripMenuItem.Name = "otherNoteToolStripMenuItem";
+            this.otherNoteToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.otherNoteToolStripMenuItem.Text = "Note From Disk";
+            this.otherNoteToolStripMenuItem.Click += new System.EventHandler(this.otherNoteToolStripMenuItem_Click);
             // 
             // directoryLabel
             // 
@@ -359,37 +386,6 @@
             0,
             0});
             // 
-            // viewToolStripMenuItem
-            // 
-            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.viewOpenNoteToolStripMenuItem});
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.viewToolStripMenuItem.Text = "View";
-            // 
-            // viewOpenNoteToolStripMenuItem
-            // 
-            this.viewOpenNoteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.currentNoteToolStripMenuItem,
-            this.otherNoteToolStripMenuItem});
-            this.viewOpenNoteToolStripMenuItem.Name = "viewOpenNoteToolStripMenuItem";
-            this.viewOpenNoteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.viewOpenNoteToolStripMenuItem.Text = "View Note";
-            // 
-            // currentNoteToolStripMenuItem
-            // 
-            this.currentNoteToolStripMenuItem.Name = "currentNoteToolStripMenuItem";
-            this.currentNoteToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.currentNoteToolStripMenuItem.Text = "Current Note";
-            this.currentNoteToolStripMenuItem.Click += new System.EventHandler(this.currentNoteToolStripMenuItem_Click);
-            // 
-            // otherNoteToolStripMenuItem
-            // 
-            this.otherNoteToolStripMenuItem.Name = "otherNoteToolStripMenuItem";
-            this.otherNoteToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.otherNoteToolStripMenuItem.Text = "Note From Disk";
-            this.otherNoteToolStripMenuItem.Click += new System.EventHandler(this.otherNoteToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -411,7 +407,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.mainFormattingPanel.ResumeLayout(false);
-            this.mainFormattingPanel.PerformLayout();
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fontSizeChanger)).EndInit();
@@ -426,7 +421,6 @@
         private System.Windows.Forms.Panel mainFormattingPanel;
         private System.Windows.Forms.Button boldButton;
         private System.Windows.Forms.Button saveButton;
-        private System.Windows.Forms.TextBox pathTextBox;
         private System.Windows.Forms.Button formatEditCode;
         private System.Windows.Forms.ComboBox formatTextColourChoice;
         private System.Windows.Forms.Button formatTextColor;
@@ -443,7 +437,7 @@
         private System.Windows.Forms.Label titleLabelL;
         private System.Windows.Forms.Timer mainFormLoop;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
         private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.Button formatUnderline;
         private System.Windows.Forms.Button formatCodeInText;
@@ -453,6 +447,7 @@
         private System.Windows.Forms.ToolStripMenuItem viewOpenNoteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem currentNoteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem otherNoteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
     }
 }
 

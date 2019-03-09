@@ -59,6 +59,7 @@
     <Compile Include="Forms\NoteViewerForm.Designer.cs">
       <DependentUpon>NoteViewerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="IOModule.cs" />
     <Compile Include="MainContent.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
@@ -73,6 +74,12 @@
       <DependentUpon>NewNoteForm.cs</DependentUpon>
     </Compile>
     <Compile Include="OutputModule.cs" />
+    <Compile Include="Forms\PreferencesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PreferencesForm.Designer.cs">
+      <DependentUpon>PreferencesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\CodeEditorForm.resx">
@@ -86,6 +93,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\NoteViewerForm.resx">
       <DependentUpon>NoteViewerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PreferencesForm.resx">
+      <DependentUpon>PreferencesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

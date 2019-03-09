@@ -24,6 +24,8 @@ namespace UniversityNoteProgram
         {
             mainNoteBrowser.Url = new Uri("file://" + activeNotePath);
             notePathLabel.Text = activeNotePath;
+            CustomConsole.Log("Opening NoteViewerForm...");
+            CustomConsole.Log("Note Uri: " + activeNotePath);
         }
     }
 }

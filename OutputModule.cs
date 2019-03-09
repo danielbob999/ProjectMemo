@@ -20,7 +20,7 @@ namespace UniversityNoteProgram
                 writer.WriteLine("<html>\n" +
                     "<head>\n" +
                     "<script src=\"https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js\"></script>\n" +
-                    "<link rel='stylesheet' type='text/css' href='../../NoteProgram/main.css'>\n" +
+                    "<link rel='stylesheet' type='text/css' href='../../../NoteProgram/main.css'>\n" +
                     "</head>\n" +
                     "<body>");
 
@@ -28,7 +28,7 @@ namespace UniversityNoteProgram
                 {
                     if (ln.StartsWith("[CODEFRAGID=") && ln.EndsWith("]"))
                     {
-                        writer.WriteLine("<code class='prettyprint lang-c'>");
+                        writer.WriteLine("<div class='code-div'><code class='prettyprint lang-c'>");
                         string[] codeFragment = MainContent.GetCodeFragment(ln);
 
                         foreach (string codeLine in codeFragment)
@@ -36,7 +36,7 @@ namespace UniversityNoteProgram
                             writer.WriteLine(codeLine.Replace(" ", "&nbsp;") + "<br>");
                         }
 
-                        writer.WriteLine("</code>");
+                        writer.WriteLine("</code></div>");
                         continue;
                     }
 
@@ -74,6 +74,9 @@ namespace UniversityNoteProgram
 
                 writer.Close();
                 writer.Dispose();
+
+                CustomConsole.Log("Saved Note to: " + _path);
+
                 return 1;
             }
             catch (Exception e)
