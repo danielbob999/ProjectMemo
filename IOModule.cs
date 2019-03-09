@@ -33,7 +33,7 @@ namespace UniversityNoteProgram
                     "<script src=\"https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js\"></script>\n" +
                     "<link rel='stylesheet' type='text/css' href='../main.css" + "'>\n" +
                     "</head>\n" +
-                    "<body>");
+                    "<body><div id='main-content'>");
 
                 foreach (string ln in _box.Lines)
                 {
@@ -81,7 +81,7 @@ namespace UniversityNoteProgram
 
                 writer.WriteLine("#RAW_CODE_END");
 
-                writer.WriteLine("</body>\n</html>");
+                writer.WriteLine("</div></body>\n</html>");
 
                 writer.Close();
                 writer.Dispose();

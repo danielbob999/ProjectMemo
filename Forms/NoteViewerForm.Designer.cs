@@ -35,7 +35,7 @@
             // 
             // notePathLabel
             // 
-            this.notePathLabel.Location = new System.Drawing.Point(10, 644);
+            this.notePathLabel.Location = new System.Drawing.Point(10, 721);
             this.notePathLabel.Name = "notePathLabel";
             this.notePathLabel.Size = new System.Drawing.Size(1162, 16);
             this.notePathLabel.TabIndex = 0;
@@ -43,7 +43,7 @@
             // 
             // mainNoteBrowser
             // 
-            this.mainNoteBrowser.Location = new System.Drawing.Point(11, 9);
+            this.mainNoteBrowser.Location = new System.Drawing.Point(11, 86);
             this.mainNoteBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.mainNoteBrowser.Name = "mainNoteBrowser";
             this.mainNoteBrowser.Size = new System.Drawing.Size(1161, 630);
@@ -53,7 +53,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1184, 661);
+            this.ClientSize = new System.Drawing.Size(1184, 741);
             this.Controls.Add(this.mainNoteBrowser);
             this.Controls.Add(this.notePathLabel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

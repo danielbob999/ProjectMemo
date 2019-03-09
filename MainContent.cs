@@ -132,11 +132,6 @@ namespace UniversityNoteProgram
                 }
             }*/
 
-            if (codeFrags != _c)
-            {
-                return false;
-            }
-
             return true;
         }
     }
