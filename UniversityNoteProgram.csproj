@@ -46,10 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleForm.cs">
+    <Compile Include="Forms\ConsoleForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConsoleForm.Designer.cs">
+    <Compile Include="Forms\ConsoleForm.Designer.cs">
       <DependentUpon>ConsoleForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\CodeEditorForm.cs">
@@ -87,7 +87,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ConsoleForm.resx">
+    <EmbeddedResource Include="Forms\ConsoleForm.resx">
       <DependentUpon>ConsoleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\CodeEditorForm.resx">
