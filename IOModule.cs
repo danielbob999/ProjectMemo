@@ -31,7 +31,7 @@ namespace UniversityNoteProgram
                 writer.WriteLine("<html>\n" +
                     "<head>\n" +
                     "<script src=\"https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js\"></script>\n" +
-                    "<link rel='stylesheet' type='text/css' href='../../../NoteProgram/main.css'>\n" +
+                    "<link rel='stylesheet' type='text/css' href='../main.css" + "'>\n" +
                     "</head>\n" +
                     "<body>");
 

@@ -38,7 +38,7 @@ namespace UniversityNoteProgram
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            IOModule.SaveToHtml(mainInputTextBox, mainDirectory + semesterFolder + "\\" + selectedCourseId + "\\Notes\\" + string.Format("{0}-{1}-{2}_{3}.html", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, selectedClassType));
+            IOModule.SaveToHtml(mainInputTextBox, mainDirectory + semesterFolder + "\\" + selectedCourseId + "\\Notes\\" + string.Format("{0}-{1}-{2}_{3}.html", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, selectedClassType), mainDirectory);
             MainContent.saveData = new SaveData(mainInputTextBox.Text, MainContent.codeFragments);
         }
 
