@@ -23,6 +23,8 @@ namespace UniversityNoteProgram
 
         public string defaultName;
 
+        private List<System.Threading.Thread> activeThreads = new List<System.Threading.Thread>();
+
         public MainForm()
         {
             InitializeComponent();
@@ -36,7 +38,7 @@ namespace UniversityNoteProgram
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            OutputModule.SaveToHtml(mainInputTextBox, mainDirectory + semesterFolder + "\\" + selectedCourseId + "\\Notes\\" + string.Format("{0}-{1}-{2}_{3}.html", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, selectedClassType));
+            IOModule.SaveToHtml(mainInputTextBox, mainDirectory + semesterFolder + "\\" + selectedCourseId + "\\Notes\\" + string.Format("{0}-{1}-{2}_{3}.html", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, selectedClassType));
             MainContent.saveData = new SaveData(mainInputTextBox.Text, MainContent.codeFragments);
         }
 
@@ -167,7 +169,7 @@ namespace UniversityNoteProgram
 
             openFile.Dispose();
 
-            OutputModule.ReadFromHtml(mainInputTextBox, path);
+            IOModule.ReadFromHtml(mainInputTextBox, path);
             IOModule.GetNoteDetailsFromFile(path, mainDirectory, semesterFolder, out selectedCourseId, out selectedClassType);
 
             // Enable all controls
@@ -229,6 +231,11 @@ namespace UniversityNoteProgram
 
                     e.Cancel = (result == DialogResult.No);
                 }
+            }
+
+            foreach (System.Threading.Thread thread in activeThreads)
+            {
+                CustomConsole.Log(string.Format("Shutting down Thread with id: {0}", thread.ManagedThreadId));
             }
         }
 
@@ -300,7 +307,7 @@ namespace UniversityNoteProgram
                         fullPath = tempPath + tempFileName;
                         savedToTemp = true;
 
-                        OutputModule.SaveToHtml(mainInputTextBox, fullPath);
+                        IOModule.SaveToHtml(mainInputTextBox, fullPath);
                     }
                 }
                 else
@@ -331,6 +338,23 @@ namespace UniversityNoteProgram
             {
                 form.ShowDialog();
             }
+        }
+
+        private void consoleWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Threading.Thread newThread = new System.Threading.Thread(OpenConsoleWindow);
+            newThread.Start();
+        }
+
+        private void OpenConsoleWindow()
+        {
+            CustomConsole.Log("Starting new Thread with id: " + System.Threading.Thread.CurrentThread.ManagedThreadId);
+            using (ConsoleForm form = new ConsoleForm())
+            {
+                form.ShowDialog();
+            }
+
+            CustomConsole.Log("Shutting down Thread with id: " + System.Threading.Thread.CurrentThread.ManagedThreadId);
         }
     }
 }

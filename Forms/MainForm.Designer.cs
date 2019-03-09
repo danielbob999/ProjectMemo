@@ -50,7 +50,6 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewOpenNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,6 +60,9 @@
             this.mainFormLoop = new System.Windows.Forms.Timer(this.components);
             this.versionLabel = new System.Windows.Forms.Label();
             this.fontSizeChanger = new System.Windows.Forms.NumericUpDown();
+            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.windowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.consoleWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainFormattingPanel.SuspendLayout();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fontSizeChanger)).BeginInit();
@@ -238,7 +240,8 @@
             this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
-            this.viewToolStripMenuItem});
+            this.viewToolStripMenuItem,
+            this.windowsToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
             this.mainMenuStrip.Size = new System.Drawing.Size(1350, 24);
@@ -285,13 +288,6 @@
             this.preferencesToolStripMenuItem.Text = "Preferences";
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
-            // quitToolStripMenuItem
-            // 
-            this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.quitToolStripMenuItem.Text = "Quit";
-            this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
-            // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
@@ -312,7 +308,7 @@
             this.currentNoteToolStripMenuItem,
             this.otherNoteToolStripMenuItem});
             this.viewOpenNoteToolStripMenuItem.Name = "viewOpenNoteToolStripMenuItem";
-            this.viewOpenNoteToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.viewOpenNoteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.viewOpenNoteToolStripMenuItem.Text = "View Note";
             // 
             // currentNoteToolStripMenuItem
@@ -357,9 +353,9 @@
             this.versionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.versionLabel.Location = new System.Drawing.Point(1304, 24);
             this.versionLabel.Name = "versionLabel";
-            this.versionLabel.Size = new System.Drawing.Size(46, 17);
+            this.versionLabel.Size = new System.Drawing.Size(35, 17);
             this.versionLabel.TabIndex = 13;
-            this.versionLabel.Text = "label1";
+            this.versionLabel.Text = "v#.#";
             // 
             // fontSizeChanger
             // 
@@ -385,6 +381,27 @@
             0,
             0,
             0});
+            // 
+            // quitToolStripMenuItem
+            // 
+            this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.quitToolStripMenuItem.Text = "Quit";
+            // 
+            // windowsToolStripMenuItem
+            // 
+            this.windowsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.consoleWindowToolStripMenuItem});
+            this.windowsToolStripMenuItem.Name = "windowsToolStripMenuItem";
+            this.windowsToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
+            this.windowsToolStripMenuItem.Text = "Windows";
+            // 
+            // consoleWindowToolStripMenuItem
+            // 
+            this.consoleWindowToolStripMenuItem.Name = "consoleWindowToolStripMenuItem";
+            this.consoleWindowToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.consoleWindowToolStripMenuItem.Text = "Console Window";
+            this.consoleWindowToolStripMenuItem.Click += new System.EventHandler(this.consoleWindowToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -448,6 +465,8 @@
         private System.Windows.Forms.ToolStripMenuItem currentNoteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem otherNoteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem windowsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem consoleWindowToolStripMenuItem;
     }
 }
 
