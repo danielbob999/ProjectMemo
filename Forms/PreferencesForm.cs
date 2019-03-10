@@ -34,6 +34,8 @@ namespace UniversityNoteProgram
 
             string[] dirs = Directory.GetDirectories(selectedDirectory);
 
+            semesterFolderPicker.Items.Clear();
+
             foreach (string str in dirs)
                 semesterFolderPicker.Items.Add(str.Replace(selectedDirectory, ""));
         }

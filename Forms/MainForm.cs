@@ -20,6 +20,7 @@ namespace UniversityNoteProgram
         public string semesterFolder = ""; // The name of the selected semester folder 
         public string selectedCourseId = ""; // The string of the active note's course E.g 159234
         public string selectedClassType = ""; // The string of the active note's class type E.g Lecture
+        public string workingFilename = "";
 
         public string defaultName;
 
@@ -38,7 +39,7 @@ namespace UniversityNoteProgram
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            IOModule.SaveToHtml(mainInputTextBox, mainDirectory + semesterFolder + "\\" + selectedCourseId + "\\Notes\\" + string.Format("{0}-{1}-{2}_{3}.html", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, selectedClassType));
+            IOModule.SaveToHtml(mainInputTextBox, mainDirectory + semesterFolder + "\\" + selectedCourseId + "\\Notes\\" + workingFilename);
             MainContent.saveData = new SaveData(mainInputTextBox.Text, MainContent.codeFragments);
         }
 
@@ -118,7 +119,7 @@ namespace UniversityNoteProgram
                 ctrl.Enabled = false;
             }
 
-            titleLabel.Text = string.Format("{0}-{1}-{2}_{3}.html", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, selectedClassType);
+            titleLabel.Text = workingFilename;
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -141,6 +142,8 @@ namespace UniversityNoteProgram
                 formEndedWithValue = form.selectedValue;
             }
 
+            workingFilename = string.Format("{0}-{1}-{2}_{3}.html", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, selectedClassType);
+
             if (!formEndedWithValue)
                 return;
 
@@ -158,6 +161,8 @@ namespace UniversityNoteProgram
 
             mainInputTextBox.Text = "";
             MainContent.codeFragments.Clear();
+            CustomConsole.Log("Cleared MainContent.codeFragments.");
+            CustomConsole.Log("Creating new note. CourseId: " + selectedCourseId + ", ClassType: " + selectedClassType);
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -168,6 +173,13 @@ namespace UniversityNoteProgram
             string path = openFile.FileName;
 
             openFile.Dispose();
+
+            if (!path.EndsWith(".html"))
+            {
+                CustomConsole.Log("Tried opening a file that wasn't of type .html");
+                MessageBox.Show("You must open a file of type .html", "Error", MessageBoxButtons.OK);
+                return;
+            }
 
             IOModule.ReadFromHtml(mainInputTextBox, path);
             IOModule.GetNoteDetailsFromFile(path, mainDirectory, semesterFolder, out selectedCourseId, out selectedClassType);
@@ -183,6 +195,11 @@ namespace UniversityNoteProgram
 
                 ctrl.Enabled = true;
             }
+
+            string[] splitPath = path.Split('\\');
+            workingFilename = splitPath[splitPath.Length - 1];
+
+            CustomConsole.Log("Opened Note for editing at: " + path);
         }
 
         private void mainInputTextBox_TextChanged(object sender, EventArgs e)
@@ -206,7 +223,7 @@ namespace UniversityNoteProgram
             }
 
             directoryLabel.Text = mainDirectory + semesterFolder + "\\" + selectedCourseId + "\\Notes\\";
-            titleLabel.Text = string.Format("{0}-{1}-{2}_{3}.html", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, selectedClassType);
+            titleLabel.Text = workingFilename;
 
             if (selectedClassType == "" && selectedCourseId == "")
             {
@@ -293,12 +310,12 @@ namespace UniversityNoteProgram
                 string fullPath = "";
                 bool savedToTemp = false;
 
-                if (!File.Exists(mainDirectory + semesterFolder + "\\" + selectedCourseId + "\\Notes\\" + string.Format("{0}-{1}-{2}_{3}.html", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, selectedClassType)))
+                if (!File.Exists(mainDirectory + semesterFolder + "\\" + selectedCourseId + "\\Notes\\" + workingFilename))
                 {
                     if (result == DialogResult.Yes)
                     {
                         saveButton.PerformClick();
-                        fullPath = mainDirectory + semesterFolder + "\\" + selectedCourseId + "\\Notes\\" + string.Format("{0}-{1}-{2}_{3}.html", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, selectedClassType);
+                        fullPath = mainDirectory + semesterFolder + "\\" + selectedCourseId + "\\Notes\\" + workingFilename;
                     }
                     else
                     {
@@ -312,7 +329,7 @@ namespace UniversityNoteProgram
                 }
                 else
                 {
-                    fullPath = mainDirectory + semesterFolder + "\\" + selectedCourseId + "\\Notes\\" + string.Format("{0}-{1}-{2}_{3}.html", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, selectedClassType);
+                    fullPath = mainDirectory + semesterFolder + "\\" + selectedCourseId + "\\Notes\\" + workingFilename;
                 }
 
                 using (NoteViewerForm form = new NoteViewerForm(fullPath))
@@ -337,6 +354,16 @@ namespace UniversityNoteProgram
             using (PreferencesForm form = new PreferencesForm())
             {
                 form.ShowDialog();
+            }
+
+            // Get main directory and semester folder
+            using (System.IO.StreamReader reader = new System.IO.StreamReader("details.conf"))
+            {
+                mainDirectory = reader.ReadLine();
+                semesterFolder = reader.ReadLine();
+
+                reader.Close();
+                reader.Dispose();
             }
         }
 
