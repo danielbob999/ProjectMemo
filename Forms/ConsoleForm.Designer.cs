@@ -1,4 +1,4 @@
-﻿namespace UniversityNoteProgram
+﻿namespace UniversityNoteProgram.Forms
 {
     partial class ConsoleForm
     {
@@ -29,20 +29,28 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConsoleForm));
-            this.mainConsoleTextBox = new System.Windows.Forms.TextBox();
+            this.consoleText = new System.Windows.Forms.Label();
+            this.inputTextBox = new System.Windows.Forms.TextBox();
             this.consoleTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
-            // mainConsoleTextBox
+            // consoleText
             // 
-            this.mainConsoleTextBox.Location = new System.Drawing.Point(4, 5);
-            this.mainConsoleTextBox.Multiline = true;
-            this.mainConsoleTextBox.Name = "mainConsoleTextBox";
-            this.mainConsoleTextBox.ReadOnly = true;
-            this.mainConsoleTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.mainConsoleTextBox.Size = new System.Drawing.Size(663, 373);
-            this.mainConsoleTextBox.TabIndex = 0;
+            this.consoleText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.consoleText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.consoleText.Location = new System.Drawing.Point(5, 4);
+            this.consoleText.Name = "consoleText";
+            this.consoleText.Size = new System.Drawing.Size(650, 315);
+            this.consoleText.TabIndex = 0;
+            // 
+            // inputTextBox
+            // 
+            this.inputTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.inputTextBox.Location = new System.Drawing.Point(5, 320);
+            this.inputTextBox.Name = "inputTextBox";
+            this.inputTextBox.Size = new System.Drawing.Size(650, 23);
+            this.inputTextBox.TabIndex = 1;
+            this.inputTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.inputTextBox_KeyDown);
             // 
             // consoleTimer
             // 
@@ -50,14 +58,14 @@
             // 
             // ConsoleForm
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(672, 381);
-            this.Controls.Add(this.mainConsoleTextBox);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(660, 348);
+            this.Controls.Add(this.inputTextBox);
+            this.Controls.Add(this.consoleText);
             this.Name = "ConsoleForm";
-            this.Text = "Univeristy Note Tacker Console";
+            this.Text = "ConsoleForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConsoleForm_FormClosing);
             this.Load += new System.EventHandler(this.ConsoleForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -66,7 +74,8 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox mainConsoleTextBox;
+        private System.Windows.Forms.Label consoleText;
+        private System.Windows.Forms.TextBox inputTextBox;
         private System.Windows.Forms.Timer consoleTimer;
     }
 }

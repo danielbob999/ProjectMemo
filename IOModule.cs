@@ -10,6 +10,8 @@ namespace UniversityNoteProgram
 {
     static class IOModule
     {
+        public const string PREFERENCES_FILENAME = "preferences.conf";
+
         public static void GetNoteDetailsFromFile(string _path, string _mainDir, string _semesterFold, out string _courseId, out string _classType)
         {
             string trimmedString = _path.Replace(_mainDir, "");
@@ -165,6 +167,32 @@ namespace UniversityNoteProgram
                 CustomConsole.Log("IOModule.ReadFromHtml has crashed...");
                 CustomConsole.Log(e.Message);
                 return new string[] { };
+            }
+        }
+
+        public static bool ReadPreferencesFromFile(out List<string> _prefs)
+        {
+            _prefs = new List<string>();
+
+
+            try
+            {
+                using (StreamReader reader = new StreamReader(PREFERENCES_FILENAME))
+                {
+                    _prefs.Add(reader.ReadLine());
+
+                    reader.Close();
+                    reader.Dispose();
+                }
+
+                CustomConsole.Log("Successfully read in all preferences from '" + PREFERENCES_FILENAME + "'");
+                return true;
+            }
+            catch (Exception e)
+            {
+                CustomConsole.Log("Failed to load preferences from '" + PREFERENCES_FILENAME + "'");
+                CustomConsole.Log(e.Message);
+                return false;
             }
         }
 

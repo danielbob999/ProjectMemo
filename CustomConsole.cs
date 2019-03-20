@@ -9,7 +9,7 @@ namespace UniversityNoteProgram
 {
     static class CustomConsole
     {
-        public static List<string> msgQueue = new List<string>();
+        private static List<string> msgQueue = new List<string>();
 
         public static void Log(string _msg)
         {
@@ -20,6 +20,31 @@ namespace UniversityNoteProgram
                 msgQueue.Add(msgStr);
                 Console.WriteLine(msgStr);
             }
+        }
+
+        public static void LogCommand(string _cmdStr)
+        {
+            if (_cmdStr != "")
+            {
+                string msgStr = string.Format("[{0}] >> {1}", DateTime.Now.ToLongTimeString(), _cmdStr);
+                msgQueue.Add(msgStr);
+                Console.WriteLine(msgStr);
+            }
+        }
+
+        public static string GetMessageQueueAsString()
+        {
+            string str = "";
+
+            foreach (string s in msgQueue)
+                str += (s + "\n");
+
+            return str;
+        }
+
+        public static void ProcessCommand(string _cmd)
+        {
+
         }
     }
 }
