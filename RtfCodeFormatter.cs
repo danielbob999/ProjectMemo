@@ -100,8 +100,8 @@ namespace UniversityNoteProgram
             bool stringIsLiteralString = false;
             bool nextIsSpace = false;
 
-            Console.WriteLine(str[selectionStart]);
-            Console.WriteLine("Start: {0}, End: {1}", selectionStart, selectionEnd);
+            //Console.WriteLine(str[selectionStart]);
+            //Console.WriteLine("Start: {0}, End: {1}", selectionStart, selectionEnd);
 
             a_richTextBox.SelectionStart = a_start;
             a_richTextBox.SelectionLength = a_end - a_start;
@@ -137,16 +137,16 @@ namespace UniversityNoteProgram
                     }
 
                     currentIndex += (tempIndx + 1);
-                    Console.WriteLine("Literal string ends at: " + currentIndex + tempIndx);
+                    //Console.WriteLine("Literal string ends at: " + currentIndex + tempIndx);
                     continue;
                 }
 
-                Console.WriteLine("Found keyword: [" + newString + "]");
+                //Console.WriteLine("Found keyword: [" + newString + "]");
 
                 if (nextWordIsClassName)
                 {
                     classNames.Add(newString);
-                    Console.WriteLine("Found new class name: [{0}]", newString);
+                    //Console.WriteLine("Found new class name: [{0}]", newString);
                     nextWordIsClassName = false;
 
                     Color newC;

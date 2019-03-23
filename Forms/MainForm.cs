@@ -51,7 +51,10 @@ namespace UniversityNoteProgram.Forms
             }
 
             // Set the valid semester choices
-            string[] semesterFolders = Directory.GetDirectories(MainNoteDirectory);
+            string[] semesterFolders = new string[] { };
+
+            if (!string.IsNullOrEmpty(MainNoteDirectory))
+                semesterFolders = Directory.GetDirectories(MainNoteDirectory);
 
             semesterSelector.Items.Clear();
 
@@ -152,7 +155,13 @@ namespace UniversityNoteProgram.Forms
                 MainNoteDirectory = form.selectedDirectory;
             }
 
-            string[] semesterFolders = Directory.GetDirectories(MainNoteDirectory);
+            // Set semester folders
+            string[] semesterFolders = new string[] { };
+
+            if (string.IsNullOrEmpty(MainNoteDirectory))
+                return;
+            else
+                semesterFolders = Directory.GetDirectories(MainNoteDirectory);
 
             semesterSelector.Items.Clear();
 
@@ -200,17 +209,6 @@ namespace UniversityNoteProgram.Forms
             semesterSelector.Enabled = !SaveLock;
             courseSelector.Enabled = !SaveLock;
             classTypeSelector.Enabled = !SaveLock;
-
-            // TESTING
-            if (activeRichTextBox != null && testingBool)
-            {
-                activeRichTextBox.SelectionLength = 1;
-                Console.WriteLine("{0}, {1}, {2}", activeRichTextBox.SelectionFont.FontFamily, activeRichTextBox.SelectionFont.Size, activeRichTextBox.SelectionFont.Style);
-                activeRichTextBox.SelectionLength = 0;
-            }
-
-            //if (activeRichTextBox != null && activeRichTextBox.SelectionStart < activeRichTextBox.Text.Length)
-                //Console.WriteLine(activeRichTextBox.SelectionStart + ", " + activeRichTextBox.Text[activeRichTextBox.SelectionStart]);
         }
 
         private void toEditToolStripMenuItem_Click(object sender, EventArgs e)
@@ -252,11 +250,6 @@ namespace UniversityNoteProgram.Forms
             CustomConsole.Log("Opened file to edit: " + filePath);
 
             mainTabControl.SelectedIndex = mainTabControl.TabPages.Count - 1;
-
-            /*
-            Console.WriteLine(string.Format("{0}{1}\\{2}\\Notes\\{3}-{4}-{5}_{6}.rtf",
-                MainForm.MainNoteDirectory, temp_semester, temp_course,
-                DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, temp_classtype));*/
         }
 
         private void semesterSelector_SelectedIndexChanged(object sender, EventArgs e)
@@ -279,6 +272,12 @@ namespace UniversityNoteProgram.Forms
 
         private void saveButton_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(MainNoteDirectory))
+            {
+                MessageBox.Show("You need to set a MainNoteDirectory before saving. (File -> Preferences)", "Error", MessageBoxButtons.OK);
+                return;
+            }
+
             string strng;
             CustomTab selectedTab = (CustomTab)mainTabControl.SelectedTab;
 
