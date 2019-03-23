@@ -33,6 +33,7 @@ namespace UniversityNoteProgram.Forms
         private void MainForm_Load(object sender, EventArgs e)
         {
             MainContent.InitFontStyles(template_richTextBox.Font.Size);
+            RtfCodeFormatter.InitKeywordColours("keyword_colours.conf");
 
             foreach (string str in MainContent.GetFontStyleList())
             {
@@ -84,6 +85,7 @@ namespace UniversityNoteProgram.Forms
             newBox.Font = new Font(newBox.Font.FontFamily, 10.5f, FontStyle.Regular);
             newBox.Size = template_rtb.Size;
             newBox.Location = template_rtb.Location;
+            newBox.HideSelection = false;
 
             // Create new tab, make sure all TabPage values are srt to null
             CustomTab newTab = new CustomTab(null, null, null, true, null);
@@ -206,6 +208,9 @@ namespace UniversityNoteProgram.Forms
                 Console.WriteLine("{0}, {1}, {2}", activeRichTextBox.SelectionFont.FontFamily, activeRichTextBox.SelectionFont.Size, activeRichTextBox.SelectionFont.Style);
                 activeRichTextBox.SelectionLength = 0;
             }
+
+            //if (activeRichTextBox != null && activeRichTextBox.SelectionStart < activeRichTextBox.Text.Length)
+                //Console.WriteLine(activeRichTextBox.SelectionStart + ", " + activeRichTextBox.Text[activeRichTextBox.SelectionStart]);
         }
 
         private void toEditToolStripMenuItem_Click(object sender, EventArgs e)
@@ -235,6 +240,7 @@ namespace UniversityNoteProgram.Forms
             newBox.Font = new Font(newBox.Font.FontFamily, 10.5f, FontStyle.Regular);
             newBox.Size = template_rtb.Size;
             newBox.Location = template_rtb.Location;
+            newBox.HideSelection = false;
 
             // Create new tab, make sure all TabPage values are srt to null
             CustomTab newTab = new CustomTab(temp_semester, temp_course, temp_classtype, false, filePath);
@@ -324,7 +330,10 @@ namespace UniversityNoteProgram.Forms
 
                     if (format_textStyleSelector.SelectedItem.ToString() == "Code Fragment")
                     {
+                        int s = activeRichTextBox.SelectionStart;
+                        int l = activeRichTextBox.SelectionLength;
                         activeRichTextBox.SelectedText = activeRichTextBox.SelectedText.Replace("\t", "   ");
+                        RtfCodeFormatter.ColourCodeFragment(ref activeRichTextBox, s, s + l);
                     }
 
                     activeRichTextBox.SelectionStart = activeRichTextBox.SelectionStart + activeRichTextBox.SelectionLength;
@@ -387,6 +396,16 @@ namespace UniversityNoteProgram.Forms
         private void format_textStyleSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void format_listButton_Click(object sender, EventArgs e)
+        {
+            if (activeRichTextBox.SelectedText != "")
+            {
+                activeRichTextBox.SelectionBullet = true;
+                activeRichTextBox.SelectionLength = 0;
+                activeRichTextBox.SelectionBullet = false;
+            }
         }
     }
 }

@@ -57,6 +57,21 @@ namespace UniversityNoteProgram
             return false;
         }
 
+        public static bool DoesFontExist(Font _compareFont, out Font _outFont)
+        {
+            foreach (KeyValuePair<string, Font> pair in fontStyles)
+            {
+                if (_compareFont == pair.Value)
+                {
+                    _outFont = pair.Value;
+                    return true;
+                }
+            }
+
+            _outFont = new Font("Microsoft Sans Serif", DefaultFontSize, FontStyle.Regular);
+            return false;
+        }
+
         public static void AddCodeFragment(string _key, string[] _content)
         {
             if (codeFragments.ContainsKey(_key))

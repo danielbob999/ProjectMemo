@@ -29,19 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.consoleText = new System.Windows.Forms.Label();
             this.inputTextBox = new System.Windows.Forms.TextBox();
             this.consoleTimer = new System.Windows.Forms.Timer(this.components);
+            this.consoleText = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
-            // 
-            // consoleText
-            // 
-            this.consoleText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.consoleText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.consoleText.Location = new System.Drawing.Point(5, 4);
-            this.consoleText.Name = "consoleText";
-            this.consoleText.Size = new System.Drawing.Size(650, 315);
-            this.consoleText.TabIndex = 0;
             // 
             // inputTextBox
             // 
@@ -56,13 +47,23 @@
             // 
             this.consoleTimer.Tick += new System.EventHandler(this.consoleTimer_Tick);
             // 
+            // consoleText
+            // 
+            this.consoleText.Location = new System.Drawing.Point(5, 12);
+            this.consoleText.Multiline = true;
+            this.consoleText.Name = "consoleText";
+            this.consoleText.ReadOnly = true;
+            this.consoleText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.consoleText.Size = new System.Drawing.Size(650, 302);
+            this.consoleText.TabIndex = 2;
+            // 
             // ConsoleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(660, 348);
-            this.Controls.Add(this.inputTextBox);
             this.Controls.Add(this.consoleText);
+            this.Controls.Add(this.inputTextBox);
             this.Name = "ConsoleForm";
             this.Text = "ConsoleForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConsoleForm_FormClosing);
@@ -73,9 +74,8 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label consoleText;
         private System.Windows.Forms.TextBox inputTextBox;
         private System.Windows.Forms.Timer consoleTimer;
+        private System.Windows.Forms.TextBox consoleText;
     }
 }

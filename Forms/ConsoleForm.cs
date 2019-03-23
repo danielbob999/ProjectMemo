@@ -30,10 +30,26 @@ namespace UniversityNoteProgram.Forms
                 inputTextBox.Text = "";
                 CustomConsole.LogCommand(command);
 
-                if (command == "override save-lock")
+                if (command == "savelock.override")
                 {
                     MainForm.SaveLock = false;
                     CustomConsole.Log("Set MainForm.SaveLock to " + MainForm.SaveLock);
+                    return;
+                }
+
+                if (command == "keywordcolours.print")
+                {
+                    RtfCodeFormatter.PrintKeyworldColours(ref consoleText);
+                    return;
+                }
+
+                if (command.StartsWith("keywordcolours.reload"))
+                {
+                    string[] splitCmd = command.Split(' ');
+                    if (splitCmd.Length == 2)
+                        RtfCodeFormatter.InitKeywordColours(splitCmd[1]);
+                    else
+                        RtfCodeFormatter.InitKeywordColours("keyword_colours.conf");
                     return;
                 }
             }
@@ -54,7 +70,7 @@ namespace UniversityNoteProgram.Forms
 
         private void consoleTimer_Tick(object sender, EventArgs e)
         {
-            consoleText.Text = CustomConsole.GetMessageQueueAsString();
+            consoleText.Lines = CustomConsole.GetMessageQueueAsArray();
         }
     }
 }

@@ -11,12 +11,22 @@ namespace UniversityNoteProgram
     {
         private static List<string> msgQueue = new List<string>();
 
-        public static void Log(string _msg)
+        public static void Log(string _msg, bool a_disableTrace = false)
         {
             if (_msg != "")
             {
                 StackTrace trace = new StackTrace();
-                string msgStr = string.Format("[{0}] {1} ({2}.{3})", DateTime.Now.ToLongTimeString(), _msg, trace.GetFrame(1).GetMethod().DeclaringType.Name, trace.GetFrame(1).GetMethod().Name);
+                string msgStr;
+
+                if (a_disableTrace)
+                {
+                    msgStr = string.Format("[{0}] {1}", DateTime.Now.ToLongTimeString(), _msg);
+                }
+                else
+                {
+                    msgStr = string.Format("[{0}] {1} ({2}.{3})", DateTime.Now.ToLongTimeString(), _msg, trace.GetFrame(1).GetMethod().DeclaringType.Name, trace.GetFrame(1).GetMethod().Name);
+                }
+
                 msgQueue.Add(msgStr);
                 Console.WriteLine(msgStr);
             }
@@ -40,6 +50,11 @@ namespace UniversityNoteProgram
                 str += (s + "\n");
 
             return str;
+        }
+
+        public static string[] GetMessageQueueAsArray()
+        {
+            return msgQueue.ToArray();
         }
 
         public static void ProcessCommand(string _cmd)
