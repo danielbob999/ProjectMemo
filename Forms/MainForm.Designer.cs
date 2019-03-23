@@ -1,4 +1,4 @@
-﻿namespace UniversityNoteProgram
+﻿namespace UniversityNoteProgram.Forms
 {
     partial class MainForm
     {
@@ -29,233 +29,62 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.mainInputTextBox = new System.Windows.Forms.TextBox();
-            this.mainFormattingPanel = new System.Windows.Forms.Panel();
-            this.formatHighlightNode = new System.Windows.Forms.Button();
-            this.formatUnderline = new System.Windows.Forms.Button();
-            this.formatCodeInText = new System.Windows.Forms.Button();
-            this.formatEditCode = new System.Windows.Forms.Button();
-            this.formatTextColourChoice = new System.Windows.Forms.ComboBox();
-            this.saveButton = new System.Windows.Forms.Button();
-            this.formatTextColor = new System.Windows.Forms.Button();
-            this.formatItalic = new System.Windows.Forms.Button();
-            this.formatHeadingChoice = new System.Windows.Forms.ComboBox();
-            this.formatHeading = new System.Windows.Forms.Button();
-            this.boldButton = new System.Windows.Forms.Button();
-            this.titleLabel = new System.Windows.Forms.Label();
             this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toEditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewOpenNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.currentNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.otherNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.directoryLabel = new System.Windows.Forms.Label();
-            this.titleLabelL = new System.Windows.Forms.Label();
-            this.mainFormLoop = new System.Windows.Forms.Timer(this.components);
-            this.versionLabel = new System.Windows.Forms.Label();
-            this.fontSizeChanger = new System.Windows.Forms.NumericUpDown();
-            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.windowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.consoleWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mainFormattingPanel.SuspendLayout();
+            this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.consoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainTabControl = new System.Windows.Forms.TabControl();
+            this.tabControlContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.default_tab = new System.Windows.Forms.TabPage();
+            this.formatingGroupBox = new System.Windows.Forms.GroupBox();
+            this.format_strikeoutButton = new System.Windows.Forms.Button();
+            this.format_underlineButton = new System.Windows.Forms.Button();
+            this.format_italicButton = new System.Windows.Forms.Button();
+            this.format_boldButton = new System.Windows.Forms.Button();
+            this.savingGroupBox = new System.Windows.Forms.GroupBox();
+            this.semesterSelector = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.courseSelector = new System.Windows.Forms.ComboBox();
+            this.classTypeSelector = new System.Windows.Forms.ComboBox();
+            this.saveButton = new System.Windows.Forms.Button();
+            this.mainFormTimer = new System.Windows.Forms.Timer(this.components);
+            this.format_fontStyleButton = new System.Windows.Forms.Button();
+            this.format_textStyleSelector = new System.Windows.Forms.ComboBox();
+            this.template_richTextBox = new UniversityNoteProgram.CustomControls.CustomRichTextBox();
+            this.format_listButton = new System.Windows.Forms.Button();
             this.mainMenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.fontSizeChanger)).BeginInit();
+            this.mainTabControl.SuspendLayout();
+            this.tabControlContextMenu.SuspendLayout();
+            this.default_tab.SuspendLayout();
+            this.formatingGroupBox.SuspendLayout();
+            this.savingGroupBox.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // mainInputTextBox
-            // 
-            this.mainInputTextBox.Location = new System.Drawing.Point(12, 86);
-            this.mainInputTextBox.Multiline = true;
-            this.mainInputTextBox.Name = "mainInputTextBox";
-            this.mainInputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.mainInputTextBox.Size = new System.Drawing.Size(1075, 566);
-            this.mainInputTextBox.TabIndex = 0;
-            this.mainInputTextBox.TextChanged += new System.EventHandler(this.mainInputTextBox_TextChanged);
-            // 
-            // mainFormattingPanel
-            // 
-            this.mainFormattingPanel.Controls.Add(this.formatHighlightNode);
-            this.mainFormattingPanel.Controls.Add(this.formatUnderline);
-            this.mainFormattingPanel.Controls.Add(this.formatCodeInText);
-            this.mainFormattingPanel.Controls.Add(this.formatEditCode);
-            this.mainFormattingPanel.Controls.Add(this.formatTextColourChoice);
-            this.mainFormattingPanel.Controls.Add(this.saveButton);
-            this.mainFormattingPanel.Controls.Add(this.formatTextColor);
-            this.mainFormattingPanel.Controls.Add(this.formatItalic);
-            this.mainFormattingPanel.Controls.Add(this.formatHeadingChoice);
-            this.mainFormattingPanel.Controls.Add(this.formatHeading);
-            this.mainFormattingPanel.Controls.Add(this.boldButton);
-            this.mainFormattingPanel.Location = new System.Drawing.Point(1093, 86);
-            this.mainFormattingPanel.Name = "mainFormattingPanel";
-            this.mainFormattingPanel.Size = new System.Drawing.Size(245, 566);
-            this.mainFormattingPanel.TabIndex = 1;
-            // 
-            // formatHighlightNode
-            // 
-            this.formatHighlightNode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.formatHighlightNode.Location = new System.Drawing.Point(0, 309);
-            this.formatHighlightNode.Name = "formatHighlightNode";
-            this.formatHighlightNode.Size = new System.Drawing.Size(245, 42);
-            this.formatHighlightNode.TabIndex = 9;
-            this.formatHighlightNode.Text = "Format: Hightlight Note";
-            this.formatHighlightNode.UseVisualStyleBackColor = true;
-            this.formatHighlightNode.Click += new System.EventHandler(this.formatHighlightNode_Click);
-            // 
-            // formatUnderline
-            // 
-            this.formatUnderline.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.formatUnderline.Location = new System.Drawing.Point(0, 143);
-            this.formatUnderline.Name = "formatUnderline";
-            this.formatUnderline.Size = new System.Drawing.Size(245, 42);
-            this.formatUnderline.TabIndex = 8;
-            this.formatUnderline.Text = "Format: Underline";
-            this.formatUnderline.UseVisualStyleBackColor = true;
-            this.formatUnderline.Click += new System.EventHandler(this.formatUnderline_Click);
-            // 
-            // formatCodeInText
-            // 
-            this.formatCodeInText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.formatCodeInText.Location = new System.Drawing.Point(0, 262);
-            this.formatCodeInText.Name = "formatCodeInText";
-            this.formatCodeInText.Size = new System.Drawing.Size(245, 42);
-            this.formatCodeInText.TabIndex = 7;
-            this.formatCodeInText.Text = "Format: Hightlight Method/Variable";
-            this.formatCodeInText.UseVisualStyleBackColor = true;
-            this.formatCodeInText.Click += new System.EventHandler(this.formatCodeInText_Click);
-            // 
-            // formatEditCode
-            // 
-            this.formatEditCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.formatEditCode.Location = new System.Drawing.Point(0, 355);
-            this.formatEditCode.Name = "formatEditCode";
-            this.formatEditCode.Size = new System.Drawing.Size(245, 42);
-            this.formatEditCode.TabIndex = 6;
-            this.formatEditCode.Text = "Format: Edit Code";
-            this.formatEditCode.UseVisualStyleBackColor = true;
-            this.formatEditCode.Click += new System.EventHandler(this.formatEditCode_Click);
-            // 
-            // formatTextColourChoice
-            // 
-            this.formatTextColourChoice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.formatTextColourChoice.FormattingEnabled = true;
-            this.formatTextColourChoice.Items.AddRange(new object[] {
-            "red",
-            "green",
-            "blue",
-            "orange",
-            "pink",
-            "purple",
-            "yellow"});
-            this.formatTextColourChoice.Location = new System.Drawing.Point(20, 236);
-            this.formatTextColourChoice.Name = "formatTextColourChoice";
-            this.formatTextColourChoice.Size = new System.Drawing.Size(201, 21);
-            this.formatTextColourChoice.TabIndex = 5;
-            // 
-            // saveButton
-            // 
-            this.saveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveButton.Location = new System.Drawing.Point(0, 529);
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(245, 37);
-            this.saveButton.TabIndex = 2;
-            this.saveButton.Text = "Save";
-            this.saveButton.UseVisualStyleBackColor = true;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
-            // 
-            // formatTextColor
-            // 
-            this.formatTextColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.formatTextColor.Location = new System.Drawing.Point(0, 190);
-            this.formatTextColor.Name = "formatTextColor";
-            this.formatTextColor.Size = new System.Drawing.Size(245, 42);
-            this.formatTextColor.TabIndex = 4;
-            this.formatTextColor.Text = "Format: Text Colour";
-            this.formatTextColor.UseVisualStyleBackColor = true;
-            this.formatTextColor.Click += new System.EventHandler(this.formatTextColor_Click);
-            // 
-            // formatItalic
-            // 
-            this.formatItalic.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.formatItalic.Location = new System.Drawing.Point(0, 96);
-            this.formatItalic.Name = "formatItalic";
-            this.formatItalic.Size = new System.Drawing.Size(245, 42);
-            this.formatItalic.TabIndex = 3;
-            this.formatItalic.Text = "Format: Italic";
-            this.formatItalic.UseVisualStyleBackColor = true;
-            this.formatItalic.Click += new System.EventHandler(this.formatItalic_Click);
-            // 
-            // formatHeadingChoice
-            // 
-            this.formatHeadingChoice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.formatHeadingChoice.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.formatHeadingChoice.FormattingEnabled = true;
-            this.formatHeadingChoice.Items.AddRange(new object[] {
-            "h1",
-            "h2",
-            "h3"});
-            this.formatHeadingChoice.Location = new System.Drawing.Point(170, 5);
-            this.formatHeadingChoice.Name = "formatHeadingChoice";
-            this.formatHeadingChoice.Size = new System.Drawing.Size(71, 33);
-            this.formatHeadingChoice.TabIndex = 2;
-            // 
-            // formatHeading
-            // 
-            this.formatHeading.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.formatHeading.Location = new System.Drawing.Point(0, 0);
-            this.formatHeading.Name = "formatHeading";
-            this.formatHeading.Size = new System.Drawing.Size(165, 42);
-            this.formatHeading.TabIndex = 1;
-            this.formatHeading.Text = "Format: Heading";
-            this.formatHeading.UseVisualStyleBackColor = true;
-            this.formatHeading.Click += new System.EventHandler(this.formatHeading_Click);
-            // 
-            // boldButton
-            // 
-            this.boldButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.boldButton.Location = new System.Drawing.Point(0, 48);
-            this.boldButton.Name = "boldButton";
-            this.boldButton.Size = new System.Drawing.Size(245, 42);
-            this.boldButton.TabIndex = 0;
-            this.boldButton.Text = "Format: Bold";
-            this.boldButton.UseVisualStyleBackColor = true;
-            this.boldButton.Click += new System.EventHandler(this.boldButton_Click);
-            // 
-            // titleLabel
-            // 
-            this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.titleLabel.Location = new System.Drawing.Point(77, 29);
-            this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(841, 31);
-            this.titleLabel.TabIndex = 5;
-            this.titleLabel.Text = "19-03-02_Lecture.html";
             // 
             // mainMenuStrip
             // 
             this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
-            this.viewToolStripMenuItem,
-            this.windowsToolStripMenuItem});
+            this.windowToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Size = new System.Drawing.Size(1350, 24);
-            this.mainMenuStrip.TabIndex = 9;
-            this.mainMenuStrip.Text = "MainMenuStrip";
+            this.mainMenuStrip.Size = new System.Drawing.Size(1339, 24);
+            this.mainMenuStrip.TabIndex = 0;
+            this.mainMenuStrip.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
-            this.saveToolStripMenuItem,
-            this.preferencesToolStripMenuItem,
-            this.quitToolStripMenuItem});
+            this.preferencesToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -263,28 +92,29 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
+            this.openToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toEditToolStripMenuItem});
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.openToolStripMenuItem.Text = "Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
-            // saveToolStripMenuItem
+            // toEditToolStripMenuItem
             // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveButton_Click);
+            this.toEditToolStripMenuItem.Name = "toEditToolStripMenuItem";
+            this.toEditToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.toEditToolStripMenuItem.Text = "To Edit";
+            this.toEditToolStripMenuItem.Click += new System.EventHandler(this.toEditToolStripMenuItem_Click);
             // 
             // preferencesToolStripMenuItem
             // 
             this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.preferencesToolStripMenuItem.Text = "Preferences";
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
@@ -294,139 +124,265 @@
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "Edit";
             // 
-            // viewToolStripMenuItem
+            // windowToolStripMenuItem
             // 
-            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.viewOpenNoteToolStripMenuItem});
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.viewToolStripMenuItem.Text = "View";
+            this.windowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.consoleToolStripMenuItem});
+            this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
+            this.windowToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
+            this.windowToolStripMenuItem.Text = "Window";
             // 
-            // viewOpenNoteToolStripMenuItem
+            // consoleToolStripMenuItem
             // 
-            this.viewOpenNoteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.currentNoteToolStripMenuItem,
-            this.otherNoteToolStripMenuItem});
-            this.viewOpenNoteToolStripMenuItem.Name = "viewOpenNoteToolStripMenuItem";
-            this.viewOpenNoteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.viewOpenNoteToolStripMenuItem.Text = "View Note";
+            this.consoleToolStripMenuItem.Name = "consoleToolStripMenuItem";
+            this.consoleToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.consoleToolStripMenuItem.Text = "Console";
+            this.consoleToolStripMenuItem.Click += new System.EventHandler(this.consoleToolStripMenuItem_Click);
             // 
-            // currentNoteToolStripMenuItem
+            // mainTabControl
             // 
-            this.currentNoteToolStripMenuItem.Name = "currentNoteToolStripMenuItem";
-            this.currentNoteToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.currentNoteToolStripMenuItem.Text = "Current Note";
-            this.currentNoteToolStripMenuItem.Click += new System.EventHandler(this.currentNoteToolStripMenuItem_Click);
+            this.mainTabControl.ContextMenuStrip = this.tabControlContextMenu;
+            this.mainTabControl.Controls.Add(this.default_tab);
+            this.mainTabControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mainTabControl.HotTrack = true;
+            this.mainTabControl.Location = new System.Drawing.Point(12, 27);
+            this.mainTabControl.Name = "mainTabControl";
+            this.mainTabControl.SelectedIndex = 0;
+            this.mainTabControl.Size = new System.Drawing.Size(1077, 637);
+            this.mainTabControl.TabIndex = 100;
+            this.mainTabControl.TabStop = false;
+            this.mainTabControl.SelectedIndexChanged += new System.EventHandler(this.mainTabControl_SelectedIndexChanged);
             // 
-            // otherNoteToolStripMenuItem
+            // tabControlContextMenu
             // 
-            this.otherNoteToolStripMenuItem.Name = "otherNoteToolStripMenuItem";
-            this.otherNoteToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.otherNoteToolStripMenuItem.Text = "Note From Disk";
-            this.otherNoteToolStripMenuItem.Click += new System.EventHandler(this.otherNoteToolStripMenuItem_Click);
+            this.tabControlContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveToolStripMenuItem,
+            this.closeToolStripMenuItem});
+            this.tabControlContextMenu.Name = "tabControlContextMenu";
+            this.tabControlContextMenu.Size = new System.Drawing.Size(104, 48);
             // 
-            // directoryLabel
+            // saveToolStripMenuItem
             // 
-            this.directoryLabel.Location = new System.Drawing.Point(12, 657);
-            this.directoryLabel.Name = "directoryLabel";
-            this.directoryLabel.Size = new System.Drawing.Size(1074, 23);
-            this.directoryLabel.TabIndex = 11;
-            this.directoryLabel.Text = "label1";
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.saveToolStripMenuItem.Text = "Save";
             // 
-            // titleLabelL
+            // closeToolStripMenuItem
             // 
-            this.titleLabelL.AutoSize = true;
-            this.titleLabelL.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.titleLabelL.Location = new System.Drawing.Point(12, 24);
-            this.titleLabelL.Name = "titleLabelL";
-            this.titleLabelL.Size = new System.Drawing.Size(71, 31);
-            this.titleLabelL.TabIndex = 12;
-            this.titleLabelL.Text = "File:";
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
-            // mainFormLoop
+            // default_tab
             // 
-            this.mainFormLoop.Tick += new System.EventHandler(this.mainFormLoop_Tick);
+            this.default_tab.Controls.Add(this.template_richTextBox);
+            this.default_tab.Location = new System.Drawing.Point(4, 25);
+            this.default_tab.Name = "default_tab";
+            this.default_tab.Padding = new System.Windows.Forms.Padding(3);
+            this.default_tab.Size = new System.Drawing.Size(1069, 608);
+            this.default_tab.TabIndex = 0;
+            this.default_tab.Text = "default_tab";
+            this.default_tab.UseVisualStyleBackColor = true;
             // 
-            // versionLabel
+            // formatingGroupBox
             // 
-            this.versionLabel.AutoSize = true;
-            this.versionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.versionLabel.Location = new System.Drawing.Point(1304, 24);
-            this.versionLabel.Name = "versionLabel";
-            this.versionLabel.Size = new System.Drawing.Size(35, 17);
-            this.versionLabel.TabIndex = 13;
-            this.versionLabel.Text = "v#.#";
+            this.formatingGroupBox.Controls.Add(this.format_listButton);
+            this.formatingGroupBox.Controls.Add(this.format_strikeoutButton);
+            this.formatingGroupBox.Controls.Add(this.format_underlineButton);
+            this.formatingGroupBox.Controls.Add(this.format_italicButton);
+            this.formatingGroupBox.Controls.Add(this.format_boldButton);
+            this.formatingGroupBox.Controls.Add(this.format_fontStyleButton);
+            this.formatingGroupBox.Controls.Add(this.format_textStyleSelector);
+            this.formatingGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.formatingGroupBox.Location = new System.Drawing.Point(1095, 43);
+            this.formatingGroupBox.Name = "formatingGroupBox";
+            this.formatingGroupBox.Size = new System.Drawing.Size(235, 183);
+            this.formatingGroupBox.TabIndex = 101;
+            this.formatingGroupBox.TabStop = false;
+            this.formatingGroupBox.Text = "Format:";
             // 
-            // fontSizeChanger
+            // format_strikeoutButton
             // 
-            this.fontSizeChanger.AutoSize = true;
-            this.fontSizeChanger.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fontSizeChanger.Location = new System.Drawing.Point(1027, 91);
-            this.fontSizeChanger.Maximum = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            this.fontSizeChanger.Minimum = new decimal(new int[] {
-            8,
-            0,
-            0,
-            0});
-            this.fontSizeChanger.Name = "fontSizeChanger";
-            this.fontSizeChanger.Size = new System.Drawing.Size(37, 21);
-            this.fontSizeChanger.TabIndex = 14;
-            this.fontSizeChanger.TabStop = false;
-            this.fontSizeChanger.Value = new decimal(new int[] {
-            9,
-            0,
-            0,
-            0});
+            this.format_strikeoutButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Strikeout, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.format_strikeoutButton.Location = new System.Drawing.Point(120, 57);
+            this.format_strikeoutButton.Name = "format_strikeoutButton";
+            this.format_strikeoutButton.Size = new System.Drawing.Size(55, 26);
+            this.format_strikeoutButton.TabIndex = 5;
+            this.format_strikeoutButton.Text = "Strk";
+            this.format_strikeoutButton.UseVisualStyleBackColor = true;
+            this.format_strikeoutButton.Click += new System.EventHandler(this.format_strikeoutButton_Click);
             // 
-            // quitToolStripMenuItem
+            // format_underlineButton
             // 
-            this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.quitToolStripMenuItem.Text = "Quit";
+            this.format_underlineButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.format_underlineButton.Location = new System.Drawing.Point(177, 57);
+            this.format_underlineButton.Name = "format_underlineButton";
+            this.format_underlineButton.Size = new System.Drawing.Size(55, 26);
+            this.format_underlineButton.TabIndex = 4;
+            this.format_underlineButton.Text = "Udr";
+            this.format_underlineButton.UseVisualStyleBackColor = true;
+            this.format_underlineButton.Click += new System.EventHandler(this.format_underlineButton_Click);
             // 
-            // windowsToolStripMenuItem
+            // format_italicButton
             // 
-            this.windowsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.consoleWindowToolStripMenuItem});
-            this.windowsToolStripMenuItem.Name = "windowsToolStripMenuItem";
-            this.windowsToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
-            this.windowsToolStripMenuItem.Text = "Windows";
+            this.format_italicButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.format_italicButton.Location = new System.Drawing.Point(62, 57);
+            this.format_italicButton.Name = "format_italicButton";
+            this.format_italicButton.Size = new System.Drawing.Size(55, 26);
+            this.format_italicButton.TabIndex = 3;
+            this.format_italicButton.Text = "I";
+            this.format_italicButton.UseVisualStyleBackColor = true;
+            this.format_italicButton.Click += new System.EventHandler(this.format_italicButton_Click);
             // 
-            // consoleWindowToolStripMenuItem
+            // format_boldButton
             // 
-            this.consoleWindowToolStripMenuItem.Name = "consoleWindowToolStripMenuItem";
-            this.consoleWindowToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.consoleWindowToolStripMenuItem.Text = "Console Window";
-            this.consoleWindowToolStripMenuItem.Click += new System.EventHandler(this.consoleWindowToolStripMenuItem_Click);
+            this.format_boldButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.format_boldButton.Location = new System.Drawing.Point(4, 57);
+            this.format_boldButton.Name = "format_boldButton";
+            this.format_boldButton.Size = new System.Drawing.Size(55, 26);
+            this.format_boldButton.TabIndex = 2;
+            this.format_boldButton.Text = "B";
+            this.format_boldButton.UseVisualStyleBackColor = true;
+            this.format_boldButton.Click += new System.EventHandler(this.format_boldButton_Click);
+            // 
+            // savingGroupBox
+            // 
+            this.savingGroupBox.Controls.Add(this.semesterSelector);
+            this.savingGroupBox.Controls.Add(this.label1);
+            this.savingGroupBox.Controls.Add(this.courseSelector);
+            this.savingGroupBox.Controls.Add(this.classTypeSelector);
+            this.savingGroupBox.Controls.Add(this.saveButton);
+            this.savingGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.savingGroupBox.Location = new System.Drawing.Point(1095, 506);
+            this.savingGroupBox.Name = "savingGroupBox";
+            this.savingGroupBox.Size = new System.Drawing.Size(232, 156);
+            this.savingGroupBox.TabIndex = 102;
+            this.savingGroupBox.TabStop = false;
+            this.savingGroupBox.Text = "Save As:";
+            // 
+            // semesterSelector
+            // 
+            this.semesterSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.semesterSelector.FormattingEnabled = true;
+            this.semesterSelector.Location = new System.Drawing.Point(156, 20);
+            this.semesterSelector.Name = "semesterSelector";
+            this.semesterSelector.Size = new System.Drawing.Size(70, 26);
+            this.semesterSelector.TabIndex = 4;
+            this.semesterSelector.SelectedIndexChanged += new System.EventHandler(this.semesterSelector_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(66, 20);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(84, 27);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Semester:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // courseSelector
+            // 
+            this.courseSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.courseSelector.FormattingEnabled = true;
+            this.courseSelector.Location = new System.Drawing.Point(66, 54);
+            this.courseSelector.Name = "courseSelector";
+            this.courseSelector.Size = new System.Drawing.Size(160, 26);
+            this.courseSelector.TabIndex = 2;
+            // 
+            // classTypeSelector
+            // 
+            this.classTypeSelector.BackColor = System.Drawing.SystemColors.Window;
+            this.classTypeSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.classTypeSelector.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.classTypeSelector.FormattingEnabled = true;
+            this.classTypeSelector.Items.AddRange(new object[] {
+            "Lecture",
+            "Tutorial",
+            "Lab"});
+            this.classTypeSelector.Location = new System.Drawing.Point(66, 86);
+            this.classTypeSelector.Name = "classTypeSelector";
+            this.classTypeSelector.Size = new System.Drawing.Size(160, 26);
+            this.classTypeSelector.TabIndex = 1;
+            // 
+            // saveButton
+            // 
+            this.saveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveButton.Location = new System.Drawing.Point(66, 118);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(160, 31);
+            this.saveButton.TabIndex = 0;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // mainFormTimer
+            // 
+            this.mainFormTimer.Tick += new System.EventHandler(this.mainFormTimer_Tick);
+            // 
+            // format_fontStyleButton
+            // 
+            this.format_fontStyleButton.Location = new System.Drawing.Point(177, 25);
+            this.format_fontStyleButton.Name = "format_fontStyleButton";
+            this.format_fontStyleButton.Size = new System.Drawing.Size(55, 26);
+            this.format_fontStyleButton.TabIndex = 1;
+            this.format_fontStyleButton.Text = "Set";
+            this.format_fontStyleButton.UseVisualStyleBackColor = true;
+            this.format_fontStyleButton.Click += new System.EventHandler(this.format_fontStyleButton_Click);
+            // 
+            // format_textStyleSelector
+            // 
+            this.format_textStyleSelector.FormattingEnabled = true;
+            this.format_textStyleSelector.Location = new System.Drawing.Point(4, 25);
+            this.format_textStyleSelector.Name = "format_textStyleSelector";
+            this.format_textStyleSelector.Size = new System.Drawing.Size(170, 26);
+            this.format_textStyleSelector.TabIndex = 0;
+            this.format_textStyleSelector.Text = "Select Font Style";
+            this.format_textStyleSelector.SelectedIndexChanged += new System.EventHandler(this.format_textStyleSelector_SelectedIndexChanged);
+            // 
+            // template_richTextBox
+            // 
+            this.template_richTextBox.AcceptsTab = true;
+            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.template_richTextBox.HideSelection = false;
+            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
+            this.template_richTextBox.Name = "template_richTextBox";
+            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
+            this.template_richTextBox.TabIndex = 0;
+            this.template_richTextBox.Text = "Theres are some nootes!";
+            // 
+            // format_listButton
+            // 
+            this.format_listButton.Location = new System.Drawing.Point(4, 87);
+            this.format_listButton.Name = "format_listButton";
+            this.format_listButton.Size = new System.Drawing.Size(113, 26);
+            this.format_listButton.TabIndex = 6;
+            this.format_listButton.Text = "Bulleted List";
+            this.format_listButton.UseVisualStyleBackColor = true;
+            this.format_listButton.Click += new System.EventHandler(this.format_listButton_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1350, 689);
-            this.Controls.Add(this.fontSizeChanger);
-            this.Controls.Add(this.versionLabel);
-            this.Controls.Add(this.titleLabelL);
-            this.Controls.Add(this.directoryLabel);
-            this.Controls.Add(this.titleLabel);
-            this.Controls.Add(this.mainFormattingPanel);
-            this.Controls.Add(this.mainInputTextBox);
+            this.ClientSize = new System.Drawing.Size(1339, 686);
+            this.Controls.Add(this.savingGroupBox);
+            this.Controls.Add(this.formatingGroupBox);
+            this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.mainMenuStrip);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mainMenuStrip;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "University Note Editor";
+            this.Text = "University Note Program";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.mainFormattingPanel.ResumeLayout(false);
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.fontSizeChanger)).EndInit();
+            this.mainTabControl.ResumeLayout(false);
+            this.tabControlContextMenu.ResumeLayout(false);
+            this.default_tab.ResumeLayout(false);
+            this.formatingGroupBox.ResumeLayout(false);
+            this.savingGroupBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -434,39 +390,35 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox mainInputTextBox;
-        private System.Windows.Forms.Panel mainFormattingPanel;
-        private System.Windows.Forms.Button boldButton;
-        private System.Windows.Forms.Button saveButton;
-        private System.Windows.Forms.Button formatEditCode;
-        private System.Windows.Forms.ComboBox formatTextColourChoice;
-        private System.Windows.Forms.Button formatTextColor;
-        private System.Windows.Forms.Button formatItalic;
-        private System.Windows.Forms.ComboBox formatHeadingChoice;
-        private System.Windows.Forms.Button formatHeading;
-        private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.MenuStrip mainMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem windowToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem consoleToolStripMenuItem;
+        private System.Windows.Forms.TabControl mainTabControl;
+        private System.Windows.Forms.TabPage default_tab;
+        private System.Windows.Forms.GroupBox formatingGroupBox;
+        private System.Windows.Forms.GroupBox savingGroupBox;
+        private System.Windows.Forms.ComboBox courseSelector;
+        private System.Windows.Forms.ComboBox classTypeSelector;
+        private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-        private System.Windows.Forms.Label directoryLabel;
-        private System.Windows.Forms.Label titleLabelL;
-        private System.Windows.Forms.Timer mainFormLoop;
+        private System.Windows.Forms.ToolStripMenuItem toEditToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip tabControlContextMenu;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
-        private System.Windows.Forms.Label versionLabel;
-        private System.Windows.Forms.Button formatUnderline;
-        private System.Windows.Forms.Button formatCodeInText;
-        private System.Windows.Forms.Button formatHighlightNode;
-        private System.Windows.Forms.NumericUpDown fontSizeChanger;
-        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem viewOpenNoteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem currentNoteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem otherNoteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem windowsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem consoleWindowToolStripMenuItem;
+        private System.Windows.Forms.ComboBox semesterSelector;
+        private System.Windows.Forms.Timer mainFormTimer;
+        private CustomControls.CustomRichTextBox template_richTextBox;
+        private System.Windows.Forms.Button format_strikeoutButton;
+        private System.Windows.Forms.Button format_underlineButton;
+        private System.Windows.Forms.Button format_italicButton;
+        private System.Windows.Forms.Button format_boldButton;
+        private System.Windows.Forms.Button format_fontStyleButton;
+        private System.Windows.Forms.ComboBox format_textStyleSelector;
+        private System.Windows.Forms.Button format_listButton;
     }
 }
-

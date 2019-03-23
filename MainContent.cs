@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace UniversityNoteProgram
 {
@@ -12,6 +14,63 @@ namespace UniversityNoteProgram
         public static Dictionary<string, string[]> codeFragments = new Dictionary<string, string[]>();
         public static int nextId = 0;
         public static SaveData saveData;
+
+        // New Stuff
+        private static Dictionary<string, Font> fontStyles = new Dictionary<string, Font>();
+        private static float DefaultFontSize;
+
+        // New Function
+        public static void InitFontStyles(float _defaultFontSize)
+        {
+            DefaultFontSize = _defaultFontSize;
+
+            // Headings
+            fontStyles.Add("Heading 1", new Font("Microsoft Sans Serif", 20.0f, FontStyle.Bold));
+            fontStyles.Add("Heading 2", new Font("Microsoft Sans Serif", 16.0f, FontStyle.Bold));
+            fontStyles.Add("Heading 3", new Font("Microsoft Sans Serif", 13.0f, FontStyle.Bold));
+
+            fontStyles.Add("Code Fragment", new Font("Consolas", DefaultFontSize - 1.0f, FontStyle.Regular));
+            fontStyles.Add("Note", new Font("Comic Sans MS", DefaultFontSize + 1.0f, FontStyle.Regular));
+        }
+
+        public static List<string> GetFontStyleList()
+        {
+            List<string> list = new List<string>();
+
+            foreach (KeyValuePair<string, Font> pair in fontStyles)
+            {
+                list.Add(pair.Key);
+            }
+
+            return list;
+        }
+
+        public static bool GetFontFromStyleString(string _styleStr, out Font _font)
+        {
+            if (fontStyles.ContainsKey(_styleStr))
+            {
+                _font = fontStyles[_styleStr];
+                return true;
+            }
+
+            _font = new Font("Microsoft Sans Serif", DefaultFontSize, FontStyle.Regular);
+            return false;
+        }
+
+        public static bool DoesFontExist(Font _compareFont, out Font _outFont)
+        {
+            foreach (KeyValuePair<string, Font> pair in fontStyles)
+            {
+                if (_compareFont == pair.Value)
+                {
+                    _outFont = pair.Value;
+                    return true;
+                }
+            }
+
+            _outFont = new Font("Microsoft Sans Serif", DefaultFontSize, FontStyle.Regular);
+            return false;
+        }
 
         public static void AddCodeFragment(string _key, string[] _content)
         {

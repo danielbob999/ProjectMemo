@@ -6,382 +6,406 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.IO;
+using System.Threading;
+using System.Windows.Forms;
+using UniversityNoteProgram.CustomControls;
 
-namespace UniversityNoteProgram
+namespace UniversityNoteProgram.Forms
 {
     public partial class MainForm : Form
     {
-        public const int VERSION_MAJOR = 3;
-        public const int VERSION_MINOR = 0;
+        private List<Thread> openThreads = new List<Thread>();
+        private CustomRichTextBox template_rtb;
+        private CustomRichTextBox activeRichTextBox;
 
-        public string mainDirectory = ""; // The absolute directory of the main note directory (Contains the semester folders, e.g 18_s2, 19_s1)
-        public string semesterFolder = ""; // The name of the selected semester folder 
-        public string selectedCourseId = ""; // The string of the active note's course E.g 159234
-        public string selectedClassType = ""; // The string of the active note's class type E.g Lecture
-        public string workingFilename = "";
+        private bool formLoaded = false;
+        private bool testingBool = false;
 
-        public string defaultName;
-
-        private List<System.Threading.Thread> activeThreads = new List<System.Threading.Thread>();
+        public static bool SaveLock = false;
+        public static string MainNoteDirectory;
 
         public MainForm()
         {
             InitializeComponent();
         }
 
-        private void boldButton_Click(object sender, EventArgs e)
-        {
-            if (mainInputTextBox.SelectedText != "")
-                mainInputTextBox.SelectedText = mainInputTextBox.SelectedText.Replace(mainInputTextBox.SelectedText, string.Format("<{0}>{1}</{0}>", "b", mainInputTextBox.SelectedText));
-        }
-
-        private void saveButton_Click(object sender, EventArgs e)
-        {
-            IOModule.SaveToHtml(mainInputTextBox, mainDirectory + semesterFolder + "\\" + selectedCourseId + "\\Notes\\" + workingFilename);
-            MainContent.saveData = new SaveData(mainInputTextBox.Text, MainContent.codeFragments);
-        }
-
-        private void formatEditCode_Click(object sender, EventArgs e)
-        {
-            int textBoxCaretPos = mainInputTextBox.GetLineFromCharIndex(mainInputTextBox.SelectionStart);
-
-            if (mainInputTextBox.Lines[textBoxCaretPos].StartsWith("[CODEFRAGID=") && mainInputTextBox.Lines[textBoxCaretPos].EndsWith("]"))
-            {
-                Console.WriteLine("Opening code editor");
-                using (CodeEditorForm form = new CodeEditorForm(mainInputTextBox.Lines[textBoxCaretPos]))
-                {
-                    form.ShowDialog();
-                }
-
-                Console.WriteLine("returning now");
-                return;
-            }
-
-            int textBoxSelectedStart = mainInputTextBox.SelectionStart;
-            string insertStr = string.Format("[CODEFRAGID={0}]", MainContent.nextId);
-            MainContent.AddCodeFragment("[CODEFRAGID=" + MainContent.nextId + "]", new string[] { });
-            mainInputTextBox.Text = mainInputTextBox.Text.Insert(mainInputTextBox.SelectionStart, insertStr);
-            mainInputTextBox.Focus();
-            mainInputTextBox.SelectionStart = textBoxSelectedStart + insertStr.Length;
-            mainInputTextBox.SelectionLength = 0;
-        }
-
-        private void formatHeading_Click(object sender, EventArgs e)
-        {
-            if (mainInputTextBox.SelectedText != "")
-                mainInputTextBox.SelectedText = mainInputTextBox.SelectedText.Replace(mainInputTextBox.SelectedText, string.Format("<{0}>{1}</{0}>", formatHeadingChoice.SelectedItem, mainInputTextBox.SelectedText));
-        }
-
-        private void formatTextColor_Click(object sender, EventArgs e)
-        {
-            if (mainInputTextBox.SelectedText != "")
-                mainInputTextBox.SelectedText = mainInputTextBox.SelectedText.Replace(mainInputTextBox.SelectedText, string.Format("<span style='color: {0};'>{1}</span>", formatTextColourChoice.SelectedItem, mainInputTextBox.SelectedText));
-        }
-
-        private void formatItalic_Click(object sender, EventArgs e)
-        {
-            if (mainInputTextBox.SelectedText != "")
-                mainInputTextBox.SelectedText = mainInputTextBox.SelectedText.Replace(mainInputTextBox.SelectedText, string.Format("<{0}>{1}</{0}>", "i", mainInputTextBox.SelectedText));
-        }
-
         private void MainForm_Load(object sender, EventArgs e)
         {
+            MainContent.InitFontStyles(template_richTextBox.Font.Size);
+            RtfCodeFormatter.InitKeywordColours("keyword_colours.conf");
+
+            foreach (string str in MainContent.GetFontStyleList())
+            {
+                format_textStyleSelector.Items.Add(str);
+            }
+
+            mainFormTimer.Start();
+
+            List<string> prefs = new List<string>();
+
+            // Read in preferences from the file
+            if (IOModule.ReadPreferencesFromFile(out prefs))
+            {
+                MainNoteDirectory = prefs[0];
+            }
+
+            // Set the valid semester choices
+            string[] semesterFolders = Directory.GetDirectories(MainNoteDirectory);
+
+            semesterSelector.Items.Clear();
+
+            foreach (string str in semesterFolders)
+                if (str.EndsWith("_s2") || str.EndsWith("_s1"))
+                    semesterSelector.Items.Add(str.Replace(MainNoteDirectory, ""));
+
+            template_rtb = template_richTextBox; 
+            activeRichTextBox = null;
+            CustomConsole.Log("Set activeRichTextBox to null");
+            template_richTextBox.Visible = false;
+            CustomConsole.Log("Set the visibility of the template_richTextBox to False");
+            mainTabControl.TabPages.RemoveAt(0);
+            CustomConsole.Log("Removed the default tab from mainTabControl");
+
             /*
-            if (Screen.PrimaryScreen.WorkingArea.Size.Width <= 1366 && Screen.PrimaryScreen.WorkingArea.Size.Height <= 728)
-            {
-                Size = Screen.PrimaryScreen.WorkingArea.Size;
-            }*/
+            string[] semesterFolders = Directory.GetDirectories(mMainNoteDirectory);
 
-            // Get main directory and semester folder
-            using (System.IO.StreamReader reader = new System.IO.StreamReader("details.conf"))
-            {
-                mainDirectory = reader.ReadLine();
-                semesterFolder = reader.ReadLine();
+            semesterSelector.Items.Clear();
 
-                reader.Close();
-                reader.Dispose();
-            }
+            foreach (string str in semesterFolders)
+                if (str.EndsWith("_s2") || str.EndsWith("_s1"))
+                    semesterSelector.Items.Add(str.Replace(mMainNoteDirectory, ""));*/
 
-            defaultName = string.Format("{0} v{1}.{2}", this.Text, VERSION_MAJOR, VERSION_MINOR);
-            versionLabel.Text = string.Format("v{0}.{1}", VERSION_MAJOR, VERSION_MINOR);
-            mainFormLoop.Start();
-
-            foreach (Control ctrl in this.Controls)
-            {
-                if (ctrl.GetType() == typeof(Timer))
-                    continue;
-
-                if (ctrl.GetType() == typeof(MenuStrip))
-                    continue;
-
-                ctrl.Enabled = false;
-            }
-
-            titleLabel.Text = workingFilename;
+            formLoaded = true;
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (mainInputTextBox.Text != "")
+            CustomRichTextBox newBox = new CustomRichTextBox();
+            newBox.Font = new Font(newBox.Font.FontFamily, 10.5f, FontStyle.Regular);
+            newBox.Size = template_rtb.Size;
+            newBox.Location = template_rtb.Location;
+            newBox.HideSelection = false;
+
+            // Create new tab, make sure all TabPage values are srt to null
+            CustomTab newTab = new CustomTab(null, null, null, true, null);
+            newTab.Text = "Untitled_" + GetNumberOfUntitledTabs();
+            newTab.Controls.Add(newBox);
+
+            mainTabControl.TabPages.Add(newTab);
+
+            if (mainTabControl.TabPages.Count == 1)
             {
-                var result = MessageBox.Show("Do you want create a new note without saving this one?", "Warning", MessageBoxButtons.YesNo);
-
-                if (result == DialogResult.No)
-                    return;
-            }
-
-            bool formEndedWithValue = false;
-
-            using (NewNoteForm form = new NewNoteForm())
-            {
-                form.ShowDialog();
-                selectedCourseId = form.courseStr.Replace(".", "");
-                selectedClassType = form.classTypeStr;
-                formEndedWithValue = form.selectedValue;
-            }
-
-            workingFilename = string.Format("{0}-{1}-{2}_{3}.html", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, selectedClassType);
-
-            if (!formEndedWithValue)
-                return;
-
-            // Enable all controls
-            foreach (Control ctrl in this.Controls)
-            {
-                if (ctrl.GetType() == typeof(Timer))
-                    continue;
-
-                if (ctrl.GetType() == typeof(MenuStrip))
-                    continue;
-
-                ctrl.Enabled = true;
-            }
-
-            mainInputTextBox.Text = "";
-            MainContent.codeFragments.Clear();
-            CustomConsole.Log("Cleared MainContent.codeFragments.");
-            CustomConsole.Log("Creating new note. CourseId: " + selectedCourseId + ", ClassType: " + selectedClassType);
-        }
-
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog openFile = new OpenFileDialog();
-            openFile.ShowDialog();
-
-            string path = openFile.FileName;
-
-            openFile.Dispose();
-
-            if (!path.EndsWith(".html"))
-            {
-                CustomConsole.Log("Tried opening a file that wasn't of type .html");
-                MessageBox.Show("You must open a file of type .html", "Error", MessageBoxButtons.OK);
-                return;
-            }
-
-            IOModule.ReadFromHtml(mainInputTextBox, path);
-            IOModule.GetNoteDetailsFromFile(path, mainDirectory, semesterFolder, out selectedCourseId, out selectedClassType);
-
-            // Enable all controls
-            foreach (Control ctrl in this.Controls)
-            {
-                if (ctrl.GetType() == typeof(Timer))
-                    continue;
-
-                if (ctrl.GetType() == typeof(MenuStrip))
-                    continue;
-
-                ctrl.Enabled = true;
-            }
-
-            string[] splitPath = path.Split('\\');
-            workingFilename = splitPath[splitPath.Length - 1];
-
-            CustomConsole.Log("Opened Note for editing at: " + path);
-        }
-
-        private void mainInputTextBox_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void mainFormLoop_Tick(object sender, EventArgs e)
-        {
-            mainInputTextBox.Font = new Font("Microsoft Sans Serif", (float)fontSizeChanger.Value, FontStyle.Regular);
-
-            if (!MainContent.saveData.DoesCurrentDataMatch(mainInputTextBox.Text, MainContent.codeFragments))
-            {
-                this.Text = defaultName + "*";
-                //saveButton.Enabled = false;
-                //Console.WriteLine("You changed something");
-            }
-            else
-            {
-                this.Text = defaultName;
-                //saveButton.Enabled = true;
-            }
-
-            directoryLabel.Text = mainDirectory + semesterFolder + "\\" + selectedCourseId + "\\Notes\\";
-            titleLabel.Text = workingFilename;
-
-            if (selectedClassType == "" && selectedCourseId == "")
-            {
-                currentNoteToolStripMenuItem.Enabled = false;
-            }
-            else
-            {
-                currentNoteToolStripMenuItem.Enabled = true;
-            }
-        }
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (mainInputTextBox.Text == "")
-                return;
-
-            if (e.CloseReason == CloseReason.UserClosing)
-            {
-                if (!MainContent.saveData.DoesCurrentDataMatch(mainInputTextBox.Text, MainContent.codeFragments))
+                foreach (Control ctrl in mainTabControl.SelectedTab.Controls)
                 {
-                    var result = MessageBox.Show("Do you want to exit without saving?", "Warning", MessageBoxButtons.YesNo);
-
-                    e.Cancel = (result == DialogResult.No);
-                }
-            }
-
-            foreach (System.Threading.Thread thread in activeThreads)
-            {
-                CustomConsole.Log(string.Format("Shutting down Thread with id: {0}", thread.ManagedThreadId));
-            }
-        }
-
-        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        private void formatUnderline_Click(object sender, EventArgs e)
-        {
-            if (mainInputTextBox.SelectedText != "")
-                mainInputTextBox.SelectedText = mainInputTextBox.SelectedText.Replace(mainInputTextBox.SelectedText, string.Format("<{0}>{1}</{0}>", "u", mainInputTextBox.SelectedText));
-        }
-
-        private void formatCodeInText_Click(object sender, EventArgs e)
-        {
-            if (mainInputTextBox.SelectedText != "")
-                mainInputTextBox.SelectedText = mainInputTextBox.SelectedText.Replace(mainInputTextBox.SelectedText, string.Format("<span class='method-variable'>{0}</span>", mainInputTextBox.SelectedText));
-        }
-
-        private void formatHighlightNode_Click(object sender, EventArgs e)
-        {
-            if (mainInputTextBox.SelectedText != "")
-                mainInputTextBox.SelectedText = mainInputTextBox.SelectedText.Replace(mainInputTextBox.SelectedText, string.Format("<span class='standout-note'>{0}</span>", mainInputTextBox.SelectedText));
-        }
-
-        private void otherNoteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog openFile = new OpenFileDialog();
-            openFile.ShowDialog();
-
-            string path = openFile.FileName;
-
-            IOModule.GetNoteDetailsFromFile(path, mainDirectory, semesterFolder, out selectedCourseId, out selectedClassType);
-
-            openFile.Dispose();
-
-            using (NoteViewerForm form = new NoteViewerForm(path))
-            {
-                form.ShowDialog();
-            }
-        }
-
-        private void currentNoteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                DialogResult result = DialogResult.Cancel;
-
-                if (!MainContent.saveData.DoesCurrentDataMatch(mainInputTextBox.Text, MainContent.codeFragments))
-                {
-                    result = MessageBox.Show("This note isn't saved. Do you want to save this Note?", "Warning", MessageBoxButtons.YesNo);
-                }
-
-                string fullPath = "";
-                bool savedToTemp = false;
-
-                if (!File.Exists(mainDirectory + semesterFolder + "\\" + selectedCourseId + "\\Notes\\" + workingFilename))
-                {
-                    if (result == DialogResult.Yes)
+                    if (ctrl.GetType() == typeof(CustomRichTextBox))
                     {
-                        saveButton.PerformClick();
-                        fullPath = mainDirectory + semesterFolder + "\\" + selectedCourseId + "\\Notes\\" + workingFilename;
-                    }
-                    else
-                    {
-                        string tempPath = Directory.GetCurrentDirectory() + "\\temp\\";
-                        string tempFileName = "tempSaveFile.temp";
-                        fullPath = tempPath + tempFileName;
-                        savedToTemp = true;
-
-                        IOModule.SaveToHtml(mainInputTextBox, fullPath);
+                        activeRichTextBox = (CustomRichTextBox)ctrl;
+                        CustomConsole.Log("Set the child of CustomTab with id: " + ((CustomTab)mainTabControl.SelectedTab).mTabId + " to the active CustomRichTextBox");
                     }
                 }
-                else
-                {
-                    fullPath = mainDirectory + semesterFolder + "\\" + selectedCourseId + "\\Notes\\" + workingFilename;
-                }
-
-                using (NoteViewerForm form = new NoteViewerForm(fullPath))
-                {
-                    form.ShowDialog();
-                }
-
-                if (savedToTemp)
-                {
-                    File.Delete(fullPath);
-                }
             }
-            catch (Exception ex)
+        }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Are you sure you want to quit without saving?", "Warning", MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.Yes)
             {
-                CustomConsole.Log("An error has occured when trying to view the current note");
-                CustomConsole.Log(ex.Message);
+                mainTabControl.TabPages.Remove(mainTabControl.SelectedTab);
+                return;
+            }
+        }
+
+        private void mainTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (formLoaded)
+            {
+                // Get the RichTextBox from the TabPage
+                if (mainTabControl.SelectedTab != null)
+                {
+                    foreach (Control ctrl in mainTabControl.SelectedTab.Controls)
+                    {
+                        if (ctrl.GetType() == typeof(CustomRichTextBox))
+                        {
+                            activeRichTextBox = (CustomRichTextBox)ctrl;
+                            CustomConsole.Log("Set the child of CustomTab with id: " + ((CustomTab)mainTabControl.SelectedTab).mTabId + " to the active CustomRichTextBox");
+
+                            if (((CustomTab)mainTabControl.SelectedTab).newFile)
+                                SaveLock = false;
+                            else
+                                SaveLock = true;
+
+                            return;
+                        }
+                    }
+                }
             }
         }
 
         private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (PreferencesForm form = new PreferencesForm())
+            using (PreferencesForm form = new PreferencesForm(MainNoteDirectory))
+            {
+                form.ShowDialog();
+                MainNoteDirectory = form.selectedDirectory;
+            }
+
+            string[] semesterFolders = Directory.GetDirectories(MainNoteDirectory);
+
+            semesterSelector.Items.Clear();
+
+            foreach (string str in semesterFolders)
+                if (str.EndsWith("_s2") || str.EndsWith("_s1"))
+                    semesterSelector.Items.Add(str.Replace(MainNoteDirectory, ""));
+        }
+
+        private void consoleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Thread thread = new Thread(OpenConsoleForm);
+            thread.Start();
+            openThreads.Add(thread);
+        }
+
+        private void OpenConsoleForm()
+        {
+            using (ConsoleForm form = new ConsoleForm(ref openThreads))
             {
                 form.ShowDialog();
             }
+        }
 
-            // Get main directory and semester folder
-            using (System.IO.StreamReader reader = new System.IO.StreamReader("details.conf"))
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            mainFormTimer.Stop();
+
+            foreach (Thread t in openThreads)
             {
-                mainDirectory = reader.ReadLine();
-                semesterFolder = reader.ReadLine();
-
-                reader.Close();
-                reader.Dispose();
+                try
+                {
+                    int threadId = t.ManagedThreadId;
+                    t.Abort();
+                    CustomConsole.Log("Closed thread with id: " + threadId + ". New thread count: " + openThreads.Count);
+                }
+                catch (ThreadAbortException ex)
+                {
+                    CustomConsole.Log(ex.Message);
+                }
             }
         }
 
-        private void consoleWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        private void mainFormTimer_Tick(object sender, EventArgs e)
         {
-            System.Threading.Thread newThread = new System.Threading.Thread(OpenConsoleWindow);
-            newThread.Start();
-        }
+            semesterSelector.Enabled = !SaveLock;
+            courseSelector.Enabled = !SaveLock;
+            classTypeSelector.Enabled = !SaveLock;
 
-        private void OpenConsoleWindow()
-        {
-            CustomConsole.Log("Starting new Thread with id: " + System.Threading.Thread.CurrentThread.ManagedThreadId);
-            using (ConsoleForm form = new ConsoleForm())
+            // TESTING
+            if (activeRichTextBox != null && testingBool)
             {
-                form.ShowDialog();
+                activeRichTextBox.SelectionLength = 1;
+                Console.WriteLine("{0}, {1}, {2}", activeRichTextBox.SelectionFont.FontFamily, activeRichTextBox.SelectionFont.Size, activeRichTextBox.SelectionFont.Style);
+                activeRichTextBox.SelectionLength = 0;
             }
 
-            CustomConsole.Log("Shutting down Thread with id: " + System.Threading.Thread.CurrentThread.ManagedThreadId);
+            //if (activeRichTextBox != null && activeRichTextBox.SelectionStart < activeRichTextBox.Text.Length)
+                //Console.WriteLine(activeRichTextBox.SelectionStart + ", " + activeRichTextBox.Text[activeRichTextBox.SelectionStart]);
+        }
+
+        private void toEditToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.ShowDialog();
+
+            string filePath = fileDialog.FileName;
+
+            if (!filePath.EndsWith(".rtf"))
+            {
+                MessageBox.Show("You can only open files with the extension .rtf!", "Error", MessageBoxButtons.OK);
+                return;
+            }
+
+            string[] splitFileName = filePath.Split('\\');
+
+            string temp_semester = splitFileName[splitFileName.Length - 4];
+
+            string[] classTypeSplit = splitFileName[splitFileName.Length - 1].Split('_');
+            string temp_classtype = classTypeSplit[1].Split('.')[0];
+            string temp_course = splitFileName[splitFileName.Length - 3];
+
+            // Copied from newTab click event code
+            CustomRichTextBox newBox = new CustomRichTextBox();
+            newBox.LoadFile(filePath);
+            newBox.Font = new Font(newBox.Font.FontFamily, 10.5f, FontStyle.Regular);
+            newBox.Size = template_rtb.Size;
+            newBox.Location = template_rtb.Location;
+            newBox.HideSelection = false;
+
+            // Create new tab, make sure all TabPage values are srt to null
+            CustomTab newTab = new CustomTab(temp_semester, temp_course, temp_classtype, false, filePath);
+            newTab.Text = string.Format("[{0}] {1}", temp_course, splitFileName[splitFileName.Length - 1]);
+            newTab.Controls.Add(newBox);
+
+            mainTabControl.TabPages.Add(newTab);
+
+            CustomConsole.Log("Opened file to edit: " + filePath);
+
+            mainTabControl.SelectedIndex = mainTabControl.TabPages.Count - 1;
+
+            /*
+            Console.WriteLine(string.Format("{0}{1}\\{2}\\Notes\\{3}-{4}-{5}_{6}.rtf",
+                MainForm.MainNoteDirectory, temp_semester, temp_course,
+                DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, temp_classtype));*/
+        }
+
+        private void semesterSelector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string[] courseFolder = Directory.GetDirectories(MainNoteDirectory + semesterSelector.SelectedItem);
+
+            courseSelector.Items.Clear();
+            string logStr = "{ ";
+
+            foreach (string folder in courseFolder)
+            {
+                courseSelector.Items.Add(folder.Replace(MainNoteDirectory + semesterSelector.SelectedItem, "").Replace("\\", ""));
+
+                logStr += (folder + ", ");
+            }
+
+            CustomConsole.Log("Updated courseSelector.Items based on the semester: " + semesterSelector.SelectedItem);
+            CustomConsole.Log("New courseSelector collection: " + logStr + " }");
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            string strng;
+            CustomTab selectedTab = (CustomTab)mainTabControl.SelectedTab;
+
+            if (selectedTab.newFile)
+            {
+                strng = string.Format("{0}{1}\\{2}\\Notes\\{3}-{4}-{5}_{6}.rtf",
+                MainNoteDirectory, semesterSelector.SelectedItem, courseSelector.SelectedItem,
+                DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, classTypeSelector.SelectedItem);
+
+                ((CustomTab)mainTabControl.SelectedTab).mSemester = semesterSelector.SelectedItem.ToString();
+                ((CustomTab)mainTabControl.SelectedTab).mCourse = courseSelector.SelectedItem.ToString();
+                ((CustomTab)mainTabControl.SelectedTab).mClassType = classTypeSelector.SelectedItem.ToString();
+                ((CustomTab)mainTabControl.SelectedTab).mFullPath = strng;
+                mainTabControl.SelectedTab.Text = string.Format("[{0}] {1}", courseSelector.SelectedItem,
+                    string.Format("{0}-{1}-{2}_{3}.rtf", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, classTypeSelector.SelectedItem));
+            }
+            else
+            {
+                strng = selectedTab.mFullPath;
+            }
+
+            activeRichTextBox.SaveFile(strng);
+            CustomConsole.Log("Saved file to: " + strng);
+            SaveLock = true;
+        }
+
+        private int GetNumberOfUntitledTabs()
+        {
+            int i = 0;
+
+            foreach (TabPage page in mainTabControl.TabPages)
+            {
+                if (page.Text.StartsWith("Untitled"))
+                    i++;
+            }
+
+            return i;
+        }
+
+        private void format_fontStyleButton_Click(object sender, EventArgs e)
+        {
+            Font f;
+            if (MainContent.GetFontFromStyleString(format_textStyleSelector.SelectedItem.ToString(), out f))
+            {
+                if (activeRichTextBox.SelectedText != "")
+                {
+
+                    activeRichTextBox.SelectionFont = f;
+
+                    if (format_textStyleSelector.SelectedItem.ToString() == "Code Fragment")
+                    {
+                        int s = activeRichTextBox.SelectionStart;
+                        int l = activeRichTextBox.SelectionLength;
+                        activeRichTextBox.SelectedText = activeRichTextBox.SelectedText.Replace("\t", "   ");
+                        RtfCodeFormatter.ColourCodeFragment(ref activeRichTextBox, s, s + l);
+                    }
+
+                    activeRichTextBox.SelectionStart = activeRichTextBox.SelectionStart + activeRichTextBox.SelectionLength;
+                    activeRichTextBox.SelectionLength = 0;
+                    activeRichTextBox.SelectionFont = activeRichTextBox.Font;
+                }
+            }
+        }
+
+        private void format_boldButton_Click(object sender, EventArgs e)
+        {
+            if (activeRichTextBox.SelectedText != "")
+            {
+                activeRichTextBox.SelectionFont = new Font("Microsoft Sans Serif", activeRichTextBox.Font.Size, FontStyle.Bold);
+
+                activeRichTextBox.SelectionStart = activeRichTextBox.SelectionStart + activeRichTextBox.SelectionLength;
+                activeRichTextBox.SelectionLength = 0;
+                activeRichTextBox.SelectionFont = activeRichTextBox.Font;
+            }
+        }
+
+        private void format_italicButton_Click(object sender, EventArgs e)
+        {
+            if (activeRichTextBox.SelectedText != "")
+            {
+                activeRichTextBox.SelectionFont = new Font("Microsoft Sans Serif", activeRichTextBox.Font.Size, FontStyle.Italic);
+
+                activeRichTextBox.SelectionStart = activeRichTextBox.SelectionStart + activeRichTextBox.SelectionLength;
+                activeRichTextBox.SelectionLength = 0;
+                activeRichTextBox.SelectionFont = activeRichTextBox.Font;
+            }
+        }
+
+        private void format_strikeoutButton_Click(object sender, EventArgs e)
+        {
+            if (activeRichTextBox.SelectedText != "")
+            {
+                activeRichTextBox.SelectionFont = new Font("Microsoft Sans Serif", activeRichTextBox.Font.Size, FontStyle.Strikeout);
+
+                activeRichTextBox.SelectionStart = activeRichTextBox.SelectionStart + activeRichTextBox.SelectionLength;
+                activeRichTextBox.SelectionLength = 0;
+                activeRichTextBox.SelectionFont = activeRichTextBox.Font;
+            }
+        }
+
+        private void format_underlineButton_Click(object sender, EventArgs e)
+        {
+            if (activeRichTextBox.SelectedText != "")
+            {
+                activeRichTextBox.SelectionFont = new Font("Microsoft Sans Serif", activeRichTextBox.Font.Size, FontStyle.Underline);
+
+                activeRichTextBox.SelectionStart = activeRichTextBox.SelectionStart + activeRichTextBox.SelectionLength;
+                activeRichTextBox.SelectionLength = 0;
+                activeRichTextBox.SelectionFont = activeRichTextBox.Font;
+            }
+
+            testingBool = true;
+        }
+
+        private void format_textStyleSelector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void format_listButton_Click(object sender, EventArgs e)
+        {
+            if (activeRichTextBox.SelectedText != "")
+            {
+                activeRichTextBox.SelectionBullet = true;
+                activeRichTextBox.SelectionLength = 0;
+                activeRichTextBox.SelectionBullet = false;
+            }
         }
     }
 }
