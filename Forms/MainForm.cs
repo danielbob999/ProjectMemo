@@ -15,6 +15,18 @@ namespace UniversityNoteProgram.Forms
 {
     public partial class MainForm : Form
     {
+        private const int VERSION_MAJOR = 5;
+        private const int VERSION_MINOR = 0;
+        private const int VERSION_PATCH = 1;
+
+        public static string Version
+        {
+            get
+            {
+                return string.Format("v{0}.{1}.{2}", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH);
+            }
+        }
+
         private List<Thread> openThreads = new List<Thread>();
         private CustomRichTextBox template_rtb;
         private CustomRichTextBox activeRichTextBox;
@@ -32,6 +44,9 @@ namespace UniversityNoteProgram.Forms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            CustomConsole.Log("Loading MainForm. (" + Version + ")", true);
+            versionLabel.Text = Version;
+
             MainContent.InitFontStyles(template_richTextBox.Font.Size);
             RtfCodeFormatter.InitKeywordColours("keyword_colours.conf");
 
