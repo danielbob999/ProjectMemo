@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using UniversityNoteProgram.CustomControls;
+using ProjectMemo.CustomControls;
 
-namespace UniversityNoteProgram.Forms
+namespace ProjectMemo.Forms
 {
     public partial class MainForm : Form
     {

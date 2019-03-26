@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using UniversityNoteProgram.CustomControls;
+using ProjectMemo.CustomControls;
 
-namespace UniversityNoteProgram
+namespace ProjectMemo
 {
     static class Interpreter
     {

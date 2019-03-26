@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
-using UniversityNoteProgram.CustomControls;
+using ProjectMemo.CustomControls;
 
-namespace UniversityNoteProgram
+namespace ProjectMemo
 {
     static class RtfCodeFormatter
     {

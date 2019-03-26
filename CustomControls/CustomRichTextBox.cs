@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.ComponentModel;
 
-namespace UniversityNoteProgram.CustomControls
+namespace ProjectMemo.CustomControls
 {
     class CustomRichTextBox : RichTextBox
     {

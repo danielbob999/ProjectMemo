@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace UniversityNoteProgram.Properties
+namespace ProjectMemo.Properties
 {
 
 

@@ -1,4 +1,4 @@
-﻿namespace UniversityNoteProgram.Forms
+﻿namespace ProjectMemo.Forms
 {
     partial class PreferencesForm
     {

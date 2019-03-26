@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace UniversityNoteProgram.Forms
+namespace ProjectMemo.Forms
 {
     public partial class ConsoleForm : Form
     {

@@ -1,4 +1,4 @@
-﻿namespace UniversityNoteProgram.Forms
+﻿namespace ProjectMemo.Forms
 {
     partial class MainForm
     {
@@ -43,7 +43,7 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.default_tab = new System.Windows.Forms.TabPage();
-            this.template_richTextBox = new UniversityNoteProgram.CustomControls.CustomRichTextBox();
+            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.formatingGroupBox = new System.Windows.Forms.GroupBox();
             this.format_listButton = new System.Windows.Forms.Button();
             this.format_strikeoutButton = new System.Windows.Forms.Button();
