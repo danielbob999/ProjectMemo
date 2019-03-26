@@ -21,11 +21,6 @@ namespace ProjectMemo.CustomControls
         protected override void OnKeyDown(KeyEventArgs e)
         {
             //base.OnKeyDown(e);
-
-            if (e.KeyCode == Keys.Tab)
-            {
-                Console.WriteLine("Hello");
-            }
         }
 
         protected override void OnKeyPress(KeyPressEventArgs e)

@@ -18,8 +18,8 @@ namespace ProjectMemo.Forms
     public partial class MainForm : Form
     {
         private const int VERSION_MAJOR = 5;
-        private const int VERSION_MINOR = 0;
-        private const int VERSION_PATCH = 1;
+        private const int VERSION_MINOR = 1;
+        private const int VERSION_PATCH = 2;
 
         public static string Version
         {
@@ -37,6 +37,7 @@ namespace ProjectMemo.Forms
         private bool testingBool = false;
 
         public static bool SaveLock = false;
+        public static bool DisableSaveButton = false;
         public static string MainNoteDirectory;
 
         public MainForm()
