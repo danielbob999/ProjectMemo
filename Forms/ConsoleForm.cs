@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
+using ProjectMemo.ProjectMemoConsole;
+using ProjectMemo.Formatting;
 
 namespace ProjectMemo.Forms
 {

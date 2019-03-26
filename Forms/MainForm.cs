@@ -10,6 +10,8 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using ProjectMemo.CustomControls;
+using ProjectMemo.ProjectMemoConsole;
+using ProjectMemo.Formatting;
 
 namespace ProjectMemo.Forms
 {
