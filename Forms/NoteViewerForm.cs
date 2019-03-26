@@ -77,8 +77,10 @@ namespace ProjectMemo.Forms
             foreach (TabPage page in mainTabControl.TabPages)
             {
                 if (page.Text == string.Format("[{0}] {1}", a_course, a_fileName))
+                {
                     mainTabControl.SelectedTab = page;
-                return;
+                    return;
+                }
             }
 
             CustomRichTextBox newBox = new CustomRichTextBox();
@@ -170,6 +172,11 @@ namespace ProjectMemo.Forms
         private void caseSensitiveCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             mCanDisplaySearch = true;
+        }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mainTabControl.TabPages.Remove(mainTabControl.SelectedTab);
         }
     }
 }

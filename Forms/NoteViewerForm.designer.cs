@@ -51,15 +51,19 @@
             this.resultsGroupBox = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.mainFormTimer = new System.Windows.Forms.Timer(this.components);
+            this.tabControlContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainTabControl.SuspendLayout();
             this.default_tab.SuspendLayout();
             this.foldersGroupBox.SuspendLayout();
             this.filtersGroupBox.SuspendLayout();
             this.resultsGroupBox.SuspendLayout();
+            this.tabControlContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainTabControl
             // 
+            this.mainTabControl.ContextMenuStrip = this.tabControlContextMenu;
             this.mainTabControl.Controls.Add(this.default_tab);
             this.mainTabControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mainTabControl.HotTrack = true;
@@ -302,6 +306,20 @@
             // 
             this.mainFormTimer.Tick += new System.EventHandler(this.mainFormTimer_Tick);
             // 
+            // tabControlContextMenu
+            // 
+            this.tabControlContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.closeToolStripMenuItem});
+            this.tabControlContextMenu.Name = "tabControlContextMenu";
+            this.tabControlContextMenu.Size = new System.Drawing.Size(104, 26);
+            // 
+            // closeToolStripMenuItem
+            // 
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+            // 
             // NoteViewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -322,6 +340,7 @@
             this.filtersGroupBox.ResumeLayout(false);
             this.filtersGroupBox.PerformLayout();
             this.resultsGroupBox.ResumeLayout(false);
+            this.tabControlContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -350,5 +369,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Timer mainFormTimer;
         private System.Windows.Forms.CheckBox filterByDateCheckBox;
+        private System.Windows.Forms.ContextMenuStrip tabControlContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
     }
 }
