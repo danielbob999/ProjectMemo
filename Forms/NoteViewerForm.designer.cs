@@ -31,15 +31,16 @@
             this.components = new System.ComponentModel.Container();
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.default_tab = new System.Windows.Forms.TabPage();
+            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.foldersGroupBox = new System.Windows.Forms.GroupBox();
             this.courseSelectorLabel = new System.Windows.Forms.Label();
             this.semesterSelector = new System.Windows.Forms.ComboBox();
             this.semesterSelectorLabel = new System.Windows.Forms.Label();
             this.courseSelector = new System.Windows.Forms.ComboBox();
             this.classTypeSelector = new System.Windows.Forms.ComboBox();
-            this.versionLabel = new System.Windows.Forms.Label();
             this.mainDirectoryLabel = new System.Windows.Forms.Label();
             this.filtersGroupBox = new System.Windows.Forms.GroupBox();
+            this.filterByDateCheckBox = new System.Windows.Forms.CheckBox();
             this.caseSensitiveCheckBox = new System.Windows.Forms.CheckBox();
             this.searchTermTextBox = new System.Windows.Forms.TextBox();
             this.searchTermLabel = new System.Windows.Forms.Label();
@@ -50,8 +51,6 @@
             this.resultsGroupBox = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.mainFormTimer = new System.Windows.Forms.Timer(this.components);
-            this.filterByDateCheckBox = new System.Windows.Forms.CheckBox();
-            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.mainTabControl.SuspendLayout();
             this.default_tab.SuspendLayout();
             this.foldersGroupBox.SuspendLayout();
@@ -81,6 +80,18 @@
             this.default_tab.TabIndex = 0;
             this.default_tab.Text = "default_tab";
             this.default_tab.UseVisualStyleBackColor = true;
+            // 
+            // template_richTextBox
+            // 
+            this.template_richTextBox.AcceptsTab = true;
+            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.template_richTextBox.HideSelection = false;
+            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
+            this.template_richTextBox.Name = "template_richTextBox";
+            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
+            this.template_richTextBox.TabIndex = 0;
+            this.template_richTextBox.Text = "Theres are some nootes!";
             // 
             // foldersGroupBox
             // 
@@ -151,15 +162,6 @@
             this.classTypeSelector.TabIndex = 1;
             this.classTypeSelector.SelectedIndexChanged += new System.EventHandler(this.classTypeSelector_SelectedIndexChanged);
             // 
-            // versionLabel
-            // 
-            this.versionLabel.Location = new System.Drawing.Point(1275, 9);
-            this.versionLabel.Name = "versionLabel";
-            this.versionLabel.Size = new System.Drawing.Size(62, 13);
-            this.versionLabel.TabIndex = 104;
-            this.versionLabel.Text = "VERSION";
-            this.versionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // mainDirectoryLabel
             // 
             this.mainDirectoryLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -187,6 +189,18 @@
             this.filtersGroupBox.TabIndex = 104;
             this.filtersGroupBox.TabStop = false;
             this.filtersGroupBox.Text = "Filters:";
+            // 
+            // filterByDateCheckBox
+            // 
+            this.filterByDateCheckBox.AutoSize = true;
+            this.filterByDateCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.filterByDateCheckBox.Location = new System.Drawing.Point(6, 50);
+            this.filterByDateCheckBox.Name = "filterByDateCheckBox";
+            this.filterByDateCheckBox.Size = new System.Drawing.Size(86, 17);
+            this.filterByDateCheckBox.TabIndex = 10;
+            this.filterByDateCheckBox.Text = "Filter by date";
+            this.filterByDateCheckBox.UseVisualStyleBackColor = true;
+            this.filterByDateCheckBox.CheckedChanged += new System.EventHandler(this.filterByDateCheckBox_CheckedChanged);
             // 
             // caseSensitiveCheckBox
             // 
@@ -288,30 +302,6 @@
             // 
             this.mainFormTimer.Tick += new System.EventHandler(this.mainFormTimer_Tick);
             // 
-            // filterByDateCheckBox
-            // 
-            this.filterByDateCheckBox.AutoSize = true;
-            this.filterByDateCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filterByDateCheckBox.Location = new System.Drawing.Point(6, 50);
-            this.filterByDateCheckBox.Name = "filterByDateCheckBox";
-            this.filterByDateCheckBox.Size = new System.Drawing.Size(86, 17);
-            this.filterByDateCheckBox.TabIndex = 10;
-            this.filterByDateCheckBox.Text = "Filter by date";
-            this.filterByDateCheckBox.UseVisualStyleBackColor = true;
-            this.filterByDateCheckBox.CheckedChanged += new System.EventHandler(this.filterByDateCheckBox_CheckedChanged);
-            // 
-            // template_richTextBox
-            // 
-            this.template_richTextBox.AcceptsTab = true;
-            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.template_richTextBox.HideSelection = false;
-            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
-            this.template_richTextBox.Name = "template_richTextBox";
-            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
-            this.template_richTextBox.TabIndex = 0;
-            this.template_richTextBox.Text = "Theres are some nootes!";
-            // 
             // NoteViewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -320,7 +310,6 @@
             this.Controls.Add(this.resultsGroupBox);
             this.Controls.Add(this.filtersGroupBox);
             this.Controls.Add(this.mainDirectoryLabel);
-            this.Controls.Add(this.versionLabel);
             this.Controls.Add(this.foldersGroupBox);
             this.Controls.Add(this.mainTabControl);
             this.Name = "NoteViewerForm";
@@ -347,7 +336,6 @@
         private System.Windows.Forms.Label semesterSelectorLabel;
         private System.Windows.Forms.ComboBox courseSelector;
         private System.Windows.Forms.ComboBox classTypeSelector;
-        private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.Label mainDirectoryLabel;
         private System.Windows.Forms.GroupBox filtersGroupBox;
         private System.Windows.Forms.Label toFromDateTimeLabel;

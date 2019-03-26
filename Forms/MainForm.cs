@@ -423,5 +423,13 @@ namespace ProjectMemo.Forms
                 activeRichTextBox.SelectionBullet = false;
             }
         }
+
+        private void noteViewerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (NoteViewerForm form = new NoteViewerForm(MainNoteDirectory))
+            {
+                form.ShowDialog();
+            }
+        }
     }
 }

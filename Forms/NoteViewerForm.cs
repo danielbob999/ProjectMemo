@@ -16,18 +16,6 @@ namespace ProjectMemo.Forms
 {
     public partial class NoteViewerForm : Form
     {
-        private const int VERSION_MAJOR = 1;
-        private const int VERSION_MINOR = 0;
-        private const int VERSION_PATCH = 1;
-
-        public static string Version
-        {
-            get
-            {
-                return string.Format("v{0}.{1}.{2}", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH);
-            }
-        }
-
         private CustomRichTextBox template_rtb;
 
         private NoteViewingData mNoteViewingData;
@@ -49,7 +37,6 @@ namespace ProjectMemo.Forms
         {
             mNoteViewingData = new NoteViewingData(mMainNoteDirectory);
 
-            versionLabel.Text = Version;
             mainDirectoryLabel.Text = mMainNoteDirectory;
 
             // Set the default class type choice to 'All'
@@ -58,34 +45,28 @@ namespace ProjectMemo.Forms
             // Set both from and to dates to tomrrow. This needs to be done to disable date filtering
 
             // Set semester folders
-            string[] semesterFolders = new string[] { };
+            if (!string.IsNullOrEmpty(mMainNoteDirectory))
+            {
+                string[] semesterFolders = new string[] { };
 
-            if (string.IsNullOrEmpty(mMainNoteDirectory))
-                return;
-            else
-                semesterFolders = Directory.GetDirectories(mMainNoteDirectory);
+                if (string.IsNullOrEmpty(mMainNoteDirectory))
+                    return;
+                else
+                    semesterFolders = Directory.GetDirectories(mMainNoteDirectory);
 
-            semesterSelector.Items.Clear();
+                semesterSelector.Items.Clear();
 
-            foreach (string str in semesterFolders)
-                if (str.EndsWith("_s2") || str.EndsWith("_s1"))
-                    semesterSelector.Items.Add(str.Replace(mMainNoteDirectory, ""));
+                foreach (string str in semesterFolders)
+                    if (str.EndsWith("_s2") || str.EndsWith("_s1"))
+                        semesterSelector.Items.Add(str.Replace(mMainNoteDirectory, ""));
+            }
 
             template_rtb = template_richTextBox;
-            //CustomConsole.Log("Set activeRichTextBox to null");
+            CustomConsole.Log("Set NoteViewerForm.activeRichTextBox to null");
             template_richTextBox.Visible = false;
-            //CustomConsole.Log("Set the visibility of the template_richTextBox to False");
+            CustomConsole.Log("Set the visibility of the NoteViewerForm.template_richTextBox to False");
             mainTabControl.TabPages.RemoveAt(0);
-            //CustomConsole.Log("Removed the default tab from mainTabControl");
-
-            /*
-            ViewingSearchResult vsr = new ViewingSearchResult(new NoteViewingData.NoteData("C:\\Users\\Daniel\\OneDrive - Massey University\\19_s1\\159201\\Notes\\2019-3-22_Tutorial.rtf"), "a list not");
-            //resultsListView.Items.Add(vsr);
-            vsr.Width = 144;
-            //List<Button> l = vsr.Controls.OfType<Button>().ToList();
-            //l[0].Width = vsr.Width - (l[0].Location.X * 10);
-
-            flowLayoutPanel1.Controls.Add(vsr); */
+            CustomConsole.Log("Removed the default tab from NoteViewerForm.mainTabControl");
 
             mainFormTimer.Start();
         }
@@ -131,23 +112,26 @@ namespace ProjectMemo.Forms
             mSelectedSemester = semesterSelector.SelectedItem.ToString();
             mCanDisplaySearch = true;
 
-            string[] courseFolder = Directory.GetDirectories(mMainNoteDirectory + semesterSelector.SelectedItem);
-
-            courseSelector.Items.Clear();
-            string logStr = "{ ";
-            courseSelector.Items.Add("All");
-
-            foreach (string folder in courseFolder)
+            if (!string.IsNullOrEmpty(mMainNoteDirectory))
             {
-                courseSelector.Items.Add(folder.Replace(mMainNoteDirectory + semesterSelector.SelectedItem, "").Replace("\\", ""));
+                string[] courseFolder = Directory.GetDirectories(mMainNoteDirectory + semesterSelector.SelectedItem);
 
-                logStr += (folder + ", ");
+                courseSelector.Items.Clear();
+                string logStr = "{ ";
+                courseSelector.Items.Add("All");
+
+                foreach (string folder in courseFolder)
+                {
+                    courseSelector.Items.Add(folder.Replace(mMainNoteDirectory + semesterSelector.SelectedItem, "").Replace("\\", ""));
+
+                    logStr += (folder + ", ");
+                }
+
+                CustomConsole.Log("Updated courseSelector.Items based on the semester: " + semesterSelector.SelectedItem);
+                CustomConsole.Log("New courseSelector collection: " + logStr + " }");
+
+                courseSelector.SelectedIndex = 0;
             }
-
-            CustomConsole.Log("Updated courseSelector.Items based on the semester: " + semesterSelector.SelectedItem);
-            CustomConsole.Log("New courseSelector collection: " + logStr + " }");
-
-            courseSelector.SelectedIndex = 0;
         }
 
         private void searchTermTextBox_TextChanged(object sender, EventArgs e)
