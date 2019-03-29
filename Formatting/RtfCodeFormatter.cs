@@ -13,82 +13,99 @@ namespace ProjectMemo.Formatting
 {
     static class RtfCodeFormatter
     {
-        private static Dictionary<string, Color> keywordColours = new Dictionary<string, Color>();
-        private static List<string> classNames = new List<string>();
+        public const string THEME_FOLDER_PATH = "language_themes/";
+        public const string THEME_FILE_EXTENSION = ".lgt";
 
-        public static void InitKeywordColours(string a_filePath)
-        {
-            //keywordColours.Add("int", Color.Blue);
-            //keywordColours.Add("string", Color.Red);
-            
+        private static int activeThemeIndex;
+        private static List<LanguageTheme> allLanguageThemes = new List<LanguageTheme>();
+
+        public static void LoadLanguageThemes()
+        {   
             int amount = 0;
 
-            string[] allLines;
+            // Add a default theme
+            allLanguageThemes.Clear();
+            allLanguageThemes.Add(new LanguageTheme("Default"));
 
             try
             {
-                allLines = File.ReadAllLines(a_filePath);
+                string[] allThemeFiles = Directory.GetFiles(THEME_FOLDER_PATH);
+
+                foreach (string path in allThemeFiles)
+                {
+                    if (!path.EndsWith(THEME_FILE_EXTENSION))
+                        return;
+
+                    string themeName = path.Replace(Directory.GetCurrentDirectory(), "");
+                    themeName = themeName.Replace(THEME_FILE_EXTENSION, "");
+                    LanguageTheme newTheme = new LanguageTheme(themeName);
+
+                    string[] allLines = File.ReadAllLines(path);
+                    bool definingColours = false;
+                    Dictionary<int, Color> definedColours = new Dictionary<int, Color>();
+                    int colourNum = 0;
+
+                    foreach (string line in allLines)
+                    {
+                        if (line == "#define")
+                        {
+                            definingColours = true;
+                            continue;
+                        }
+
+                        if (line == "#end")
+                        {
+                            definingColours = false;
+                            continue;
+                        }
+
+
+                        if (definingColours)
+                        {
+                            string[] lineSplit = line.Split('=');
+                            string[] colourSplit = lineSplit[0].Split('|');
+                            Color c = Color.FromArgb(1, Convert.ToInt32(colourSplit[0]), Convert.ToInt32(colourSplit[1]), Convert.ToInt32(colourSplit[2]));
+
+                            definedColours.Add(Convert.ToInt32(lineSplit[1]), c);
+                        }
+                        else
+                        {
+                            string[] lineSplit = line.Split('=');
+
+                            if (definedColours.ContainsKey(Convert.ToInt32(lineSplit[1])))
+                            {
+                                newTheme.AddKeywordColour(lineSplit[0], definedColours[Convert.ToInt32(lineSplit[1])]);
+                                colourNum++;
+                            }
+                        }
+
+                    }
+
+                    allLanguageThemes.Add(newTheme);
+                    CustomConsole.Log("Added new LanguageTheme called " + newTheme.GetName() + ". " + colourNum + " colours loaded.");
+                }
+
+                if (allLanguageThemes.Count > 1)
+                    activeThemeIndex = 1;
+                else
+                    activeThemeIndex = 0;
+
             }
             catch (Exception e)
             {
-                CustomConsole.Log("Failed to read in all lines from file '" + a_filePath.Replace(Directory.GetCurrentDirectory(), "") + "'");
+                CustomConsole.Log("Failed to load in LanguageThemes");
                 CustomConsole.Log(e.Message);
                 return;
             }
 
-            for (int i = 1; i < allLines.Length; i++)
-            {
-                string line = allLines[i];
-                string[] lineSplit = line.Split('=');
-
-                if (lineSplit.Length < 2)
-                {
-                    CustomConsole.Log("Failed to load keyword colours. '" + a_filePath.Replace(Directory.GetCurrentDirectory(), "") + "' is empty.");
-                    continue;
-                }
-
-                Color c = Color.Black;
-
-                if (GetColourFromString(lineSplit[1], out c))
-                {
-                    keywordColours.Add(lineSplit[0], c);
-                    amount++;
-                }
-            }
-
-            CustomConsole.Log("Successfully loaded " + amount + " keyword colours from file '" + a_filePath.Replace(Directory.GetCurrentDirectory(), "") + "'");
         }
 
-        public static void PrintKeyworldColours(ref TextBox a_textBox)
+        public static void PrintKeyworldColours()
         {
-            CustomConsole.Log("Keyword Colours:", true);
-            foreach (KeyValuePair<string, Color> pair in keywordColours)
-            {
-                CustomConsole.Log(string.Format("Keyword: {0}, Colour: {1}\n", pair.Key, pair.Value.ToString()), true);
-            }
         }
 
         public static void UpdateKeywordColour(string a_keyword, Color a_newColour)
         {
-            if (keywordColours.ContainsKey(a_keyword))
-            {
-                keywordColours[a_keyword] = a_newColour;
-                return;
-            }
-
-            keywordColours.Add(a_keyword, a_newColour);
-        }
-
-        public static bool GetKeywordColour(string a_str, out Color a_outColour)
-        {
-            if (keywordColours.ContainsKey(a_str))
-            {
-                a_outColour = keywordColours[a_str];
-                return true;
-            }
-
-            a_outColour = Color.Black;
-            return false;
         }
 
         public static void ColourCodeFragment(ref CustomRichTextBox a_richTextBox, int a_start, int a_end)
@@ -108,12 +125,15 @@ namespace ProjectMemo.Formatting
             a_richTextBox.SelectionLength = a_end - a_start;
             a_richTextBox.SelectionColor = Color.Black;
 
+            // Colour keywords
             while (currentIndex < selectionEnd)
             {
                 int tempIndx = 0;
                 string newString = "";
 
-                while (str[currentIndex + tempIndx] != ' ' && str[currentIndex + tempIndx] != '\n' && str[currentIndex + tempIndx] != '\t' && str[currentIndex + tempIndx] != '{' && str[currentIndex + tempIndx] != '}' && str[currentIndex + tempIndx] != '"')
+                while (str[currentIndex + tempIndx] != ' ' && str[currentIndex + tempIndx] != '\n' && str[currentIndex + tempIndx] != '\t' && str[currentIndex + tempIndx] != '{' && str[currentIndex + tempIndx] != '}' 
+                    && str[currentIndex + tempIndx] != '"' && str[currentIndex + tempIndx] != '(' && str[currentIndex + tempIndx] != ')' && str[currentIndex + tempIndx] != ':' && str[currentIndex + tempIndx] != '*' && str[currentIndex + tempIndx] != '&'
+                    && str[currentIndex + tempIndx] != '-' && str[currentIndex + tempIndx] != '>')
                 {
                     newString += str[currentIndex + tempIndx];
                     tempIndx++;
@@ -124,74 +144,21 @@ namespace ProjectMemo.Formatting
                         continue;
                 }
 
-                if (stringIsLiteralString)
-                {
-                    Color newC;
-
-                    if (GetKeywordColour("literalstring", out newC))
-                    {
-                        a_richTextBox.SelectionStart = currentIndex;
-                        a_richTextBox.SelectionLength = newString.Length;
-                        a_richTextBox.SelectionColor = newC;
-                        a_richTextBox.SelectionLength = 0;
-                        a_richTextBox.SelectionColor = Color.Black;
-                    }
-
-                    currentIndex += (tempIndx + 1);
-                    //Console.WriteLine("Literal string ends at: " + currentIndex + tempIndx);
-                    continue;
-                }
-
-                //Console.WriteLine("Found keyword: [" + newString + "]");
-
                 if (nextWordIsClassName)
                 {
-                    classNames.Add(newString);
-                    //Console.WriteLine("Found new class name: [{0}]", newString);
+                    allLanguageThemes[activeThemeIndex].AddClass(newString);
                     nextWordIsClassName = false;
-
-                    Color newC;
-
-                    if (GetKeywordColour("classname", out newC))
-                    {
-                        a_richTextBox.SelectionStart = currentIndex;
-                        a_richTextBox.SelectionLength = newString.Length;
-                        a_richTextBox.SelectionColor = newC;
-                        a_richTextBox.SelectionLength = 0;
-                        a_richTextBox.SelectionColor = Color.Black;
-                    }
-
-                    currentIndex += (tempIndx + 1);
-                    continue;
-                }
-
-                if (classNames.Contains(newString))
-                {
-                    Color newC;
-
-                    if (GetKeywordColour("classname", out newC))
-                    {
-                        a_richTextBox.SelectionStart = currentIndex;
-                        a_richTextBox.SelectionLength = newString.Length;
-                        a_richTextBox.SelectionColor = newC;
-                        a_richTextBox.SelectionLength = 0;
-                        a_richTextBox.SelectionColor = Color.Black;
-                    }
-
-                    currentIndex += (tempIndx + 1);
-                    continue;
                 }
 
                 if (newString == "class")
                     nextWordIsClassName = true;
 
-                Color newColour;
-
-                if (GetKeywordColour(newString, out newColour))
+                Color col;
+                if (allLanguageThemes[activeThemeIndex].GetColourFromKeyword(newString, out col))
                 {
                     a_richTextBox.SelectionStart = currentIndex;
                     a_richTextBox.SelectionLength = newString.Length;
-                    a_richTextBox.SelectionColor = newColour;
+                    a_richTextBox.SelectionColor = col;
                     a_richTextBox.SelectionLength = 0;
                     a_richTextBox.SelectionColor = Color.Black;
                 }
@@ -199,37 +166,44 @@ namespace ProjectMemo.Formatting
                 currentIndex += (tempIndx + 1);
             }
 
+            currentIndex = selectionStart;
+            // Colour literal strings
+            while (currentIndex < selectionEnd)
+            {
+                bool lookForEndOfString = false;
+                int stringStartIndx = 0;
+
+                while (currentIndex < selectionEnd)
+                {
+                    if (str[currentIndex] == '"' && lookForEndOfString)
+                    {
+                        Color col;
+                        if (allLanguageThemes[activeThemeIndex].GetColourFromKeyword("literalstring", out col))
+                        {
+                            a_richTextBox.SelectionStart = stringStartIndx;
+                            a_richTextBox.SelectionLength = (currentIndex) - stringStartIndx;
+                            a_richTextBox.SelectionColor = col;
+                            a_richTextBox.SelectionLength = 0;
+                            a_richTextBox.SelectionColor = Color.Black;
+                        }
+
+                        lookForEndOfString = false;
+                        currentIndex++;
+                        continue;
+                    }
+
+                    if (str[currentIndex] == '"' && !lookForEndOfString)
+                    {
+                        lookForEndOfString = true;
+                        stringStartIndx = currentIndex;
+                    }
+
+                    currentIndex++;
+                }
+
+            }
+
         }
 
-        private static bool GetColourFromString(string a_str, out Color a_out_colour)
-        {
-            if (a_str == "blue")
-            {
-                a_out_colour = Color.FromArgb(1, 36, 28, 254);
-                return true;
-            }
-
-            if (a_str == "green")
-            {
-                a_out_colour = Color.Green;
-                return true;
-            }
-
-            if (a_str == "lightgreen")
-            {
-                a_out_colour = Color.LightGreen;
-                return true;
-            }
-
-            if (a_str == "brown")
-            {
-                a_out_colour = Color.Brown;
-                return true;
-            }
-
-            CustomConsole.Log("'" + a_str + "' is an invalid colour");
-            a_out_colour = Color.Black;
-            return false;
-        }
     }
 }

@@ -38,6 +38,7 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.consoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.noteViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.tabControlContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,7 +61,7 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.mainFormTimer = new System.Windows.Forms.Timer(this.components);
             this.versionLabel = new System.Windows.Forms.Label();
-            this.noteViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.langThemeCreatorMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             this.mainTabControl.SuspendLayout();
             this.tabControlContextMenu.SuspendLayout();
@@ -130,6 +131,7 @@
             // 
             this.windowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.consoleToolStripMenuItem,
+            this.langThemeCreatorMenuItem,
             this.noteViewerToolStripMenuItem});
             this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
             this.windowToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
@@ -138,9 +140,16 @@
             // consoleToolStripMenuItem
             // 
             this.consoleToolStripMenuItem.Name = "consoleToolStripMenuItem";
-            this.consoleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.consoleToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.consoleToolStripMenuItem.Text = "Console";
             this.consoleToolStripMenuItem.Click += new System.EventHandler(this.consoleToolStripMenuItem_Click);
+            // 
+            // noteViewerToolStripMenuItem
+            // 
+            this.noteViewerToolStripMenuItem.Name = "noteViewerToolStripMenuItem";
+            this.noteViewerToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.noteViewerToolStripMenuItem.Text = "Note Viewer";
+            this.noteViewerToolStripMenuItem.Click += new System.EventHandler(this.noteViewerToolStripMenuItem_Click);
             // 
             // mainTabControl
             // 
@@ -373,12 +382,12 @@
             this.versionLabel.Text = "VERSION";
             this.versionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // noteViewerToolStripMenuItem
+            // langThemeCreatorMenuItem
             // 
-            this.noteViewerToolStripMenuItem.Name = "noteViewerToolStripMenuItem";
-            this.noteViewerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.noteViewerToolStripMenuItem.Text = "Note Viewer";
-            this.noteViewerToolStripMenuItem.Click += new System.EventHandler(this.noteViewerToolStripMenuItem_Click);
+            this.langThemeCreatorMenuItem.Name = "langThemeCreatorMenuItem";
+            this.langThemeCreatorMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.langThemeCreatorMenuItem.Text = "Language Theme Creator";
+            this.langThemeCreatorMenuItem.Click += new System.EventHandler(this.langThemeCreatorMenuItem_Click);
             // 
             // MainForm
             // 
@@ -442,5 +451,6 @@
         private System.Windows.Forms.Button format_listButton;
         private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.ToolStripMenuItem noteViewerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem langThemeCreatorMenuItem;
     }
 }

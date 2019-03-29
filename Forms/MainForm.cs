@@ -51,7 +51,7 @@ namespace ProjectMemo.Forms
             versionLabel.Text = Version;
 
             MainContent.InitFontStyles(template_richTextBox.Font.Size);
-            RtfCodeFormatter.InitKeywordColours("keyword_colours.conf");
+            RtfCodeFormatter.LoadLanguageThemes();
 
             foreach (string str in MainContent.GetFontStyleList())
             {
@@ -430,6 +430,15 @@ namespace ProjectMemo.Forms
             using (NoteViewerForm form = new NoteViewerForm(MainNoteDirectory))
             {
                 form.ShowDialog();
+            }
+        }
+
+        private void langThemeCreatorMenuItem_Click(object sender, EventArgs e)
+        {
+            using (ColorDialog dialog = new ColorDialog())
+            {
+                dialog.ShowDialog();
+                Console.WriteLine(dialog.Color);
             }
         }
     }

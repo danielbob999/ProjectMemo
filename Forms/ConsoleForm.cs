@@ -38,22 +38,6 @@ namespace ProjectMemo.Forms
                     CustomConsole.Log("Set MainForm.SaveLock to " + MainForm.SaveLock);
                     return;
                 }
-
-                if (command == "keywordcolours.print")
-                {
-                    RtfCodeFormatter.PrintKeyworldColours(ref consoleText);
-                    return;
-                }
-
-                if (command.StartsWith("keywordcolours.reload"))
-                {
-                    string[] splitCmd = command.Split(' ');
-                    if (splitCmd.Length == 2)
-                        RtfCodeFormatter.InitKeywordColours(splitCmd[1]);
-                    else
-                        RtfCodeFormatter.InitKeywordColours("keyword_colours.conf");
-                    return;
-                }
             }
         }
 
