@@ -2,14 +2,47 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ProjectMemo.ProjectMemoConsole.CommandAttributes;
 
 namespace ProjectMemo.ProjectMemoConsole
 {
-    static class CustomConsole
+    public static class CustomConsole
     {
+        public delegate void CommandDelegate(string[] a_args); // The delegate used for
+
         private static List<string> msgQueue = new List<string>();
+        private static List<Command> validCommands = new List<Command>();
+
+        public static void Init()
+        {
+            /*
+            validCommands.Add(new Command("console", "help", PrintCommands, new List<string>() { "NULL" }));
+            validCommands.Add(new Command("savelock", "override", TesingMeth, new List<string>() { "NULL", "<int>", "<float> <int>" }));
+            //validCommands.Add(new Command("mainform", "closetab", ));
+
+            CustomConsole.Log("Completed CustomConsole comand setup. " + validCommands.Count + " commands loaded.");*/
+
+            //validCommands.Add(new Command("console.help", PrintCommands, new List<string>() { "" }));
+
+            Console.WriteLine("Looking for CommandMethods in Assembly: " + typeof(CustomConsole).Assembly.GetName());
+            foreach (Type classType in typeof(CustomConsole).Assembly.GetTypes())
+            {
+                foreach (MethodInfo methodInfo in classType.GetMethods())
+                {
+                    foreach (Attribute methodAttribute in methodInfo.GetCustomAttributes())
+                    {
+                        if (methodAttribute.GetType() == typeof(CommandAttributes.CommandMethod))
+                        {
+                            //Console.WriteLine("Found method: {0} in class: {1} with a CommandMethod attribute", methodInfo.Name, classType.Name);
+                            validCommands.Add(new Command(((CommandMethod)methodAttribute).CallString, (CommandDelegate)methodInfo.CreateDelegate(typeof(CommandDelegate)), ((CommandMethod)methodAttribute).ArgOptions));
+                        }
+                    }
+                }
+            }
+        }
 
         public static void Log(string _msg, bool a_disableTrace = false)
         {
@@ -57,9 +90,76 @@ namespace ProjectMemo.ProjectMemoConsole
             return msgQueue.ToArray();
         }
 
-        public static void ProcessCommand(string _cmd)
+        public static void ProcessCommand(string a_cmd)
         {
+            string[] cmdSplitSpaces = a_cmd.Split(' ');
 
+            foreach (Command cmd in validCommands)
+            {
+                if (cmd.CommandCallName == cmdSplitSpaces[0])
+                {
+                    cmd.Invoke(cmdSplitSpaces);
+                }
+            }
+        }
+
+        [CommandMethod("console.help", "", "<string:commandName>")]
+        public static void Help(string[] a_args)
+        {
+            if (a_args.Length == 1)
+            {
+                foreach (Command cmd in validCommands)
+                {
+                    Log(cmd.CommandCallName + " " + cmd.ArgOverloads[0], true);
+                }
+
+                return;
+            }
+
+            foreach (Command cmd in validCommands)
+            {
+                Log(cmd.CommandCallName + ":", true);
+
+                foreach (string argOverload in cmd.ArgOverloads)
+                {
+                    if (argOverload == "")
+                    {
+                        Log("      0 args", true);
+                        continue;
+                    }
+
+                    Log("      " + argOverload, true);
+                }
+            }
+        }
+
+        public static void TesingMeth(string[] a_args)
+        {
+            Console.WriteLine("Running method. {0} args", a_args.Length);
+
+            if (a_args.Length == 2)
+            {
+                CustomConsole.Log("Run with no args");
+                return;
+            }
+
+            if (a_args.Length == 3)
+            {
+                CustomConsole.Log("Run with 1 arg: " + Convert.ToInt32(a_args[2]));
+            }
+
+            if (a_args.Length == 4)
+            {
+                if (float.TryParse(a_args[2], out float res))
+                {
+                    CustomConsole.Log("Run with 2 args: " + Convert.ToInt32(a_args[3]) + ", " + res);
+                }
+            }
+        }
+
+        public static void TestAttribMethod(string[] a_args)
+        {
+            CustomConsole.Log("FromMethod: " + a_args[1]);
         }
     }
 }

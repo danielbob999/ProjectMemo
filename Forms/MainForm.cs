@@ -17,9 +17,11 @@ namespace ProjectMemo.Forms
 {
     public partial class MainForm : Form
     {
+        public static MainForm ThisForm;
+
         private const int VERSION_MAJOR = 5;
-        private const int VERSION_MINOR = 1;
-        private const int VERSION_PATCH = 2;
+        private const int VERSION_MINOR = 2;
+        private const int VERSION_PATCH = 0;
 
         public static string Version
         {
@@ -47,6 +49,9 @@ namespace ProjectMemo.Forms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            CustomConsole.Init();
+            ThisForm = this;
+
             CustomConsole.Log("Loading MainForm. (" + Version + ")", true);
             versionLabel.Text = Version;
 
@@ -439,6 +444,56 @@ namespace ProjectMemo.Forms
             {
                 dialog.ShowDialog();
                 Console.WriteLine(dialog.Color);
+            }
+        }
+
+        public static void CloseTabCommand(string[] a_args)
+        {
+            if (a_args.Length == 3)
+            {
+                if (a_args[2] == "all")
+                {
+                    ThisForm.CloseTab(-2);
+                }
+
+                if (a_args[2] == "active")
+                {
+                    ThisForm.CloseTab(-1);
+                }
+
+                try
+                {
+                    int indx = Convert.ToInt32(a_args[2]);
+                    ThisForm.CloseTab(indx);
+                }
+                catch (Exception e)
+                {
+                    CustomConsole.Log("Failed to convert '" + a_args[2] + "' to type int");
+                }
+            }
+            else
+            {
+                CustomConsole.Log("No override for command " + a_args[0] + "." + a_args[1] + " that takes " + a_args.Length + " arguments.");
+            }
+        }
+
+        public void CloseTab(int a_id)
+        {
+            // Close all tabs
+            if (a_id == -2)
+            {
+                mainTabControl.TabPages.Clear();
+            }
+
+            // Close the active tab
+            if (a_id == -1)
+            {
+                mainTabControl.TabPages.Remove(mainTabControl.SelectedTab);
+            }
+
+            if (a_id < mainTabControl.TabPages.Count)
+            {
+                mainTabControl.TabPages.RemoveAt(a_id);
             }
         }
     }

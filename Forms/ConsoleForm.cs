@@ -32,12 +32,15 @@ namespace ProjectMemo.Forms
                 inputTextBox.Text = "";
                 CustomConsole.LogCommand(command);
 
+                CustomConsole.ProcessCommand(command);
+
+                /*
                 if (command == "savelock.override")
                 {
                     MainForm.SaveLock = false;
                     CustomConsole.Log("Set MainForm.SaveLock to " + MainForm.SaveLock);
                     return;
-                }
+                }*/
             }
         }
 

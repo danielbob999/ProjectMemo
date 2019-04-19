@@ -69,6 +69,8 @@
       <DependentUpon>NoteViewerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="NoteViewing\NoteViewingData.cs" />
+    <Compile Include="ProjectMemoConsole\Command.cs" />
+    <Compile Include="ProjectMemoConsole\CommandAttributes\CommandMethod.cs" />
     <Compile Include="ProjectMemoConsole\CustomConsole.cs" />
     <Compile Include="Forms\ConsoleForm.cs">
       <SubType>Form</SubType>
