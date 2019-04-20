@@ -30,6 +30,10 @@ namespace ProjectMemo.Forms
         private string mSearchTerm = "";
         private bool mCanDisplaySearch = false;
 
+        // dsadasd
+        public bool shiftActive = false;
+        public bool altActive = false;
+
         public NoteViewerForm(string a_noteDir)
         {
             mMainNoteDirectory = a_noteDir;
@@ -223,6 +227,17 @@ namespace ProjectMemo.Forms
             else
             {
                 CustomConsole.Log("No override for command " + a_args[0] + " that takes " + a_args.Length + " arguments.");
+            }
+        }
+
+        private void NoteViewerForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.Oemtilde)
+            {
+                using (ConsoleForm form = new ConsoleForm(GetType().Name))
+                {
+                    form.ShowDialog();
+                }
             }
         }
     }

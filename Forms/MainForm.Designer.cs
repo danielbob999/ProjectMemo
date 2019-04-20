@@ -38,6 +38,7 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.consoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.langThemeCreatorMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noteViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.tabControlContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -61,7 +62,6 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.mainFormTimer = new System.Windows.Forms.Timer(this.components);
             this.versionLabel = new System.Windows.Forms.Label();
-            this.langThemeCreatorMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             this.mainTabControl.SuspendLayout();
             this.tabControlContextMenu.SuspendLayout();
@@ -143,6 +143,13 @@
             this.consoleToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.consoleToolStripMenuItem.Text = "Console";
             this.consoleToolStripMenuItem.Click += new System.EventHandler(this.consoleToolStripMenuItem_Click);
+            // 
+            // langThemeCreatorMenuItem
+            // 
+            this.langThemeCreatorMenuItem.Name = "langThemeCreatorMenuItem";
+            this.langThemeCreatorMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.langThemeCreatorMenuItem.Text = "Language Theme Creator";
+            this.langThemeCreatorMenuItem.Click += new System.EventHandler(this.langThemeCreatorMenuItem_Click);
             // 
             // noteViewerToolStripMenuItem
             // 
@@ -382,13 +389,6 @@
             this.versionLabel.Text = "VERSION";
             this.versionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // langThemeCreatorMenuItem
-            // 
-            this.langThemeCreatorMenuItem.Name = "langThemeCreatorMenuItem";
-            this.langThemeCreatorMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.langThemeCreatorMenuItem.Text = "Language Theme Creator";
-            this.langThemeCreatorMenuItem.Click += new System.EventHandler(this.langThemeCreatorMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -399,12 +399,14 @@
             this.Controls.Add(this.formatingGroupBox);
             this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.mainMenuStrip);
+            this.KeyPreview = true;
             this.MainMenuStrip = this.mainMenuStrip;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "University Note Program";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
             this.mainTabControl.ResumeLayout(false);

@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.mainTabControl = new System.Windows.Forms.TabControl();
+            this.tabControlContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.default_tab = new System.Windows.Forms.TabPage();
             this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.foldersGroupBox = new System.Windows.Forms.GroupBox();
@@ -51,14 +53,12 @@
             this.resultsGroupBox = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.mainFormTimer = new System.Windows.Forms.Timer(this.components);
-            this.tabControlContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainTabControl.SuspendLayout();
+            this.tabControlContextMenu.SuspendLayout();
             this.default_tab.SuspendLayout();
             this.foldersGroupBox.SuspendLayout();
             this.filtersGroupBox.SuspendLayout();
             this.resultsGroupBox.SuspendLayout();
-            this.tabControlContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainTabControl
@@ -73,6 +73,20 @@
             this.mainTabControl.Size = new System.Drawing.Size(1077, 637);
             this.mainTabControl.TabIndex = 101;
             this.mainTabControl.TabStop = false;
+            // 
+            // tabControlContextMenu
+            // 
+            this.tabControlContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.closeToolStripMenuItem});
+            this.tabControlContextMenu.Name = "tabControlContextMenu";
+            this.tabControlContextMenu.Size = new System.Drawing.Size(104, 26);
+            // 
+            // closeToolStripMenuItem
+            // 
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // default_tab
             // 
@@ -306,20 +320,6 @@
             // 
             this.mainFormTimer.Tick += new System.EventHandler(this.mainFormTimer_Tick);
             // 
-            // tabControlContextMenu
-            // 
-            this.tabControlContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.closeToolStripMenuItem});
-            this.tabControlContextMenu.Name = "tabControlContextMenu";
-            this.tabControlContextMenu.Size = new System.Drawing.Size(104, 26);
-            // 
-            // closeToolStripMenuItem
-            // 
-            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.closeToolStripMenuItem.Text = "Close";
-            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
-            // 
             // NoteViewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -330,17 +330,19 @@
             this.Controls.Add(this.mainDirectoryLabel);
             this.Controls.Add(this.foldersGroupBox);
             this.Controls.Add(this.mainTabControl);
+            this.KeyPreview = true;
             this.Name = "NoteViewerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NoteViewerForm";
             this.Load += new System.EventHandler(this.NoteViewerForm_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NoteViewerForm_KeyDown);
             this.mainTabControl.ResumeLayout(false);
+            this.tabControlContextMenu.ResumeLayout(false);
             this.default_tab.ResumeLayout(false);
             this.foldersGroupBox.ResumeLayout(false);
             this.filtersGroupBox.ResumeLayout(false);
             this.filtersGroupBox.PerformLayout();
             this.resultsGroupBox.ResumeLayout(false);
-            this.tabControlContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

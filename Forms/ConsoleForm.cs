@@ -15,11 +15,11 @@ namespace ProjectMemo.Forms
 {
     public partial class ConsoleForm : Form
     {
-        private List<Thread> threadListRef;
+        private string m_CallingTypeString;
 
-        public ConsoleForm(ref List<Thread> _threadListRef)
+        public ConsoleForm(string a_callingStr)
         {
-            threadListRef = _threadListRef;
+            m_CallingTypeString = a_callingStr;
             InitializeComponent();
         }
 
@@ -46,15 +46,13 @@ namespace ProjectMemo.Forms
 
         private void ConsoleForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            threadListRef.Remove(Thread.CurrentThread);
-            CustomConsole.Log("Closed thread with id: " + Thread.CurrentThread.ManagedThreadId + ". New thread count: " + threadListRef.Count);
             consoleTimer.Stop();
         }
 
         private void ConsoleForm_Load(object sender, EventArgs e)
         {
             consoleTimer.Start();
-            CustomConsole.Log("Opened new instance of ConsoleForm");
+            CustomConsole.Log("Opened new instance of ConsoleForm from " + m_CallingTypeString);
         }
 
         private void consoleTimer_Tick(object sender, EventArgs e)

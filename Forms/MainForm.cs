@@ -206,7 +206,7 @@ namespace ProjectMemo.Forms
 
         private void OpenConsoleForm()
         {
-            using (ConsoleForm form = new ConsoleForm(ref openThreads))
+            using (ConsoleForm form = new ConsoleForm(GetType().Name))
             {
                 form.ShowDialog();
             }
@@ -490,6 +490,17 @@ namespace ProjectMemo.Forms
             else
             {
                 CustomConsole.Log("No override for command " + a_args[0] + " that takes " + a_args.Length + " arguments.");
+            }
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.Oemtilde)
+            {
+                using (ConsoleForm form = new ConsoleForm(GetType().Name))
+                {
+                    form.ShowDialog();
+                }
             }
         }
     }

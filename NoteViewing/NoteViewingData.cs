@@ -39,6 +39,8 @@ namespace ProjectMemo.NoteViewing
                 course = splitFileName[splitFileName.Length - 3];
                 //noteData = File.ReadAllText(a_fullPath);
 
+                Console.WriteLine(course);
+
                 RTB_LOADER.LoadFile(a_fullPath);
                 noteData = RTB_LOADER.Text;
 
@@ -46,18 +48,9 @@ namespace ProjectMemo.NoteViewing
 
                 string[] classTypeSplit = splitFileName[splitFileName.Length - 1].Split('_');
                 classType = classTypeSplit[1].Split('.')[0];
-                Console.WriteLine("Trying to get date from string: '" + classTypeSplit[0] + "'");
 
                 string[] dateStrSplit = classTypeSplit[0].Split('-');
                 date = new DateTime(Convert.ToInt32(dateStrSplit[0]), Convert.ToInt32(dateStrSplit[1]), Convert.ToInt32(dateStrSplit[2]));
-
-                try
-                {
-                    //date = DateTime.ParseExact(classTypeSplit[0], "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                }
-                catch (Exception)
-                {
-                }
             }
         }
 
@@ -106,7 +99,8 @@ namespace ProjectMemo.NoteViewing
                             }
                         }
 
-                        CustomConsole.Log("Loaded " + fileNum + " notes for course " + (course + "\\Notes").Replace(sem, "").Replace("\\", "") + " into a new instance of NoteViewingData");
+                        //CustomConsole.Log("Loaded " + fileNum + " notes for course " + (course + "\\Notes").Replace(sem, "").Replace("\\", "") + " into a new instance of NoteViewingData");
+                        CustomConsole.Log("Loaded " + fileNum + " notes for course " + course.Replace(a_mainDir, "") + " into a new instance of NoteViewingData");
                     }
                 }
             }
