@@ -64,10 +64,12 @@
             this.ClientSize = new System.Drawing.Size(660, 348);
             this.Controls.Add(this.consoleText);
             this.Controls.Add(this.inputTextBox);
+            this.KeyPreview = true;
             this.Name = "ConsoleForm";
             this.Text = "ConsoleForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConsoleForm_FormClosing);
             this.Load += new System.EventHandler(this.ConsoleForm_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ConsoleForm_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -59,5 +59,13 @@ namespace ProjectMemo.Forms
         {
             consoleText.Lines = CustomConsole.GetMessageQueueAsArray();
         }
+
+        private void ConsoleForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.Oemtilde)
+            {
+                Close();
+            }
+        }
     }
 }
