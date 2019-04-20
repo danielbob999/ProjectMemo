@@ -37,9 +37,6 @@ namespace ProjectMemo.NoteViewing
                 fileName = splitFileName[splitFileName.Length - 1];
                 semester = "\\" + splitFileName[splitFileName.Length - 4];
                 course = splitFileName[splitFileName.Length - 3];
-                //noteData = File.ReadAllText(a_fullPath);
-
-                Console.WriteLine(course);
 
                 RTB_LOADER.LoadFile(a_fullPath);
                 noteData = RTB_LOADER.Text;
@@ -99,7 +96,6 @@ namespace ProjectMemo.NoteViewing
                             }
                         }
 
-                        //CustomConsole.Log("Loaded " + fileNum + " notes for course " + (course + "\\Notes").Replace(sem, "").Replace("\\", "") + " into a new instance of NoteViewingData");
                         CustomConsole.Log("Loaded " + fileNum + " notes for course " + course.Replace(a_mainDir, "") + " into a new instance of NoteViewingData");
                     }
                 }

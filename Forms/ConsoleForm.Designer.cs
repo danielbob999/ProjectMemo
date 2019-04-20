@@ -39,7 +39,7 @@
             this.inputTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.inputTextBox.Location = new System.Drawing.Point(5, 320);
             this.inputTextBox.Name = "inputTextBox";
-            this.inputTextBox.Size = new System.Drawing.Size(650, 23);
+            this.inputTextBox.Size = new System.Drawing.Size(922, 23);
             this.inputTextBox.TabIndex = 1;
             this.inputTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.inputTextBox_KeyDown);
             // 
@@ -54,14 +54,14 @@
             this.consoleText.Name = "consoleText";
             this.consoleText.ReadOnly = true;
             this.consoleText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.consoleText.Size = new System.Drawing.Size(650, 302);
+            this.consoleText.Size = new System.Drawing.Size(922, 302);
             this.consoleText.TabIndex = 2;
             // 
             // ConsoleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(660, 348);
+            this.ClientSize = new System.Drawing.Size(934, 348);
             this.Controls.Add(this.consoleText);
             this.Controls.Add(this.inputTextBox);
             this.KeyPreview = true;
