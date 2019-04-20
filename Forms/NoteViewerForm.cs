@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
 using ProjectMemo.ProjectMemoConsole;
+using ProjectMemo.ProjectMemoConsole.CommandAttributes;
 using ProjectMemo.CustomControls;
 using ProjectMemo.NoteViewing;
 
@@ -16,6 +17,8 @@ namespace ProjectMemo.Forms
 {
     public partial class NoteViewerForm : Form
     {
+        public static NoteViewerForm ThisForm;
+
         private CustomRichTextBox template_rtb;
 
         private NoteViewingData mNoteViewingData;
@@ -35,6 +38,8 @@ namespace ProjectMemo.Forms
 
         private void NoteViewerForm_Load(object sender, EventArgs e)
         {
+            ThisForm = this;
+
             mNoteViewingData = new NoteViewingData(mMainNoteDirectory);
 
             mainDirectoryLabel.Text = mMainNoteDirectory;
@@ -177,6 +182,48 @@ namespace ProjectMemo.Forms
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             mainTabControl.TabPages.Remove(mainTabControl.SelectedTab);
+        }
+
+        [CommandMethod("noteviewer.closetab", "<int:Index>", "<string:Keyword>")]
+        public static void CloseTab(string[] a_args)
+        {
+            if (a_args.Length == 2)
+            {
+                if (a_args[1] == "all")
+                {
+                    ThisForm.mainTabControl.TabPages.Clear();
+                    CustomConsole.Log("Closed all TabPages");
+                    return;
+                }
+
+                if (a_args[1] == "active")
+                {
+                    int selectedIndex = ThisForm.mainTabControl.SelectedIndex;
+                    ThisForm.mainTabControl.TabPages.RemoveAt(selectedIndex);
+                    CustomConsole.Log("Closed selected TabPage. (Index " + selectedIndex + ")");
+                    return;
+                }
+
+                int indx = -1;
+
+                if (Int32.TryParse(a_args[1], out indx))
+                {
+                    if (indx >= ThisForm.mainTabControl.TabPages.Count)
+                    {
+                        CustomConsole.Log("Cannot close TabPage at index " + indx + ". (Index out of bounds)");
+                        return;
+                    }
+
+                    ThisForm.mainTabControl.TabPages.RemoveAt(indx);
+                    CustomConsole.Log("Closed TabPage at index " + indx);
+                }
+
+                Console.WriteLine("Number: " + indx);
+            }
+            else
+            {
+                CustomConsole.Log("No override for command " + a_args[0] + " that takes " + a_args.Length + " arguments.");
+            }
         }
     }
 }

@@ -11,6 +11,7 @@ using System.Threading;
 using System.Windows.Forms;
 using ProjectMemo.CustomControls;
 using ProjectMemo.ProjectMemoConsole;
+using ProjectMemo.ProjectMemoConsole.CommandAttributes;
 using ProjectMemo.Formatting;
 
 namespace ProjectMemo.Forms
@@ -20,7 +21,7 @@ namespace ProjectMemo.Forms
         public static MainForm ThisForm;
 
         private const int VERSION_MAJOR = 5;
-        private const int VERSION_MINOR = 2;
+        private const int VERSION_MINOR = 3;
         private const int VERSION_PATCH = 0;
 
         public static string Version
@@ -195,9 +196,12 @@ namespace ProjectMemo.Forms
 
         private void consoleToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            /*
             Thread thread = new Thread(OpenConsoleForm);
             thread.Start();
-            openThreads.Add(thread);
+            openThreads.Add(thread);*/
+
+            OpenConsoleForm();
         }
 
         private void OpenConsoleForm()
@@ -447,53 +451,45 @@ namespace ProjectMemo.Forms
             }
         }
 
+        [CommandMethod("mainform.closetab", "<int>", "<string:keyword>")]
         public static void CloseTabCommand(string[] a_args)
         {
-            if (a_args.Length == 3)
+            if (a_args.Length == 2)
             {
-                if (a_args[2] == "all")
+                if (a_args[1] == "all")
                 {
-                    ThisForm.CloseTab(-2);
+                    ThisForm.mainTabControl.TabPages.Clear();
+                    CustomConsole.Log("Closed all TabPages");
+                    return;
                 }
 
-                if (a_args[2] == "active")
+                if (a_args[1] == "active")
                 {
-                    ThisForm.CloseTab(-1);
+                    int selectedIndex = ThisForm.mainTabControl.SelectedIndex;
+                    ThisForm.mainTabControl.TabPages.RemoveAt(selectedIndex);
+                    CustomConsole.Log("Closed selected TabPage. (Index " + selectedIndex + ")");
+                    return;
                 }
 
-                try
+                int indx = -1;
+
+                if (Int32.TryParse(a_args[1], out indx))
                 {
-                    int indx = Convert.ToInt32(a_args[2]);
-                    ThisForm.CloseTab(indx);
+                    if (indx >= ThisForm.mainTabControl.TabPages.Count)
+                    {
+                        CustomConsole.Log("Cannot close TabPage at index " + indx + ". (Index out of bounds)");
+                        return;
+                    }
+
+                    ThisForm.mainTabControl.TabPages.RemoveAt(indx);
+                    CustomConsole.Log("Closed TabPage at index " + indx);
                 }
-                catch (Exception e)
-                {
-                    CustomConsole.Log("Failed to convert '" + a_args[2] + "' to type int");
-                }
+
+                Console.WriteLine("Number: " + indx);
             }
             else
             {
-                CustomConsole.Log("No override for command " + a_args[0] + "." + a_args[1] + " that takes " + a_args.Length + " arguments.");
-            }
-        }
-
-        public void CloseTab(int a_id)
-        {
-            // Close all tabs
-            if (a_id == -2)
-            {
-                mainTabControl.TabPages.Clear();
-            }
-
-            // Close the active tab
-            if (a_id == -1)
-            {
-                mainTabControl.TabPages.Remove(mainTabControl.SelectedTab);
-            }
-
-            if (a_id < mainTabControl.TabPages.Count)
-            {
-                mainTabControl.TabPages.RemoveAt(a_id);
+                CustomConsole.Log("No override for command " + a_args[0] + " that takes " + a_args.Length + " arguments.");
             }
         }
     }

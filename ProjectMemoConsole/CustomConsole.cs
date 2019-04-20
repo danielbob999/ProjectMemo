@@ -18,6 +18,7 @@ namespace ProjectMemo.ProjectMemoConsole
 
         public static void Init()
         {
+            Log("Starting CustomConsole...");
             /*
             validCommands.Add(new Command("console", "help", PrintCommands, new List<string>() { "NULL" }));
             validCommands.Add(new Command("savelock", "override", TesingMeth, new List<string>() { "NULL", "<int>", "<float> <int>" }));
@@ -27,7 +28,9 @@ namespace ProjectMemo.ProjectMemoConsole
 
             //validCommands.Add(new Command("console.help", PrintCommands, new List<string>() { "" }));
 
-            Console.WriteLine("Looking for CommandMethods in Assembly: " + typeof(CustomConsole).Assembly.GetName());
+            Log("Looking for CommandMethods in Assembly: " + typeof(CustomConsole).Assembly.GetName());
+            int i = 0;
+
             foreach (Type classType in typeof(CustomConsole).Assembly.GetTypes())
             {
                 foreach (MethodInfo methodInfo in classType.GetMethods())
@@ -36,12 +39,14 @@ namespace ProjectMemo.ProjectMemoConsole
                     {
                         if (methodAttribute.GetType() == typeof(CommandAttributes.CommandMethod))
                         {
-                            //Console.WriteLine("Found method: {0} in class: {1} with a CommandMethod attribute", methodInfo.Name, classType.Name);
                             validCommands.Add(new Command(((CommandMethod)methodAttribute).CallString, (CommandDelegate)methodInfo.CreateDelegate(typeof(CommandDelegate)), ((CommandMethod)methodAttribute).ArgOptions));
+                            i++;
                         }
                     }
                 }
             }
+
+            Log("Found " + i + " valid commands in Assembly: " + typeof(CustomConsole).Assembly.GetName());
         }
 
         public static void Log(string _msg, bool a_disableTrace = false)
@@ -69,7 +74,7 @@ namespace ProjectMemo.ProjectMemoConsole
         {
             if (_cmdStr != "")
             {
-                string msgStr = string.Format("[{0}] >> {1}", DateTime.Now.ToLongTimeString(), _cmdStr);
+                string msgStr = string.Format("[{0}] >{1}", DateTime.Now.ToLongTimeString(), _cmdStr);
                 msgQueue.Add(msgStr);
                 Console.WriteLine(msgStr);
             }
