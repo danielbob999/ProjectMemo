@@ -164,6 +164,7 @@ namespace ProjectMemo.Formatting
             currentIndex = selectionStart;
 
             ColourLiteralStrings(ref a_richTextBox, a_start, a_end);
+            ColourComments(ref a_richTextBox, a_start, a_end);
         }
 
         private static void ColourLiteralStrings(ref CustomRichTextBox a_richTextBox, int a_start, int a_end)
@@ -171,7 +172,6 @@ namespace ProjectMemo.Formatting
             int currentIndex = 0;
             int selectionEnd = a_end;
             string str = a_richTextBox.Text;
-            bool lastCharWasEndQuote = false;
 
             // Colour literal strings
             bool lookingForEndOfString = false;
@@ -195,7 +195,7 @@ namespace ProjectMemo.Formatting
                 {
                     if (stringStartIndx > 0)
                     {
-                        if (allLanguageThemes[activeThemeIndex].GetColourFromKeyword("literalstring", out Color col))
+                        if (allLanguageThemes[activeThemeIndex].GetColourFromKeyword("__literalstring", out Color col))
                         {
                             a_richTextBox.SelectionStart = stringStartIndx;
                             a_richTextBox.SelectionLength = (currentIndex + 1) - stringStartIndx;
@@ -213,5 +213,61 @@ namespace ProjectMemo.Formatting
 
         }
 
+        private static void ColourComments(ref CustomRichTextBox a_richTextBox, int a_start, int a_end)
+        {
+            int currentIndex = a_start;
+            int selectionEnd = a_end;
+            int stringStartIndex = -1;
+            bool lookingForNextSlash = false;
+            bool foundDoubleSlash = false;
+            string str = a_richTextBox.Text;
+
+            while (currentIndex < selectionEnd)
+            {
+                // If you have found the first \
+                if (str[currentIndex] == '/' && !lookingForNextSlash)
+                {
+                    Console.WriteLine("Found first / at position: " + currentIndex);
+                    lookingForNextSlash = true;
+                    foundDoubleSlash = false;
+                    currentIndex++;
+                    continue;
+                }
+
+                // If you have found the second \
+                if (str[currentIndex] == '/' && lookingForNextSlash)
+                {
+                    Console.WriteLine("Found second / at position: " + currentIndex);
+                    lookingForNextSlash = false;
+                    foundDoubleSlash = true;
+                    stringStartIndex = currentIndex - 1;
+                    currentIndex++;
+                    continue;
+                }
+
+                if ((str[currentIndex] == '\n' || str[currentIndex] == '\r') && foundDoubleSlash)
+                {
+                    Console.WriteLine("Found first \\n OR \\r at position: " + currentIndex);
+                    if (stringStartIndex > 0)
+                    {
+                        if (allLanguageThemes[activeThemeIndex].GetColourFromKeyword("__comment", out Color col))
+                        {
+                            a_richTextBox.SelectionStart = stringStartIndex - 1;
+                            a_richTextBox.SelectionLength = (currentIndex + 1) - stringStartIndex;
+                            a_richTextBox.SelectionColor = col;
+                            a_richTextBox.SelectionLength = 0;
+                            a_richTextBox.SelectionColor = Color.Black;
+                        }
+                    }
+
+                    foundDoubleSlash = false;
+                    stringStartIndex = -1;
+                    currentIndex++;
+                    continue;
+                }
+
+                currentIndex++;
+            }
+        }
     }
 }

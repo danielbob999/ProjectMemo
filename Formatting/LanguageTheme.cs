@@ -44,7 +44,7 @@ namespace ProjectMemo.Formatting
         {
             if (classNames.Contains(a_keyword))
             {
-                a_out_colour = keywordColours["classname"];
+                a_out_colour = keywordColours["__classname"];
                 return true;
             }
 
