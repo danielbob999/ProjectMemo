@@ -115,11 +115,6 @@ namespace ProjectMemo.Formatting
             int selectionEnd = a_end;
             int currentIndex = selectionStart;
             bool nextWordIsClassName = false;
-            bool stringIsLiteralString = false;
-            bool nextIsSpace = false;
-
-            //Console.WriteLine(str[selectionStart]);
-            //Console.WriteLine("Start: {0}, End: {1}", selectionStart, selectionEnd);
 
             a_richTextBox.SelectionStart = a_start;
             a_richTextBox.SelectionLength = a_end - a_start;
@@ -167,40 +162,53 @@ namespace ProjectMemo.Formatting
             }
 
             currentIndex = selectionStart;
+
+            ColourLiteralStrings(ref a_richTextBox, a_start, a_end);
+        }
+
+        private static void ColourLiteralStrings(ref CustomRichTextBox a_richTextBox, int a_start, int a_end)
+        {
+            int currentIndex = 0;
+            int selectionEnd = a_end;
+            string str = a_richTextBox.Text;
+            bool lastCharWasEndQuote = false;
+
             // Colour literal strings
+            bool lookingForEndOfString = false;
+            int stringStartIndx = 0;
+
             while (currentIndex < selectionEnd)
             {
-                bool lookForEndOfString = false;
-                int stringStartIndx = 0;
-
-                while (currentIndex < selectionEnd)
+                if (str[currentIndex] != '"')
                 {
-                    if (str[currentIndex] == '"' && lookForEndOfString)
+                    currentIndex++;
+                    continue;
+                }
+
+                if (str[currentIndex] == '"' && !lookingForEndOfString) // If you detect a " char and it is the first one in the string
+                {
+                    lookingForEndOfString = true;
+                    stringStartIndx = currentIndex;
+                    currentIndex++;
+                }
+                else // If you detect a " char and it is the end of a literal string
+                {
+                    if (stringStartIndx > 0)
                     {
-                        Color col;
-                        if (allLanguageThemes[activeThemeIndex].GetColourFromKeyword("literalstring", out col))
+                        if (allLanguageThemes[activeThemeIndex].GetColourFromKeyword("literalstring", out Color col))
                         {
                             a_richTextBox.SelectionStart = stringStartIndx;
-                            a_richTextBox.SelectionLength = (currentIndex) - stringStartIndx;
+                            a_richTextBox.SelectionLength = (currentIndex + 1) - stringStartIndx;
                             a_richTextBox.SelectionColor = col;
                             a_richTextBox.SelectionLength = 0;
                             a_richTextBox.SelectionColor = Color.Black;
                         }
-
-                        lookForEndOfString = false;
-                        currentIndex++;
-                        continue;
-                    }
-
-                    if (str[currentIndex] == '"' && !lookForEndOfString)
-                    {
-                        lookForEndOfString = true;
-                        stringStartIndx = currentIndex;
                     }
 
                     currentIndex++;
+                    stringStartIndx = -1;
+                    lookingForEndOfString = false;
                 }
-
             }
 
         }
