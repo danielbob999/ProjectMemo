@@ -21,7 +21,7 @@ namespace ProjectMemo.Forms
         public static MainForm ThisForm;
 
         private const int VERSION_MAJOR = 5;
-        private const int VERSION_MINOR = 4;
+        private const int VERSION_MINOR = 5;
         private const int VERSION_PATCH = 0;
 
         public static string Version
@@ -61,7 +61,14 @@ namespace ProjectMemo.Forms
 
             foreach (string str in MainContent.GetFontStyleList())
             {
-                format_textStyleSelector.Items.Add(str);
+                if (str != "Code Fragment")
+                    format_textStyleSelector.Items.Add(str);
+            }
+
+            foreach (string str in RtfCodeFormatter.GetLanguageThemeTitles())
+            {
+                if (str != "Default")
+                    format_languageSelector.Items.Add(str);
             }
 
             mainFormTimer.Start();
@@ -353,14 +360,14 @@ namespace ProjectMemo.Forms
                 {
 
                     activeRichTextBox.SelectionFont = f;
-
+                    /*
                     if (format_textStyleSelector.SelectedItem.ToString() == "Code Fragment")
                     {
                         int s = activeRichTextBox.SelectionStart;
                         int l = activeRichTextBox.SelectionLength;
                         activeRichTextBox.SelectedText = activeRichTextBox.SelectedText.Replace("\t", "   ");
                         RtfCodeFormatter.ColourCodeFragment(ref activeRichTextBox, s, s + l);
-                    }
+                    }*/
 
                     activeRichTextBox.SelectionStart = activeRichTextBox.SelectionStart + activeRichTextBox.SelectionLength;
                     activeRichTextBox.SelectionLength = 0;
@@ -500,6 +507,27 @@ namespace ProjectMemo.Forms
                 using (ConsoleForm form = new ConsoleForm(GetType().Name))
                 {
                     form.ShowDialog();
+                }
+            }
+        }
+
+        private void format_formatCodeButton_Click(object sender, EventArgs e)
+        {
+            Font f;
+            if (MainContent.GetFontFromStyleString("Code Fragment", out f))
+            {
+                if (activeRichTextBox.SelectedText != "" && format_languageSelector.SelectedItem != null)
+                {
+                    activeRichTextBox.SelectionFont = f;
+
+                    int s = activeRichTextBox.SelectionStart;
+                    int l = activeRichTextBox.SelectionLength;
+                    activeRichTextBox.SelectedText = activeRichTextBox.SelectedText.Replace("\t", "   ");
+                    RtfCodeFormatter.ColourCodeFragment(format_languageSelector.SelectedItem.ToString(), ref activeRichTextBox, s, s + l);
+
+                    activeRichTextBox.SelectionStart = activeRichTextBox.SelectionStart + activeRichTextBox.SelectionLength;
+                    activeRichTextBox.SelectionLength = 0;
+                    activeRichTextBox.SelectionFont = activeRichTextBox.Font;
                 }
             }
         }

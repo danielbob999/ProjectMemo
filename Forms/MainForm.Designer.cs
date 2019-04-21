@@ -47,7 +47,6 @@
             this.default_tab = new System.Windows.Forms.TabPage();
             this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.formatingGroupBox = new System.Windows.Forms.GroupBox();
-            this.format_listButton = new System.Windows.Forms.Button();
             this.format_strikeoutButton = new System.Windows.Forms.Button();
             this.format_underlineButton = new System.Windows.Forms.Button();
             this.format_italicButton = new System.Windows.Forms.Button();
@@ -62,6 +61,8 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.mainFormTimer = new System.Windows.Forms.Timer(this.components);
             this.versionLabel = new System.Windows.Forms.Label();
+            this.format_formatCodeButton = new System.Windows.Forms.Button();
+            this.format_languageSelector = new System.Windows.Forms.ComboBox();
             this.mainMenuStrip.SuspendLayout();
             this.mainTabControl.SuspendLayout();
             this.tabControlContextMenu.SuspendLayout();
@@ -218,7 +219,8 @@
             // 
             // formatingGroupBox
             // 
-            this.formatingGroupBox.Controls.Add(this.format_listButton);
+            this.formatingGroupBox.Controls.Add(this.format_languageSelector);
+            this.formatingGroupBox.Controls.Add(this.format_formatCodeButton);
             this.formatingGroupBox.Controls.Add(this.format_strikeoutButton);
             this.formatingGroupBox.Controls.Add(this.format_underlineButton);
             this.formatingGroupBox.Controls.Add(this.format_italicButton);
@@ -233,20 +235,10 @@
             this.formatingGroupBox.TabStop = false;
             this.formatingGroupBox.Text = "Format:";
             // 
-            // format_listButton
-            // 
-            this.format_listButton.Location = new System.Drawing.Point(4, 87);
-            this.format_listButton.Name = "format_listButton";
-            this.format_listButton.Size = new System.Drawing.Size(113, 26);
-            this.format_listButton.TabIndex = 6;
-            this.format_listButton.Text = "Bulleted List";
-            this.format_listButton.UseVisualStyleBackColor = true;
-            this.format_listButton.Click += new System.EventHandler(this.format_listButton_Click);
-            // 
             // format_strikeoutButton
             // 
             this.format_strikeoutButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Strikeout, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.format_strikeoutButton.Location = new System.Drawing.Point(120, 57);
+            this.format_strikeoutButton.Location = new System.Drawing.Point(120, 91);
             this.format_strikeoutButton.Name = "format_strikeoutButton";
             this.format_strikeoutButton.Size = new System.Drawing.Size(55, 26);
             this.format_strikeoutButton.TabIndex = 5;
@@ -257,7 +249,7 @@
             // format_underlineButton
             // 
             this.format_underlineButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.format_underlineButton.Location = new System.Drawing.Point(177, 57);
+            this.format_underlineButton.Location = new System.Drawing.Point(177, 91);
             this.format_underlineButton.Name = "format_underlineButton";
             this.format_underlineButton.Size = new System.Drawing.Size(55, 26);
             this.format_underlineButton.TabIndex = 4;
@@ -268,7 +260,7 @@
             // format_italicButton
             // 
             this.format_italicButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.format_italicButton.Location = new System.Drawing.Point(62, 57);
+            this.format_italicButton.Location = new System.Drawing.Point(62, 91);
             this.format_italicButton.Name = "format_italicButton";
             this.format_italicButton.Size = new System.Drawing.Size(55, 26);
             this.format_italicButton.TabIndex = 3;
@@ -279,7 +271,7 @@
             // format_boldButton
             // 
             this.format_boldButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.format_boldButton.Location = new System.Drawing.Point(4, 57);
+            this.format_boldButton.Location = new System.Drawing.Point(4, 91);
             this.format_boldButton.Name = "format_boldButton";
             this.format_boldButton.Size = new System.Drawing.Size(55, 26);
             this.format_boldButton.TabIndex = 2;
@@ -389,6 +381,24 @@
             this.versionLabel.Text = "VERSION";
             this.versionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // format_formatCodeButton
+            // 
+            this.format_formatCodeButton.Location = new System.Drawing.Point(120, 57);
+            this.format_formatCodeButton.Name = "format_formatCodeButton";
+            this.format_formatCodeButton.Size = new System.Drawing.Size(111, 28);
+            this.format_formatCodeButton.TabIndex = 7;
+            this.format_formatCodeButton.Text = "Format Code";
+            this.format_formatCodeButton.UseVisualStyleBackColor = true;
+            this.format_formatCodeButton.Click += new System.EventHandler(this.format_formatCodeButton_Click);
+            // 
+            // format_languageSelector
+            // 
+            this.format_languageSelector.FormattingEnabled = true;
+            this.format_languageSelector.Location = new System.Drawing.Point(4, 57);
+            this.format_languageSelector.Name = "format_languageSelector";
+            this.format_languageSelector.Size = new System.Drawing.Size(110, 26);
+            this.format_languageSelector.TabIndex = 8;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -450,9 +460,10 @@
         private System.Windows.Forms.Button format_boldButton;
         private System.Windows.Forms.Button format_fontStyleButton;
         private System.Windows.Forms.ComboBox format_textStyleSelector;
-        private System.Windows.Forms.Button format_listButton;
         private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.ToolStripMenuItem noteViewerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem langThemeCreatorMenuItem;
+        private System.Windows.Forms.Button format_formatCodeButton;
+        private System.Windows.Forms.ComboBox format_languageSelector;
     }
 }

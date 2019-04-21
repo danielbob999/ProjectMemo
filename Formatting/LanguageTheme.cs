@@ -10,16 +10,27 @@ namespace ProjectMemo.Formatting
     public class LanguageTheme
     {
         private string mName;
+        private int m_ColourCount = 0;
         private Dictionary<string, Color> keywordColours = new Dictionary<string, Color>();
         private List<string> classNames = new List<string>();
 
-        public LanguageTheme(string a_name)
+        public int ColourCount
         {
-            mName = a_name;
+            get { return m_ColourCount; }
+        }
+
+        public LanguageTheme()
+        {
         }
 
         public void AddKeywordColour(string a_word, Color a_colour)
         {
+            // If the colour is a unique colour, increase m_ColourCount
+            if (!keywordColours.ContainsValue(a_colour))
+            {
+                m_ColourCount++;
+            }
+
             if (!keywordColours.ContainsKey(a_word))
             {
                 keywordColours.Add(a_word, a_colour);
@@ -63,5 +74,29 @@ namespace ProjectMemo.Formatting
             return mName;
         }
 
+        public void SetName(string a_newName)
+        {
+            mName = a_newName;
+        }
+
+        public string[] GetKeywords()
+        {
+            List<string> allKeywords = new List<string>();
+
+            foreach (KeyValuePair<string, Color> pair in keywordColours)
+            {
+                if (!allKeywords.Contains(pair.Key))
+                {
+                    allKeywords.Add(pair.Key);
+                }
+            }
+
+            return allKeywords.ToArray();
+        }
+
+        public List<string> GetClassNames()
+        {
+            return classNames;
+        }
     }
 }

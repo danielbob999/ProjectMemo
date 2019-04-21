@@ -20,12 +20,12 @@ namespace ProjectMemo.Formatting
         private static List<LanguageTheme> allLanguageThemes = new List<LanguageTheme>();
 
         public static void LoadLanguageThemes()
-        {   
-            int amount = 0;
-
+        {
             // Add a default theme
             allLanguageThemes.Clear();
-            allLanguageThemes.Add(new LanguageTheme("Default"));
+            LanguageTheme defaultTheme = new LanguageTheme();
+            defaultTheme.SetName("Default");
+            allLanguageThemes.Add(defaultTheme);
 
             try
             {
@@ -38,7 +38,7 @@ namespace ProjectMemo.Formatting
 
                     string themeName = path.Replace(Directory.GetCurrentDirectory(), "");
                     themeName = themeName.Replace(THEME_FILE_EXTENSION, "");
-                    LanguageTheme newTheme = new LanguageTheme(themeName);
+                    LanguageTheme newTheme = new LanguageTheme();
 
                     string[] allLines = File.ReadAllLines(path);
                     bool definingColours = false;
@@ -47,6 +47,18 @@ namespace ProjectMemo.Formatting
 
                     foreach (string line in allLines)
                     {
+                        if (line.StartsWith("#title="))
+                        {
+                            string[] titleSplit = line.Split('=');
+
+                            if (titleSplit.Length >= 2)
+                            {
+                                newTheme.SetName(titleSplit[1]);
+                            }
+
+                            continue;
+                        }
+
                         if (line == "#define")
                         {
                             definingColours = true;
@@ -82,7 +94,7 @@ namespace ProjectMemo.Formatting
                     }
 
                     allLanguageThemes.Add(newTheme);
-                    CustomConsole.Log("Added new LanguageTheme called " + newTheme.GetName() + ". " + colourNum + " colours loaded.");
+                    CustomConsole.Log("Added new LanguageTheme called " + newTheme.GetName() + ". " + newTheme.GetKeywords().Length + " keywords and " + newTheme.ColourCount + " colours loaded.");
                 }
 
                 if (allLanguageThemes.Count > 1)
@@ -100,16 +112,19 @@ namespace ProjectMemo.Formatting
 
         }
 
-        public static void PrintKeyworldColours()
+        public static void ColourCodeFragment(string a_languageName, ref CustomRichTextBox a_richTextBox, int a_start, int a_end)
         {
-        }
+            LanguageTheme activeTheme = null;
 
-        public static void UpdateKeywordColour(string a_keyword, Color a_newColour)
-        {
-        }
+            foreach (LanguageTheme theme in allLanguageThemes)
+            {
+                if (theme.GetName() == a_languageName)
+                    activeTheme = theme;
+            }
 
-        public static void ColourCodeFragment(ref CustomRichTextBox a_richTextBox, int a_start, int a_end)
-        {
+            if (activeTheme == null)
+                activeTheme = allLanguageThemes[0];
+
             string str = a_richTextBox.Text;
             int selectionStart = a_start;
             int selectionEnd = a_end;
@@ -163,11 +178,11 @@ namespace ProjectMemo.Formatting
 
             currentIndex = selectionStart;
 
-            ColourLiteralStrings(ref a_richTextBox, a_start, a_end);
-            ColourComments(ref a_richTextBox, a_start, a_end);
+            ColourLiteralStrings(activeTheme, ref a_richTextBox, a_start, a_end);
+            ColourComments(activeTheme, ref a_richTextBox, a_start, a_end);
         }
 
-        private static void ColourLiteralStrings(ref CustomRichTextBox a_richTextBox, int a_start, int a_end)
+        private static void ColourLiteralStrings(LanguageTheme a_theme, ref CustomRichTextBox a_richTextBox, int a_start, int a_end)
         {
             int currentIndex = 0;
             int selectionEnd = a_end;
@@ -213,7 +228,7 @@ namespace ProjectMemo.Formatting
 
         }
 
-        private static void ColourComments(ref CustomRichTextBox a_richTextBox, int a_start, int a_end)
+        private static void ColourComments(LanguageTheme a_theme, ref CustomRichTextBox a_richTextBox, int a_start, int a_end)
         {
             int currentIndex = a_start;
             int selectionEnd = a_end;
@@ -227,7 +242,6 @@ namespace ProjectMemo.Formatting
                 // If you have found the first \
                 if (str[currentIndex] == '/' && !lookingForNextSlash)
                 {
-                    Console.WriteLine("Found first / at position: " + currentIndex);
                     lookingForNextSlash = true;
                     foundDoubleSlash = false;
                     currentIndex++;
@@ -237,7 +251,6 @@ namespace ProjectMemo.Formatting
                 // If you have found the second \
                 if (str[currentIndex] == '/' && lookingForNextSlash)
                 {
-                    Console.WriteLine("Found second / at position: " + currentIndex);
                     lookingForNextSlash = false;
                     foundDoubleSlash = true;
                     stringStartIndex = currentIndex - 1;
@@ -247,7 +260,6 @@ namespace ProjectMemo.Formatting
 
                 if ((str[currentIndex] == '\n' || str[currentIndex] == '\r') && foundDoubleSlash)
                 {
-                    Console.WriteLine("Found first \\n OR \\r at position: " + currentIndex);
                     if (stringStartIndex > 0)
                     {
                         if (allLanguageThemes[activeThemeIndex].GetColourFromKeyword("__comment", out Color col))
@@ -268,6 +280,18 @@ namespace ProjectMemo.Formatting
 
                 currentIndex++;
             }
+        }
+
+        public static string[] GetLanguageThemeTitles()
+        {
+            string[] titleArray = new string[allLanguageThemes.Count];
+
+            for (int i = 0; i < titleArray.Length; i++)
+            {
+                titleArray[i] = allLanguageThemes[i].GetName();
+            }
+
+            return titleArray;
         }
     }
 }
