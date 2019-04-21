@@ -45,13 +45,11 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.default_tab = new System.Windows.Forms.TabPage();
-            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.formatingGroupBox = new System.Windows.Forms.GroupBox();
             this.format_strikeoutButton = new System.Windows.Forms.Button();
             this.format_underlineButton = new System.Windows.Forms.Button();
             this.format_italicButton = new System.Windows.Forms.Button();
             this.format_boldButton = new System.Windows.Forms.Button();
-            this.format_fontStyleButton = new System.Windows.Forms.Button();
             this.format_textStyleSelector = new System.Windows.Forms.ComboBox();
             this.savingGroupBox = new System.Windows.Forms.GroupBox();
             this.semesterSelector = new System.Windows.Forms.ComboBox();
@@ -63,6 +61,7 @@
             this.versionLabel = new System.Windows.Forms.Label();
             this.format_formatCodeButton = new System.Windows.Forms.Button();
             this.format_languageSelector = new System.Windows.Forms.ComboBox();
+            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.mainMenuStrip.SuspendLayout();
             this.mainTabControl.SuspendLayout();
             this.tabControlContextMenu.SuspendLayout();
@@ -205,18 +204,6 @@
             this.default_tab.Text = "default_tab";
             this.default_tab.UseVisualStyleBackColor = true;
             // 
-            // template_richTextBox
-            // 
-            this.template_richTextBox.AcceptsTab = true;
-            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.template_richTextBox.HideSelection = false;
-            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
-            this.template_richTextBox.Name = "template_richTextBox";
-            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
-            this.template_richTextBox.TabIndex = 0;
-            this.template_richTextBox.Text = "Theres are some nootes!";
-            // 
             // formatingGroupBox
             // 
             this.formatingGroupBox.Controls.Add(this.format_languageSelector);
@@ -225,12 +212,11 @@
             this.formatingGroupBox.Controls.Add(this.format_underlineButton);
             this.formatingGroupBox.Controls.Add(this.format_italicButton);
             this.formatingGroupBox.Controls.Add(this.format_boldButton);
-            this.formatingGroupBox.Controls.Add(this.format_fontStyleButton);
             this.formatingGroupBox.Controls.Add(this.format_textStyleSelector);
             this.formatingGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.formatingGroupBox.Location = new System.Drawing.Point(1095, 43);
             this.formatingGroupBox.Name = "formatingGroupBox";
-            this.formatingGroupBox.Size = new System.Drawing.Size(235, 183);
+            this.formatingGroupBox.Size = new System.Drawing.Size(235, 125);
             this.formatingGroupBox.TabIndex = 101;
             this.formatingGroupBox.TabStop = false;
             this.formatingGroupBox.Text = "Format:";
@@ -279,24 +265,14 @@
             this.format_boldButton.UseVisualStyleBackColor = true;
             this.format_boldButton.Click += new System.EventHandler(this.format_boldButton_Click);
             // 
-            // format_fontStyleButton
-            // 
-            this.format_fontStyleButton.Location = new System.Drawing.Point(177, 25);
-            this.format_fontStyleButton.Name = "format_fontStyleButton";
-            this.format_fontStyleButton.Size = new System.Drawing.Size(55, 26);
-            this.format_fontStyleButton.TabIndex = 1;
-            this.format_fontStyleButton.Text = "Set";
-            this.format_fontStyleButton.UseVisualStyleBackColor = true;
-            this.format_fontStyleButton.Click += new System.EventHandler(this.format_fontStyleButton_Click);
-            // 
             // format_textStyleSelector
             // 
+            this.format_textStyleSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.format_textStyleSelector.FormattingEnabled = true;
             this.format_textStyleSelector.Location = new System.Drawing.Point(4, 25);
             this.format_textStyleSelector.Name = "format_textStyleSelector";
-            this.format_textStyleSelector.Size = new System.Drawing.Size(170, 26);
+            this.format_textStyleSelector.Size = new System.Drawing.Size(227, 26);
             this.format_textStyleSelector.TabIndex = 0;
-            this.format_textStyleSelector.Text = "Select Font Style";
             this.format_textStyleSelector.SelectedIndexChanged += new System.EventHandler(this.format_textStyleSelector_SelectedIndexChanged);
             // 
             // savingGroupBox
@@ -393,11 +369,24 @@
             // 
             // format_languageSelector
             // 
+            this.format_languageSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.format_languageSelector.FormattingEnabled = true;
             this.format_languageSelector.Location = new System.Drawing.Point(4, 57);
             this.format_languageSelector.Name = "format_languageSelector";
             this.format_languageSelector.Size = new System.Drawing.Size(110, 26);
             this.format_languageSelector.TabIndex = 8;
+            // 
+            // template_richTextBox
+            // 
+            this.template_richTextBox.AcceptsTab = true;
+            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.template_richTextBox.HideSelection = false;
+            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
+            this.template_richTextBox.Name = "template_richTextBox";
+            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
+            this.template_richTextBox.TabIndex = 0;
+            this.template_richTextBox.Text = "Theres are some nootes!";
             // 
             // MainForm
             // 
@@ -458,7 +447,6 @@
         private System.Windows.Forms.Button format_underlineButton;
         private System.Windows.Forms.Button format_italicButton;
         private System.Windows.Forms.Button format_boldButton;
-        private System.Windows.Forms.Button format_fontStyleButton;
         private System.Windows.Forms.ComboBox format_textStyleSelector;
         private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.ToolStripMenuItem noteViewerToolStripMenuItem;

@@ -26,6 +26,7 @@ namespace ProjectMemo
             DefaultFontSize = _defaultFontSize;
 
             // Headings
+            fontStyles.Add("Regular Text", new Font("Microsoft Sans Serif", _defaultFontSize, FontStyle.Regular));
             fontStyles.Add("Heading 1", new Font("Microsoft Sans Serif", 20.0f, FontStyle.Bold));
             fontStyles.Add("Heading 2", new Font("Microsoft Sans Serif", 16.0f, FontStyle.Bold));
             fontStyles.Add("Heading 3", new Font("Microsoft Sans Serif", 13.0f, FontStyle.Bold));

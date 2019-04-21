@@ -67,8 +67,7 @@ namespace ProjectMemo.Forms
 
             foreach (string str in RtfCodeFormatter.GetLanguageThemeTitles())
             {
-                if (str != "Default")
-                    format_languageSelector.Items.Add(str);
+                format_languageSelector.Items.Add(str);
             }
 
             mainFormTimer.Start();
@@ -356,23 +355,26 @@ namespace ProjectMemo.Forms
             Font f;
             if (MainContent.GetFontFromStyleString(format_textStyleSelector.SelectedItem.ToString(), out f))
             {
+                /*
                 if (activeRichTextBox.SelectedText != "")
                 {
 
                     activeRichTextBox.SelectionFont = f;
-                    /*
+                    
                     if (format_textStyleSelector.SelectedItem.ToString() == "Code Fragment")
                     {
                         int s = activeRichTextBox.SelectionStart;
                         int l = activeRichTextBox.SelectionLength;
                         activeRichTextBox.SelectedText = activeRichTextBox.SelectedText.Replace("\t", "   ");
                         RtfCodeFormatter.ColourCodeFragment(ref activeRichTextBox, s, s + l);
-                    }*/
+                    }
 
                     activeRichTextBox.SelectionStart = activeRichTextBox.SelectionStart + activeRichTextBox.SelectionLength;
                     activeRichTextBox.SelectionLength = 0;
                     activeRichTextBox.SelectionFont = activeRichTextBox.Font;
-                }
+                }*/
+
+                activeRichTextBox.SelectionFont = f;
             }
         }
 
@@ -428,7 +430,12 @@ namespace ProjectMemo.Forms
 
         private void format_textStyleSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
+            Font f;
+            if (MainContent.GetFontFromStyleString(format_textStyleSelector.SelectedItem.ToString(), out f))
+            {
 
+                activeRichTextBox.SelectionFont = f;
+            }
         }
 
         private void format_listButton_Click(object sender, EventArgs e)
