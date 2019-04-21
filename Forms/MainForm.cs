@@ -22,7 +22,7 @@ namespace ProjectMemo.Forms
 
         private const int VERSION_MAJOR = 5;
         private const int VERSION_MINOR = 5;
-        private const int VERSION_PATCH = 0;
+        private const int VERSION_PATCH = 1;
 
         public static string Version
         {
@@ -110,6 +110,7 @@ namespace ProjectMemo.Forms
                     semesterSelector.Items.Add(str.Replace(mMainNoteDirectory, ""));*/
 
             formLoaded = true;
+            format_textStyleSelector.SelectedIndex = 0;
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -350,34 +351,6 @@ namespace ProjectMemo.Forms
             return i;
         }
 
-        private void format_fontStyleButton_Click(object sender, EventArgs e)
-        {
-            Font f;
-            if (MainContent.GetFontFromStyleString(format_textStyleSelector.SelectedItem.ToString(), out f))
-            {
-                /*
-                if (activeRichTextBox.SelectedText != "")
-                {
-
-                    activeRichTextBox.SelectionFont = f;
-                    
-                    if (format_textStyleSelector.SelectedItem.ToString() == "Code Fragment")
-                    {
-                        int s = activeRichTextBox.SelectionStart;
-                        int l = activeRichTextBox.SelectionLength;
-                        activeRichTextBox.SelectedText = activeRichTextBox.SelectedText.Replace("\t", "   ");
-                        RtfCodeFormatter.ColourCodeFragment(ref activeRichTextBox, s, s + l);
-                    }
-
-                    activeRichTextBox.SelectionStart = activeRichTextBox.SelectionStart + activeRichTextBox.SelectionLength;
-                    activeRichTextBox.SelectionLength = 0;
-                    activeRichTextBox.SelectionFont = activeRichTextBox.Font;
-                }*/
-
-                activeRichTextBox.SelectionFont = f;
-            }
-        }
-
         private void format_boldButton_Click(object sender, EventArgs e)
         {
             if (activeRichTextBox.SelectedText != "")
@@ -433,8 +406,8 @@ namespace ProjectMemo.Forms
             Font f;
             if (MainContent.GetFontFromStyleString(format_textStyleSelector.SelectedItem.ToString(), out f))
             {
-
-                activeRichTextBox.SelectionFont = f;
+                if (activeRichTextBox != null)
+                    activeRichTextBox.SelectionFont = f;
             }
         }
 
