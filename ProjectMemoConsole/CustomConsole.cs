@@ -97,7 +97,7 @@ namespace ProjectMemo.ProjectMemoConsole
 
         public static void ProcessCommand(string a_cmd)
         {
-            string[] cmdSplitSpaces = a_cmd.Split(' ');
+            string[] cmdSplitSpaces = SplitConsoleCommand(a_cmd);
 
             foreach (Command cmd in validCommands)
             {
@@ -106,6 +106,52 @@ namespace ProjectMemo.ProjectMemoConsole
                     cmd.Invoke(cmdSplitSpaces);
                 }
             }
+        }
+
+        private static string[] SplitConsoleCommand(string a_cmd)
+        {
+            List<string> argList = new List<string>();
+            int i = 0;
+            string nextString = "";
+            bool lookingForEndQuotes = false;
+
+            while (i < a_cmd.Length)
+            {
+                if (a_cmd[i] == '"' && lookingForEndQuotes)
+                {
+                    if (nextString != "")
+                        argList.Add(nextString);
+                    nextString = "";
+                    lookingForEndQuotes = false;
+                    i++;
+                    continue;
+                }
+
+                if (a_cmd[i] == '"' && !lookingForEndQuotes)
+                {
+                    lookingForEndQuotes = true;
+                    i++;
+                    continue;
+                }
+
+                if (a_cmd[i] == ' ' && !lookingForEndQuotes)
+                {
+                    if (nextString != "")
+                        argList.Add(nextString);
+                    nextString = "";
+                    i++;
+                    continue;
+                }
+
+                nextString += a_cmd[i];
+                i++;
+            }
+
+            if (i == a_cmd.Length)
+                if (nextString != "")
+                    argList.Add(nextString);
+
+            return argList.ToArray();
         }
 
         [CommandMethod("console.help", "", "<string:commandName>")]
@@ -136,35 +182,6 @@ namespace ProjectMemo.ProjectMemoConsole
                     Log("      " + argOverload, true);
                 }
             }
-        }
-
-        public static void TesingMeth(string[] a_args)
-        {
-            Console.WriteLine("Running method. {0} args", a_args.Length);
-
-            if (a_args.Length == 2)
-            {
-                CustomConsole.Log("Run with no args");
-                return;
-            }
-
-            if (a_args.Length == 3)
-            {
-                CustomConsole.Log("Run with 1 arg: " + Convert.ToInt32(a_args[2]));
-            }
-
-            if (a_args.Length == 4)
-            {
-                if (float.TryParse(a_args[2], out float res))
-                {
-                    CustomConsole.Log("Run with 2 args: " + Convert.ToInt32(a_args[3]) + ", " + res);
-                }
-            }
-        }
-
-        public static void TestAttribMethod(string[] a_args)
-        {
-            CustomConsole.Log("FromMethod: " + a_args[1]);
         }
     }
 }

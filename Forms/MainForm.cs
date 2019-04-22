@@ -22,7 +22,7 @@ namespace ProjectMemo.Forms
 
         private const int VERSION_MAJOR = 5;
         private const int VERSION_MINOR = 5;
-        private const int VERSION_PATCH = 1;
+        private const int VERSION_PATCH = 2;
 
         public static string Version
         {
@@ -37,7 +37,6 @@ namespace ProjectMemo.Forms
         private CustomRichTextBox activeRichTextBox;
 
         private bool formLoaded = false;
-        private bool testingBool = false;
 
         public static bool SaveLock = false;
         public static bool DisableSaveButton = false;
@@ -115,6 +114,7 @@ namespace ProjectMemo.Forms
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            /*
             CustomRichTextBox newBox = new CustomRichTextBox();
             newBox.Font = new Font(newBox.Font.FontFamily, 10.5f, FontStyle.Regular);
             newBox.Size = template_rtb.Size;
@@ -138,7 +138,9 @@ namespace ProjectMemo.Forms
                         CustomConsole.Log("Set the child of CustomTab with id: " + ((CustomTab)mainTabControl.SelectedTab).mTabId + " to the active CustomRichTextBox");
                     }
                 }
-            }
+            }*/
+
+            OpenTab();
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -258,6 +260,7 @@ namespace ProjectMemo.Forms
                 return;
             }
 
+            /*
             string[] splitFileName = filePath.Split('\\');
 
             string temp_semester = splitFileName[splitFileName.Length - 4];
@@ -283,7 +286,9 @@ namespace ProjectMemo.Forms
 
             CustomConsole.Log("Opened file to edit: " + filePath);
 
-            mainTabControl.SelectedIndex = mainTabControl.TabPages.Count - 1;
+            mainTabControl.SelectedIndex = mainTabControl.TabPages.Count - 1;*/
+
+            OpenTab(filePath);
         }
 
         private void semesterSelector_SelectedIndexChanged(object sender, EventArgs e)
@@ -397,8 +402,6 @@ namespace ProjectMemo.Forms
                 activeRichTextBox.SelectionLength = 0;
                 activeRichTextBox.SelectionFont = activeRichTextBox.Font;
             }
-
-            testingBool = true;
         }
 
         private void format_textStyleSelector_SelectedIndexChanged(object sender, EventArgs e)
@@ -476,7 +479,7 @@ namespace ProjectMemo.Forms
             }
             else
             {
-                CustomConsole.Log("No override for command " + a_args[0] + " that takes " + a_args.Length + " arguments.");
+                CustomConsole.Log("No override for command " + a_args[0] + " that takes " + (a_args.Length - 1) + " arguments.");
             }
         }
 
@@ -510,6 +513,85 @@ namespace ProjectMemo.Forms
                     activeRichTextBox.SelectionFont = activeRichTextBox.Font;
                 }
             }
+        }
+
+        private void OpenTab(string a_path = "NULL")
+        {
+            CustomRichTextBox newBox = new CustomRichTextBox();
+            newBox.Font = new Font(newBox.Font.FontFamily, 10.5f, FontStyle.Regular);
+            newBox.Size = template_rtb.Size;
+            newBox.Location = template_rtb.Location;
+            newBox.HideSelection = false;
+
+            if (a_path == "NULL")
+            {
+                // Create new tab, make sure all TabPage values are srt to null
+                CustomTab newTab = new CustomTab(null, null, null, true, null);
+                newTab.Text = "Untitled_" + GetNumberOfUntitledTabs();
+                newTab.Controls.Add(newBox);
+
+                mainTabControl.TabPages.Add(newTab);
+
+                if (mainTabControl.TabPages.Count == 1)
+                {
+                    foreach (Control ctrl in mainTabControl.SelectedTab.Controls)
+                    {
+                        if (ctrl.GetType() == typeof(CustomRichTextBox))
+                        {
+                            activeRichTextBox = (CustomRichTextBox)ctrl;
+                            CustomConsole.Log("Set the child of CustomTab with id: " + ((CustomTab)mainTabControl.SelectedTab).mTabId + " to the active CustomRichTextBox");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                string[] splitFileName = a_path.Split('\\');
+
+                string temp_semester = splitFileName[splitFileName.Length - 4];
+
+                string[] classTypeSplit = splitFileName[splitFileName.Length - 1].Split('_');
+                string temp_classtype = classTypeSplit[1].Split('.')[0];
+                string temp_course = splitFileName[splitFileName.Length - 3];
+
+                newBox.LoadFile(a_path);
+
+                // Create new tab, make sure all TabPage values are srt to null
+                CustomTab newTab = new CustomTab(temp_semester, temp_course, temp_classtype, false, a_path);
+                newTab.Text = string.Format("[{0}] {1}", temp_course, splitFileName[splitFileName.Length - 1]);
+                newTab.Controls.Add(newBox);
+
+                mainTabControl.TabPages.Add(newTab);
+
+                CustomConsole.Log("Opened file to edit: " + a_path);
+
+                mainTabControl.SelectedIndex = mainTabControl.TabPages.Count - 1;
+            }
+        }
+
+        [CommandMethod("mainform.opentab", "", "<string:Path")]
+        public static void AddTabCommand(string[] a_args)
+        {
+            if (a_args.Length == 1)
+            {
+                ThisForm.OpenTab();
+                return;
+            }
+
+            if (a_args.Length >= 2)
+            {
+                if (!File.Exists(a_args[1]))
+                {
+                    CustomConsole.Log("The path: " + a_args[1] + " is not a valid path");
+                    return;
+                }
+
+                ThisForm.OpenTab(a_args[1]);
+
+                return;
+            }
+
+
         }
     }
 }

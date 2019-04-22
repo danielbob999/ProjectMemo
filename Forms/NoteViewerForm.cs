@@ -135,7 +135,7 @@ namespace ProjectMemo.Forms
                 {
                     courseSelector.Items.Add(folder.Replace(mMainNoteDirectory + semesterSelector.SelectedItem, "").Replace("\\", ""));
 
-                    logStr += (folder + ", ");
+                    logStr += (folder.Replace(mMainNoteDirectory, "") + ", ");
                 }
 
                 CustomConsole.Log("Updated courseSelector.Items based on the semester: " + semesterSelector.SelectedItem);
