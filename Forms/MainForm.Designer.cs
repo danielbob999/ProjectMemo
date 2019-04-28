@@ -45,7 +45,10 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.default_tab = new System.Windows.Forms.TabPage();
+            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.formatingGroupBox = new System.Windows.Forms.GroupBox();
+            this.format_languageSelector = new System.Windows.Forms.ComboBox();
+            this.format_formatCodeButton = new System.Windows.Forms.Button();
             this.format_strikeoutButton = new System.Windows.Forms.Button();
             this.format_underlineButton = new System.Windows.Forms.Button();
             this.format_italicButton = new System.Windows.Forms.Button();
@@ -59,9 +62,6 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.mainFormTimer = new System.Windows.Forms.Timer(this.components);
             this.versionLabel = new System.Windows.Forms.Label();
-            this.format_formatCodeButton = new System.Windows.Forms.Button();
-            this.format_languageSelector = new System.Windows.Forms.ComboBox();
-            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.mainMenuStrip.SuspendLayout();
             this.mainTabControl.SuspendLayout();
             this.tabControlContextMenu.SuspendLayout();
@@ -204,6 +204,18 @@
             this.default_tab.Text = "default_tab";
             this.default_tab.UseVisualStyleBackColor = true;
             // 
+            // template_richTextBox
+            // 
+            this.template_richTextBox.AcceptsTab = true;
+            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.template_richTextBox.HideSelection = false;
+            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
+            this.template_richTextBox.Name = "template_richTextBox";
+            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
+            this.template_richTextBox.TabIndex = 0;
+            this.template_richTextBox.Text = "Theres are some nootes!";
+            // 
             // formatingGroupBox
             // 
             this.formatingGroupBox.Controls.Add(this.format_languageSelector);
@@ -220,6 +232,25 @@
             this.formatingGroupBox.TabIndex = 101;
             this.formatingGroupBox.TabStop = false;
             this.formatingGroupBox.Text = "Format:";
+            // 
+            // format_languageSelector
+            // 
+            this.format_languageSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.format_languageSelector.FormattingEnabled = true;
+            this.format_languageSelector.Location = new System.Drawing.Point(4, 57);
+            this.format_languageSelector.Name = "format_languageSelector";
+            this.format_languageSelector.Size = new System.Drawing.Size(110, 26);
+            this.format_languageSelector.TabIndex = 8;
+            // 
+            // format_formatCodeButton
+            // 
+            this.format_formatCodeButton.Location = new System.Drawing.Point(120, 57);
+            this.format_formatCodeButton.Name = "format_formatCodeButton";
+            this.format_formatCodeButton.Size = new System.Drawing.Size(111, 28);
+            this.format_formatCodeButton.TabIndex = 7;
+            this.format_formatCodeButton.Text = "Format Code";
+            this.format_formatCodeButton.UseVisualStyleBackColor = true;
+            this.format_formatCodeButton.Click += new System.EventHandler(this.format_formatCodeButton_Click);
             // 
             // format_strikeoutButton
             // 
@@ -357,37 +388,6 @@
             this.versionLabel.Text = "VERSION";
             this.versionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // format_formatCodeButton
-            // 
-            this.format_formatCodeButton.Location = new System.Drawing.Point(120, 57);
-            this.format_formatCodeButton.Name = "format_formatCodeButton";
-            this.format_formatCodeButton.Size = new System.Drawing.Size(111, 28);
-            this.format_formatCodeButton.TabIndex = 7;
-            this.format_formatCodeButton.Text = "Format Code";
-            this.format_formatCodeButton.UseVisualStyleBackColor = true;
-            this.format_formatCodeButton.Click += new System.EventHandler(this.format_formatCodeButton_Click);
-            // 
-            // format_languageSelector
-            // 
-            this.format_languageSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.format_languageSelector.FormattingEnabled = true;
-            this.format_languageSelector.Location = new System.Drawing.Point(4, 57);
-            this.format_languageSelector.Name = "format_languageSelector";
-            this.format_languageSelector.Size = new System.Drawing.Size(110, 26);
-            this.format_languageSelector.TabIndex = 8;
-            // 
-            // template_richTextBox
-            // 
-            this.template_richTextBox.AcceptsTab = true;
-            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.template_richTextBox.HideSelection = false;
-            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
-            this.template_richTextBox.Name = "template_richTextBox";
-            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
-            this.template_richTextBox.TabIndex = 0;
-            this.template_richTextBox.Text = "Theres are some nootes!";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -402,7 +402,7 @@
             this.MainMenuStrip = this.mainMenuStrip;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "University Note Program";
+            this.Text = "ProjectMemo";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
