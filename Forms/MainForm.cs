@@ -22,7 +22,7 @@ namespace ProjectMemo.Forms
 
         private const int VERSION_MAJOR = 5;
         private const int VERSION_MINOR = 6;
-        private const int VERSION_PATCH = 0;
+        private const int VERSION_PATCH = 1;
 
         public static string Version
         {
@@ -521,6 +521,7 @@ namespace ProjectMemo.Forms
         private void OpenTab(string a_path = "NULL")
         {
             CustomRichTextBox newBox = new CustomRichTextBox();
+            newBox.OnLineNumberChanged += Event_OnActiveTextBoxLineChanged;
             newBox.Font = new Font(newBox.Font.FontFamily, 10.5f, FontStyle.Regular);
             newBox.Size = template_rtb.Size;
             newBox.Location = template_rtb.Location;
@@ -624,6 +625,11 @@ namespace ProjectMemo.Forms
 
             if (activeRichTextBox != null)
                 activeRichTextBox.Height = newHeight - 35;
+        }
+
+        private void Event_OnActiveTextBoxLineChanged(object sender, EventArgs e)
+        {
+            SetTabControlRTBSize();
         }
     }
 }
