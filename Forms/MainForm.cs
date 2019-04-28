@@ -21,8 +21,8 @@ namespace ProjectMemo.Forms
         public static MainForm ThisForm;
 
         private const int VERSION_MAJOR = 5;
-        private const int VERSION_MINOR = 5;
-        private const int VERSION_PATCH = 2;
+        private const int VERSION_MINOR = 6;
+        private const int VERSION_PATCH = 0;
 
         public static string Version
         {
@@ -110,6 +110,8 @@ namespace ProjectMemo.Forms
 
             formLoaded = true;
             format_textStyleSelector.SelectedIndex = 0;
+
+            SetTabControlRTBSize();
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -166,6 +168,7 @@ namespace ProjectMemo.Forms
                         if (ctrl.GetType() == typeof(CustomRichTextBox))
                         {
                             activeRichTextBox = (CustomRichTextBox)ctrl;
+                            SetTabControlRTBSize();
                             CustomConsole.Log("Set the child of CustomTab with id: " + ((CustomTab)mainTabControl.SelectedTab).mTabId + " to the active CustomRichTextBox");
 
                             if (((CustomTab)mainTabControl.SelectedTab).newFile)
@@ -592,6 +595,35 @@ namespace ProjectMemo.Forms
             }
 
 
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            SetTabControlRTBSize();
+        }
+
+        private void SetTabControlRTBSize()
+        {
+            // Set new width
+            int groupBoxWidth;
+
+            if (formatingGroupBox.Width > savingGroupBox.Width)
+                groupBoxWidth = formatingGroupBox.Width;
+            else
+                groupBoxWidth = savingGroupBox.Width;
+
+            int newWidth = (Size.Width - groupBoxWidth) - (mainTabControl.Location.X + 30);
+            mainTabControl.Width = newWidth;
+            
+            if (activeRichTextBox != null)
+                activeRichTextBox.Width = newWidth - 13;
+
+            // Set new height
+            int newHeight = (Size.Height - mainTabControl.Location.Y) - 63;
+            mainTabControl.Height = newHeight;
+
+            if (activeRichTextBox != null)
+                activeRichTextBox.Height = newHeight - 35;
         }
     }
 }
