@@ -78,6 +78,7 @@ namespace ProjectMemo.Forms
             CustomConsole.Log("Removed the default tab from NoteViewerForm.mainTabControl");
 
             mainFormTimer.Start();
+            ResizeTabControlAndChildren();
         }
 
         public void OpenNote(string a_filePath, string a_fileName, string a_course)
@@ -106,6 +107,8 @@ namespace ProjectMemo.Forms
             newTab.Controls.Add(newBox);
 
             mainTabControl.TabPages.Add(newTab);
+
+            ResizeTabControlAndChildren();
         }
 
         private void mainFormTimer_Tick(object sender, EventArgs e)
@@ -239,6 +242,38 @@ namespace ProjectMemo.Forms
                     form.ShowDialog();
                 }
             }
+        }
+
+        private void ResizeTabControlAndChildren()
+        {
+            int folderBoxWidth = foldersGroupBox.Width;
+
+            // Get new width
+            int newWidth = (Size.Width - mainTabControl.Location.X) - (folderBoxWidth + 40);
+            mainTabControl.Width = newWidth;
+            
+            // Get new height
+            int newHeight = (Size.Height - mainTabControl.Location.Y) - 70;
+            mainTabControl.Height = newHeight;
+
+            foreach (TabPage tab in mainTabControl.TabPages)
+            {
+                CustomTab cTab = (CustomTab)tab;
+
+                foreach (Control ctrl in cTab.Controls)
+                {
+                    if (ctrl.GetType() == typeof(CustomRichTextBox))
+                    {
+                        ctrl.Width = newWidth - 13;
+                        ctrl.Height = newHeight - 35;
+                    }
+                }
+            }
+        }
+
+        private void NoteViewerForm_Resize(object sender, EventArgs e)
+        {
+            ResizeTabControlAndChildren();
         }
     }
 }
