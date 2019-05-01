@@ -222,8 +222,8 @@ namespace ProjectMemo.NoteViewing
             foreach (KeyValuePair<int, ResultNote> pair in finalResults)
             {
                 ViewingSearchResult newResult = new ViewingSearchResult(pair.Value.mNote, pair.Value.mMatchingString);
-                newResult.Width = 144;
                 a_layoutPanel.Controls.Add(newResult);
+                newResult.Width = a_layoutPanel.Width - newResult.Location.X - SystemInformation.VerticalScrollBarWidth - 2;
             }
         }
 

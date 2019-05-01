@@ -33,6 +33,7 @@
             this.tabControlContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.default_tab = new System.Windows.Forms.TabPage();
+            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.foldersGroupBox = new System.Windows.Forms.GroupBox();
             this.courseSelectorLabel = new System.Windows.Forms.Label();
             this.semesterSelector = new System.Windows.Forms.ComboBox();
@@ -52,7 +53,6 @@
             this.resultsGroupBox = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.mainFormTimer = new System.Windows.Forms.Timer(this.components);
-            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.mainTabControl.SuspendLayout();
             this.tabControlContextMenu.SuspendLayout();
             this.default_tab.SuspendLayout();
@@ -98,6 +98,18 @@
             this.default_tab.TabIndex = 0;
             this.default_tab.Text = "default_tab";
             this.default_tab.UseVisualStyleBackColor = true;
+            // 
+            // template_richTextBox
+            // 
+            this.template_richTextBox.AcceptsTab = true;
+            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.template_richTextBox.HideSelection = false;
+            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
+            this.template_richTextBox.Name = "template_richTextBox";
+            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
+            this.template_richTextBox.TabIndex = 0;
+            this.template_richTextBox.Text = "Theres are some nootes!";
             // 
             // foldersGroupBox
             // 
@@ -310,18 +322,6 @@
             // mainFormTimer
             // 
             this.mainFormTimer.Tick += new System.EventHandler(this.mainFormTimer_Tick);
-            // 
-            // template_richTextBox
-            // 
-            this.template_richTextBox.AcceptsTab = true;
-            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.template_richTextBox.HideSelection = false;
-            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
-            this.template_richTextBox.Name = "template_richTextBox";
-            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
-            this.template_richTextBox.TabIndex = 0;
-            this.template_richTextBox.Text = "Theres are some nootes!";
             // 
             // NoteViewerForm
             // 

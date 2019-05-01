@@ -32,6 +32,14 @@ namespace ProjectMemo.CustomControls
 
         private void ViewingSearchResult_Load(object sender, EventArgs e)
         {
+            if (mMatchedTerm == "")
+            {
+                titleLabel.Text = "[" + mNoteData.course + "] " + mNoteData.fileName;
+                searchTermLabel.Text = "";
+                Height = 30;
+                return;
+            }
+
             titleLabel.Text = "[" + mNoteData.course + "] " + mNoteData.fileName;
             searchTermLabel.Text = "... " + mMatchedTerm + " ...";
         }
