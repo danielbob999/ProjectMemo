@@ -27,6 +27,9 @@ namespace ProjectMemo.Forms
         {
             if (e.KeyCode == Keys.Return && inputTextBox.Text != "")
             {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+
                 string command = inputTextBox.Text;
                 string[] splitCommand = command.Split(' ');
                 inputTextBox.Text = "";

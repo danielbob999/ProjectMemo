@@ -11,7 +11,7 @@ namespace ProjectMemo.ProjectMemoConsole
 {
     public static class CustomConsole
     {
-        public delegate void CommandDelegate(string[] a_args); // The delegate used for
+        public delegate void CommandDelegate(string[] a_args); // The delegate used for command logic
 
         private static List<string> msgQueue = new List<string>();
         private static List<Command> validCommands = new List<Command>();
@@ -31,14 +31,10 @@ namespace ProjectMemo.ProjectMemoConsole
             Log("Looking for CommandMethods in Assembly: " + typeof(CustomConsole).Assembly.GetName());
             int i = 0;
 
-            foreach (Type classType in typeof(CustomConsole).Assembly.GetTypes())
-            {
-                foreach (MethodInfo methodInfo in classType.GetMethods())
-                {
-                    foreach (Attribute methodAttribute in methodInfo.GetCustomAttributes())
-                    {
-                        if (methodAttribute.GetType() == typeof(CommandAttributes.CommandMethod))
-                        {
+            foreach (Type classType in typeof(CustomConsole).Assembly.GetTypes()) {
+                foreach (MethodInfo methodInfo in classType.GetMethods()) {
+                    foreach (Attribute methodAttribute in methodInfo.GetCustomAttributes()) {
+                        if (methodAttribute.GetType() == typeof(CommandAttributes.CommandMethod)) {
                             validCommands.Add(new Command(((CommandMethod)methodAttribute).CallString, (CommandDelegate)methodInfo.CreateDelegate(typeof(CommandDelegate)), ((CommandMethod)methodAttribute).ArgOptions));
                             i++;
                         }

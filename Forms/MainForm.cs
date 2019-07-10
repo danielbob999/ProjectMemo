@@ -21,8 +21,8 @@ namespace ProjectMemo.Forms
         public static MainForm ThisForm;
 
         private const int VERSION_MAJOR = 5;
-        private const int VERSION_MINOR = 7;
-        private const int VERSION_PATCH = 1;
+        private const int VERSION_MINOR = 8;
+        private const int VERSION_PATCH = 0;
 
         public static string Version
         {
@@ -52,7 +52,6 @@ namespace ProjectMemo.Forms
             CustomConsole.Init();
             ThisForm = this;
 
-            CustomConsole.Log("Loading MainForm. (" + Version + ")", true);
             versionLabel.Text = Version;
 
             MainContent.InitFontStyles(template_richTextBox.Font.Size);
@@ -437,10 +436,12 @@ namespace ProjectMemo.Forms
 
         private void langThemeCreatorMenuItem_Click(object sender, EventArgs e)
         {
-            using (ColorDialog dialog = new ColorDialog())
+            MessageBox.Show("Not implemented yet", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+
+            using (LanguageThemeCreatorForm form = new LanguageThemeCreatorForm())
             {
-                dialog.ShowDialog();
-                Console.WriteLine(dialog.Color);
+                form.ShowDialog();
             }
         }
 

@@ -61,7 +61,14 @@
     <Compile Include="CustomControls\ViewingSearchResult.designer.cs">
       <DependentUpon>ViewingSearchResult.cs</DependentUpon>
     </Compile>
+    <Compile Include="Formatting\CodeBlockTheme.cs" />
     <Compile Include="Formatting\LanguageTheme.cs" />
+    <Compile Include="Forms\LanguageThemeCreatorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LanguageThemeCreatorForm.Designer.cs">
+      <DependentUpon>LanguageThemeCreatorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\NoteViewerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +108,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ConsoleForm.resx">
       <DependentUpon>ConsoleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LanguageThemeCreatorForm.resx">
+      <DependentUpon>LanguageThemeCreatorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
