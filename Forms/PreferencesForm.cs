@@ -14,13 +14,16 @@ namespace ProjectMemo.Forms
     public partial class PreferencesForm : Form
     {
         public string selectedDirectory = null;
+        public int autoSaveInterval;
 
-        public PreferencesForm(string _currentMainDir)
+        public PreferencesForm(string _currentMainDir, int _autoSaveInt)
         {
             if (_currentMainDir != "" && _currentMainDir != null)
             {
                 selectedDirectory = _currentMainDir;
             }
+
+            autoSaveInterval = _autoSaveInt;
 
             InitializeComponent();
         }
@@ -28,6 +31,7 @@ namespace ProjectMemo.Forms
         private void PreferencesForm_Load(object sender, EventArgs e)
         {
             directoryTextBox.Text = selectedDirectory;
+            autoSaveIntervalInput.Value = autoSaveInterval;
         }
 
         private void browseButton_Click(object sender, EventArgs e)
@@ -44,6 +48,8 @@ namespace ProjectMemo.Forms
 
         private void saveButton_Click(object sender, EventArgs e)
         {
+            autoSaveInterval = (int)autoSaveIntervalInput.Value;
+
             using (System.IO.StreamWriter writer = new System.IO.StreamWriter(IOModule.PREFERENCES_FILENAME))
             {
                 // Write the selected  main directory to teh details file
@@ -55,6 +61,8 @@ namespace ProjectMemo.Forms
                 {
                     writer.WriteLine("NULL");
                 }
+
+                writer.WriteLine(autoSaveIntervalInput.Value);
 
                 writer.Close();
                 writer.Dispose();

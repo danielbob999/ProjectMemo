@@ -181,6 +181,7 @@ namespace ProjectMemo
                 using (StreamReader reader = new StreamReader(PREFERENCES_FILENAME))
                 {
                     _prefs.Add(reader.ReadLine());
+                    _prefs.Add(reader.ReadLine());
 
                     reader.Close();
                     reader.Dispose();

@@ -22,7 +22,7 @@ namespace ProjectMemo.Forms
 
         private const int VERSION_MAJOR = 5;
         private const int VERSION_MINOR = 9;
-        private const int VERSION_PATCH = 0;
+        private const int VERSION_PATCH = 1;
 
         public static string Version
         {
@@ -45,7 +45,7 @@ namespace ProjectMemo.Forms
         private Dictionary<string, string> mRtbData = new Dictionary<string, string>();
         private CustomRichTextBox template_rtb;
         private CustomRichTextBox activeRichTextBox;
-        private float mAutoSaveInterval = 1.0f;
+        private float mAutoSaveInterval = 5.0f;
         private List<string> mLoadedSemesters = new List<string>();
         private bool mSaveLock = false;
         private AutoSaveModule mAutoSaveModule;
@@ -93,6 +93,7 @@ namespace ProjectMemo.Forms
             if (IOModule.ReadPreferencesFromFile(out prefs))
             {
                 MainNoteDirectory = prefs[0];
+                mAutoSaveInterval = Convert.ToInt32(prefs[1]);
             }
 
             // Set the valid semester choices
@@ -198,10 +199,12 @@ namespace ProjectMemo.Forms
 
         private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (PreferencesForm form = new PreferencesForm(MainNoteDirectory))
+            using (PreferencesForm form = new PreferencesForm(MainNoteDirectory, (int)mAutoSaveInterval))
             {
                 form.ShowDialog();
                 MainNoteDirectory = form.selectedDirectory;
+                mAutoSaveInterval = form.autoSaveInterval;
+                Console.WriteLine("AutoSaveInt is now: " + mAutoSaveInterval);
             }
 
             // Set semester folders
