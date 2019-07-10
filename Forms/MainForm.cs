@@ -22,7 +22,7 @@ namespace ProjectMemo.Forms
 
         private const int VERSION_MAJOR = 5;
         private const int VERSION_MINOR = 9;
-        private const int VERSION_PATCH = 1;
+        private const int VERSION_PATCH = 2;
 
         public static string Version
         {
@@ -60,6 +60,7 @@ namespace ProjectMemo.Forms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            IOModule.SetupCurrentDirectory();
             CustomConsole.Init();
             ThisForm = this;
 
@@ -244,19 +245,27 @@ namespace ProjectMemo.Forms
         {
             mainFormTimer.Stop();
 
-            foreach (Thread t in openThreads)
+            List<Thread> tempThreads = new List<Thread>(openThreads);
+            foreach (Thread t in tempThreads)
             {
                 try
                 {
                     int threadId = t.ManagedThreadId;
                     t.Abort();
-                    CustomConsole.Log("Closed thread with id: " + threadId + ". New thread count: " + openThreads.Count);
+                    openThreads.Remove(t);
+                    CustomConsole.Log("Closed thread with id: " + threadId);
                 }
                 catch (ThreadAbortException ex)
                 {
-                    CustomConsole.Log(ex.Message);
+                    //CustomConsole.Log(ex.Message);
                 }
             }
+
+            CustomConsole.Log("Thread count: " + openThreads.Count);
+
+            CustomConsole.Log("Closing MainForm");
+
+            CustomConsole.Close();
         }
 
         private void mainFormTimer_Tick(object sender, EventArgs e) {

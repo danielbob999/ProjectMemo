@@ -13,6 +13,18 @@ namespace ProjectMemo
     {
         public const string PREFERENCES_FILENAME = "preferences.conf";
 
+        public static void SetupCurrentDirectory() {
+            // Check to see if the autosaves folder exists, if not, create it
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\autosaves")) {
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\autosaves");
+            }
+
+            // Check to see if the logs folder exists, if not, create it
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\logs")) {
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\logs");
+            }
+        }
+
         public static void GetNoteDetailsFromFile(string _path, string _mainDir, string _semesterFold, out string _courseId, out string _classType)
         {
             string trimmedString = _path.Replace(_mainDir, "");
@@ -22,153 +34,6 @@ namespace ProjectMemo
 
             _courseId = splitStr[1];
             _classType = splitStr[4];
-        }
-
-
-        public static int SaveToHtml(TextBox _box, string _path)
-        {
-            try
-            {
-                string finalString = "";
-
-                StreamWriter writer = new StreamWriter(File.OpenWrite(_path));
-                writer.WriteLine("<html>\n" +
-                    "<head>\n" +
-                    "<script src=\"https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js\"></script>\n" +
-                    "<link rel='stylesheet' type='text/css' href='../main.css" + "'>\n" +
-                    "</head>\n" +
-                    "<body><div id='main-content'>");
-
-                foreach (string ln in _box.Lines)
-                {
-                    if (ln.StartsWith("[CODEFRAGID=") && ln.EndsWith("]"))
-                    {
-                        writer.WriteLine("<div class='code-div'><code class='prettyprint lang-c'>");
-                        string[] codeFragment = MainContent.GetCodeFragment(ln);
-
-                        foreach (string codeLine in codeFragment)
-                        {
-                            writer.WriteLine(codeLine.Replace(" ", "&nbsp;") + "<br>");
-                        }
-
-                        writer.WriteLine("</code></div>");
-                        continue;
-                    }
-
-                    finalString += ln + "\n";
-                    writer.WriteLine(ln + "<br>");
-                }
-
-                writer.WriteLine("<span id='raw' style='display: none;'>");
-                writer.WriteLine("#RAW_TEXT_START");
-
-                foreach (string line in _box.Lines)
-                {
-                    writer.WriteLine(line);
-                }
-
-                writer.WriteLine("#RAW_TEXT_END");
-
-                writer.WriteLine("#RAW_CODE_START");
-
-                foreach (KeyValuePair<string, string[]> pair in MainContent.codeFragments)
-                {
-                    writer.WriteLine("start_" + pair.Key);
-
-                    foreach (string codeLine in pair.Value)
-                    {
-                        writer.WriteLine(codeLine);
-                    }
-
-                    writer.WriteLine("end_" + pair.Key);
-                }
-
-                writer.WriteLine("#RAW_CODE_END");
-
-                writer.WriteLine("</div></body>\n</html>");
-
-                writer.Close();
-                writer.Dispose();
-
-                CustomConsole.Log("Saved Note to: " + _path);
-
-                return 1;
-            }
-            catch (Exception e)
-            {
-                CustomConsole.Log("IOModule.SaveToHtml has crashed...");
-                CustomConsole.Log(e.Message);
-                return 0;
-            }
-        }
-
-        public static string[] ReadFromHtml(TextBox _box, string _path)
-        {
-            try
-            {
-                string[] fileContents = File.ReadAllLines(_path);
-
-                int rawTextLineStart = -1;
-                int rawCodeLineStart = -1;
-                int rawCodeLineEnd = -1;
-                int indx = 0;
-
-                List<string> textContents = new List<string>();
-
-
-                foreach (string line in fileContents)
-                {
-                    if (line == "#RAW_TEXT_START")
-                    {
-                        rawTextLineStart = indx;
-                        continue;
-                    }
-
-                    if (rawTextLineStart != -1)
-                    {
-                        if (line == "#RAW_TEXT_END")
-                        {
-                            rawTextLineStart = -1;
-                            continue;
-                        }
-
-                        textContents.Add(line);
-                    }
-
-                    if (line == "#RAW_CODE_START")
-                    {
-                        rawCodeLineStart = indx;
-                    }
-
-                    if (rawCodeLineStart != -1)
-                    {
-                        if (line == "#RAW_CODE_END")
-                        {
-                            rawCodeLineEnd = indx;
-                        }
-                    }
-
-                    indx++;
-                }
-
-                List<string> strList = new List<string>();
-
-                for (int i = rawCodeLineStart; i < fileContents.Length; i++)
-                {
-                    strList.Add(fileContents[i]);
-                }
-
-                MainContent.codeFragments = GetCodeFragsFromRawText(strList.ToArray());
-
-                _box.Lines = textContents.ToArray();
-                return textContents.ToArray();
-            }
-            catch (Exception e)
-            {
-                CustomConsole.Log("IOModule.ReadFromHtml has crashed...");
-                CustomConsole.Log(e.Message);
-                return new string[] { };
-            }
         }
 
         public static bool ReadPreferencesFromFile(out List<string> _prefs)

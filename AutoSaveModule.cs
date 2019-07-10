@@ -22,7 +22,7 @@ namespace ProjectMemo
 
         public AutoSaveModule() {
             ActiveInstance = this;
-            mSaveDirectory = Directory.GetCurrentDirectory() + "\\" + "autosaves\\";
+            mSaveDirectory = Directory.GetCurrentDirectory() + "\\autosaves\\";
             mStopWatch = new Stopwatch();
         }
 

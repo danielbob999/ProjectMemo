@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using ProjectMemo.ProjectMemoConsole.CommandAttributes;
 
 namespace ProjectMemo.ProjectMemoConsole
@@ -15,18 +16,24 @@ namespace ProjectMemo.ProjectMemoConsole
 
         private static List<string> msgQueue = new List<string>();
         private static List<Command> validCommands = new List<Command>();
+        private static string mLogFilesDirectory;
+        private static string mCurrentLogFileName;
+        private static bool mLogFileIsActive = false;
 
         public static void Init()
         {
+            mLogFilesDirectory = Directory.GetCurrentDirectory() + "\\logs\\";
+            mCurrentLogFileName = string.Format("log_{0}_{1}_{2}.txt", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+
+            if (!File.Exists(mLogFilesDirectory + mCurrentLogFileName)) {
+                FileStream fs = File.Create(mLogFilesDirectory + mCurrentLogFileName);
+                fs.Close();
+                mLogFileIsActive = true;
+            } else {
+                mLogFileIsActive = true;
+            }
+
             Log("Starting CustomConsole...");
-            /*
-            validCommands.Add(new Command("console", "help", PrintCommands, new List<string>() { "NULL" }));
-            validCommands.Add(new Command("savelock", "override", TesingMeth, new List<string>() { "NULL", "<int>", "<float> <int>" }));
-            //validCommands.Add(new Command("mainform", "closetab", ));
-
-            CustomConsole.Log("Completed CustomConsole comand setup. " + validCommands.Count + " commands loaded.");*/
-
-            //validCommands.Add(new Command("console.help", PrintCommands, new List<string>() { "" }));
 
             Log("Looking for CommandMethods in Assembly: " + typeof(CustomConsole).Assembly.GetName());
             int i = 0;
@@ -43,6 +50,14 @@ namespace ProjectMemo.ProjectMemoConsole
             }
 
             Log("Found " + i + " valid commands in Assembly: " + typeof(CustomConsole).Assembly.GetName());
+
+            // Append all messages already in the message queue to the log file
+            File.AppendAllLines(mLogFilesDirectory + mCurrentLogFileName, msgQueue);
+        }
+
+        public static void Close() {
+            File.AppendAllText(mLogFilesDirectory + mCurrentLogFileName, string.Format("============ Shutdown: {0}:{1}:{2} ============", DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
+            File.AppendAllText(mLogFilesDirectory + mCurrentLogFileName, "\n\n");
         }
 
         public static void Log(string _msg, bool a_disableTrace = false)
@@ -52,17 +67,17 @@ namespace ProjectMemo.ProjectMemoConsole
                 StackTrace trace = new StackTrace();
                 string msgStr;
 
-                if (a_disableTrace)
-                {
+                if (a_disableTrace) {
                     msgStr = string.Format("[{0}] {1}", DateTime.Now.ToLongTimeString(), _msg);
-                }
-                else
-                {
+                } else {
                     msgStr = string.Format("[{0}] {1} ({2}.{3})", DateTime.Now.ToLongTimeString(), _msg, trace.GetFrame(1).GetMethod().DeclaringType.Name, trace.GetFrame(1).GetMethod().Name);
                 }
 
                 msgQueue.Add(msgStr);
-                Console.WriteLine(msgStr);
+
+                // Append the message to the log file
+                if (mLogFileIsActive)
+                    File.AppendAllText(mLogFilesDirectory + mCurrentLogFileName, msgStr + "\n");
             }
         }
 
@@ -70,9 +85,12 @@ namespace ProjectMemo.ProjectMemoConsole
         {
             if (_cmdStr != "")
             {
-                string msgStr = string.Format("[{0}] >{1}", DateTime.Now.ToLongTimeString(), _cmdStr);
+                string msgStr = string.Format("[{0}] > {1}", DateTime.Now.ToLongTimeString(), _cmdStr);
                 msgQueue.Add(msgStr);
-                Console.WriteLine(msgStr);
+
+                // Append the message to the log file
+                if (mLogFileIsActive)
+                    File.AppendAllText(mLogFilesDirectory + mCurrentLogFileName, msgStr + "\n");
             }
         }
 
