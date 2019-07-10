@@ -22,12 +22,11 @@ namespace ProjectMemo.Forms
 
         private const int VERSION_MAJOR = 5;
         private const int VERSION_MINOR = 8;
-        private const int VERSION_PATCH = 0;
+        private const int VERSION_PATCH = 1;
 
         public static string Version
         {
-            get
-            {
+            get {
                 return string.Format("v{0}.{1}.{2}", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH);
             }
         }
@@ -42,8 +41,7 @@ namespace ProjectMemo.Forms
         public static bool DisableSaveButton = false;
         public static string MainNoteDirectory;
 
-        public MainForm()
-        {
+        public MainForm() {
             InitializeComponent();
         }
 
@@ -242,8 +240,7 @@ namespace ProjectMemo.Forms
             }
         }
 
-        private void mainFormTimer_Tick(object sender, EventArgs e)
-        {
+        private void mainFormTimer_Tick(object sender, EventArgs e) {
             semesterSelector.Enabled = !SaveLock;
             courseSelector.Enabled = !SaveLock;
             classTypeSelector.Enabled = !SaveLock;
