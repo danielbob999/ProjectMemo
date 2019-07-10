@@ -102,7 +102,7 @@ namespace ProjectMemo.Forms
             newBox.ReadOnly = true;
 
             // Create new tab, make sure all TabPage values are srt to null
-            CustomTab newTab = new CustomTab(null, null, null, true, null);
+            CustomTab newTab = new CustomTab("", "", "", null);
             newTab.Text = string.Format("[{0}] {1}", a_course, a_fileName);
             newTab.Controls.Add(newBox);
 

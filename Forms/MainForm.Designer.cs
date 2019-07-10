@@ -45,6 +45,7 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.default_tab = new System.Windows.Forms.TabPage();
+            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.formatingGroupBox = new System.Windows.Forms.GroupBox();
             this.format_languageSelector = new System.Windows.Forms.ComboBox();
             this.format_formatCodeButton = new System.Windows.Forms.Button();
@@ -53,21 +54,15 @@
             this.format_italicButton = new System.Windows.Forms.Button();
             this.format_boldButton = new System.Windows.Forms.Button();
             this.format_textStyleSelector = new System.Windows.Forms.ComboBox();
-            this.savingGroupBox = new System.Windows.Forms.GroupBox();
-            this.semesterSelector = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.courseSelector = new System.Windows.Forms.ComboBox();
-            this.classTypeSelector = new System.Windows.Forms.ComboBox();
             this.saveButton = new System.Windows.Forms.Button();
             this.mainFormTimer = new System.Windows.Forms.Timer(this.components);
             this.versionLabel = new System.Windows.Forms.Label();
-            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
+            this.recoverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             this.mainTabControl.SuspendLayout();
             this.tabControlContextMenu.SuspendLayout();
             this.default_tab.SuspendLayout();
             this.formatingGroupBox.SuspendLayout();
-            this.savingGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMenuStrip
@@ -87,6 +82,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
+            this.recoverToolStripMenuItem,
             this.preferencesToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -95,7 +91,7 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -104,20 +100,20 @@
             this.openToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toEditToolStripMenuItem});
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "Open";
             // 
             // toEditToolStripMenuItem
             // 
             this.toEditToolStripMenuItem.Name = "toEditToolStripMenuItem";
-            this.toEditToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.toEditToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.toEditToolStripMenuItem.Text = "To Edit";
             this.toEditToolStripMenuItem.Click += new System.EventHandler(this.toEditToolStripMenuItem_Click);
             // 
             // preferencesToolStripMenuItem
             // 
             this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.preferencesToolStripMenuItem.Text = "Preferences";
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
@@ -203,6 +199,18 @@
             this.default_tab.TabIndex = 0;
             this.default_tab.Text = "default_tab";
             this.default_tab.UseVisualStyleBackColor = true;
+            // 
+            // template_richTextBox
+            // 
+            this.template_richTextBox.AcceptsTab = true;
+            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.template_richTextBox.HideSelection = false;
+            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
+            this.template_richTextBox.Name = "template_richTextBox";
+            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
+            this.template_richTextBox.TabIndex = 0;
+            this.template_richTextBox.Text = "Theres are some nootes!";
             // 
             // formatingGroupBox
             // 
@@ -295,73 +303,14 @@
             this.format_textStyleSelector.TabIndex = 0;
             this.format_textStyleSelector.SelectedIndexChanged += new System.EventHandler(this.format_textStyleSelector_SelectedIndexChanged);
             // 
-            // savingGroupBox
-            // 
-            this.savingGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.savingGroupBox.Controls.Add(this.semesterSelector);
-            this.savingGroupBox.Controls.Add(this.label1);
-            this.savingGroupBox.Controls.Add(this.courseSelector);
-            this.savingGroupBox.Controls.Add(this.classTypeSelector);
-            this.savingGroupBox.Controls.Add(this.saveButton);
-            this.savingGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.savingGroupBox.Location = new System.Drawing.Point(1095, 506);
-            this.savingGroupBox.Name = "savingGroupBox";
-            this.savingGroupBox.Size = new System.Drawing.Size(232, 156);
-            this.savingGroupBox.TabIndex = 102;
-            this.savingGroupBox.TabStop = false;
-            this.savingGroupBox.Text = "Save As:";
-            // 
-            // semesterSelector
-            // 
-            this.semesterSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.semesterSelector.FormattingEnabled = true;
-            this.semesterSelector.Location = new System.Drawing.Point(156, 20);
-            this.semesterSelector.Name = "semesterSelector";
-            this.semesterSelector.Size = new System.Drawing.Size(70, 26);
-            this.semesterSelector.TabIndex = 4;
-            this.semesterSelector.SelectedIndexChanged += new System.EventHandler(this.semesterSelector_SelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(66, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(84, 27);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Semester:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // courseSelector
-            // 
-            this.courseSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.courseSelector.FormattingEnabled = true;
-            this.courseSelector.Location = new System.Drawing.Point(66, 54);
-            this.courseSelector.Name = "courseSelector";
-            this.courseSelector.Size = new System.Drawing.Size(160, 26);
-            this.courseSelector.TabIndex = 2;
-            // 
-            // classTypeSelector
-            // 
-            this.classTypeSelector.BackColor = System.Drawing.SystemColors.Window;
-            this.classTypeSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.classTypeSelector.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.classTypeSelector.FormattingEnabled = true;
-            this.classTypeSelector.Items.AddRange(new object[] {
-            "Lecture",
-            "Tutorial",
-            "Lab"});
-            this.classTypeSelector.Location = new System.Drawing.Point(66, 86);
-            this.classTypeSelector.Name = "classTypeSelector";
-            this.classTypeSelector.Size = new System.Drawing.Size(160, 26);
-            this.classTypeSelector.TabIndex = 1;
-            // 
             // saveButton
             // 
             this.saveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveButton.Location = new System.Drawing.Point(66, 118);
+            this.saveButton.Location = new System.Drawing.Point(1099, 614);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(160, 31);
+            this.saveButton.Size = new System.Drawing.Size(227, 46);
             this.saveButton.TabIndex = 0;
-            this.saveButton.Text = "Save";
+            this.saveButton.Text = "Save Current Note";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
@@ -379,17 +328,12 @@
             this.versionLabel.Text = "VERSION";
             this.versionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // template_richTextBox
+            // recoverToolStripMenuItem
             // 
-            this.template_richTextBox.AcceptsTab = true;
-            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.template_richTextBox.HideSelection = false;
-            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
-            this.template_richTextBox.Name = "template_richTextBox";
-            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
-            this.template_richTextBox.TabIndex = 0;
-            this.template_richTextBox.Text = "Theres are some nootes!";
+            this.recoverToolStripMenuItem.Name = "recoverToolStripMenuItem";
+            this.recoverToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.recoverToolStripMenuItem.Text = "Recover";
+            this.recoverToolStripMenuItem.Click += new System.EventHandler(this.recoverToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -397,8 +341,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1339, 686);
             this.Controls.Add(this.versionLabel);
-            this.Controls.Add(this.savingGroupBox);
             this.Controls.Add(this.formatingGroupBox);
+            this.Controls.Add(this.saveButton);
             this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.mainMenuStrip);
             this.KeyPreview = true;
@@ -416,7 +360,6 @@
             this.tabControlContextMenu.ResumeLayout(false);
             this.default_tab.ResumeLayout(false);
             this.formatingGroupBox.ResumeLayout(false);
-            this.savingGroupBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -432,11 +375,7 @@
         private System.Windows.Forms.TabControl mainTabControl;
         private System.Windows.Forms.TabPage default_tab;
         private System.Windows.Forms.GroupBox formatingGroupBox;
-        private System.Windows.Forms.GroupBox savingGroupBox;
-        private System.Windows.Forms.ComboBox courseSelector;
-        private System.Windows.Forms.ComboBox classTypeSelector;
         private System.Windows.Forms.Button saveButton;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toEditToolStripMenuItem;
@@ -444,7 +383,6 @@
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
-        private System.Windows.Forms.ComboBox semesterSelector;
         private System.Windows.Forms.Timer mainFormTimer;
         private CustomControls.CustomRichTextBox template_richTextBox;
         private System.Windows.Forms.Button format_strikeoutButton;
@@ -457,5 +395,6 @@
         private System.Windows.Forms.ToolStripMenuItem langThemeCreatorMenuItem;
         private System.Windows.Forms.Button format_formatCodeButton;
         private System.Windows.Forms.ComboBox format_languageSelector;
+        private System.Windows.Forms.ToolStripMenuItem recoverToolStripMenuItem;
     }
 }

@@ -19,17 +19,24 @@ namespace ProjectMemo.CustomControls
         public string mClassType = null;
         public string mFullPath = null;
         public bool canEdit = true;
-        public bool newFile = true;
 
-        public CustomTab(string _sem, string _cour, string _ctype, bool _newFile = true, string _fullPath = null)
+        public CustomTab(string _sem, string _cour, string _ctype, string _fullPath = null)
         {
             mTabId = sNextId;
             sNextId++;
             mSemester = _sem;
             mCourse = _cour;
             mClassType = _ctype;
-            mFullPath = _fullPath;
-            newFile = _newFile;
+
+            if (_fullPath == null) {
+                 mFullPath = string.Format("{0}{1}\\{2}\\Notes\\{3}-{4}-{5}_{6}.rtf",
+                        MainForm.MainNoteDirectory, _sem, _cour,
+                        DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, _ctype);
+                Console.WriteLine("here2");
+            } else {
+                mFullPath = _fullPath;
+                Console.WriteLine("Here1");
+            }
         }
 
         public string GetFullPath()
@@ -42,6 +49,15 @@ namespace ProjectMemo.CustomControls
             }
 
             return mFullPath;
+        }
+
+        protected override void OnControlAdded(ControlEventArgs e) {
+            base.OnControlAdded(e);
+
+            if (e.Control.GetType() == typeof(CustomRichTextBox)) {
+                ((CustomRichTextBox)e.Control).ParentControlDefaultTitle = this.Text;
+                Console.WriteLine("DONE");
+            }
         }
     }
 }

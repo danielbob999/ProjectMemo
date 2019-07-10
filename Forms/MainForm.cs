@@ -21,8 +21,8 @@ namespace ProjectMemo.Forms
         public static MainForm ThisForm;
 
         private const int VERSION_MAJOR = 5;
-        private const int VERSION_MINOR = 8;
-        private const int VERSION_PATCH = 1;
+        private const int VERSION_MINOR = 9;
+        private const int VERSION_PATCH = 0;
 
         public static string Version
         {
@@ -31,14 +31,27 @@ namespace ProjectMemo.Forms
             }
         }
 
+        public static Dictionary<string, string> RichTextBoxData
+        {
+            get { return ThisForm.mRtbData; }
+        }
+
+        public static int AutoSaveInterval
+        {
+            get { return ((int)(ThisForm.mAutoSaveInterval * 60)) * 1000; }
+        }
+
         private List<Thread> openThreads = new List<Thread>();
+        private Dictionary<string, string> mRtbData = new Dictionary<string, string>();
         private CustomRichTextBox template_rtb;
         private CustomRichTextBox activeRichTextBox;
+        private float mAutoSaveInterval = 1.0f;
+        private List<string> mLoadedSemesters = new List<string>();
+        private bool mSaveLock = false;
+        private AutoSaveModule mAutoSaveModule;
 
         private bool formLoaded = false;
 
-        public static bool SaveLock = false;
-        public static bool DisableSaveButton = false;
         public static string MainNoteDirectory;
 
         public MainForm() {
@@ -54,6 +67,12 @@ namespace ProjectMemo.Forms
 
             MainContent.InitFontStyles(template_richTextBox.Font.Size);
             RtfCodeFormatter.LoadLanguageThemes();
+
+            mAutoSaveModule = new AutoSaveModule();
+
+            Thread saveModuleThread = new Thread(mAutoSaveModule.Run);
+            saveModuleThread.Start();
+            openThreads.Add(saveModuleThread);
 
             foreach (string str in MainContent.GetFontStyleList())
             {
@@ -82,11 +101,13 @@ namespace ProjectMemo.Forms
             if (!string.IsNullOrEmpty(MainNoteDirectory))
                 semesterFolders = Directory.GetDirectories(MainNoteDirectory);
 
-            semesterSelector.Items.Clear();
+            mLoadedSemesters.Clear();
 
-            foreach (string str in semesterFolders)
-                if (str.EndsWith("_s2") || str.EndsWith("_s1"))
-                    semesterSelector.Items.Add(str.Replace(MainNoteDirectory, ""));
+            foreach (string str in semesterFolders) {
+                if (str.EndsWith("_s2") || str.EndsWith("_s1")) {
+                    mLoadedSemesters.Add(str.Replace(MainNoteDirectory, ""));
+                }
+            }
 
             template_rtb = template_richTextBox; 
             activeRichTextBox = null;
@@ -144,7 +165,7 @@ namespace ProjectMemo.Forms
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Are you sure you want to quit without saving?", "Warning", MessageBoxButtons.YesNo);
+            DialogResult result = MessageBox.Show("Are you sure you want to close this tab without saving?", "Warning", MessageBoxButtons.YesNo);
 
             if (result == DialogResult.Yes)
             {
@@ -167,11 +188,6 @@ namespace ProjectMemo.Forms
                             activeRichTextBox = (CustomRichTextBox)ctrl;
                             SetTabControlRTBSize();
                             CustomConsole.Log("Set the child of CustomTab with id: " + ((CustomTab)mainTabControl.SelectedTab).mTabId + " to the active CustomRichTextBox");
-
-                            if (((CustomTab)mainTabControl.SelectedTab).newFile)
-                                SaveLock = false;
-                            else
-                                SaveLock = true;
 
                             return;
                         }
@@ -196,11 +212,11 @@ namespace ProjectMemo.Forms
             else
                 semesterFolders = Directory.GetDirectories(MainNoteDirectory);
 
-            semesterSelector.Items.Clear();
+            mLoadedSemesters.Clear();
 
             foreach (string str in semesterFolders)
                 if (str.EndsWith("_s2") || str.EndsWith("_s1"))
-                    semesterSelector.Items.Add(str.Replace(MainNoteDirectory, ""));
+                    mLoadedSemesters.Add(str.Replace(MainNoteDirectory, ""));
         }
 
         private void consoleToolStripMenuItem_Click(object sender, EventArgs e)
@@ -241,9 +257,25 @@ namespace ProjectMemo.Forms
         }
 
         private void mainFormTimer_Tick(object sender, EventArgs e) {
-            semesterSelector.Enabled = !SaveLock;
-            courseSelector.Enabled = !SaveLock;
-            classTypeSelector.Enabled = !SaveLock;
+
+            if (mainTabControl.TabPages.Count > 0) {
+                if (mainTabControl.SelectedTab.Text.Contains("*")) {
+                    mSaveLock = false;
+                } else {
+                    mSaveLock = true;
+                }
+            }
+
+            saveButton.Enabled = !mSaveLock;
+
+            mRtbData.Clear();
+            foreach (CustomControls.CustomTab tab in ThisForm.mainTabControl.TabPages) {
+                foreach (Control ctrl in tab.Controls) {
+                    if (ctrl.GetType() == typeof(CustomControls.CustomRichTextBox)) {
+                        mRtbData.Add(((CustomRichTextBox)ctrl).TabPath, ((CustomRichTextBox)ctrl).Rtf);
+                    }
+                }
+            }
         }
 
         private void toEditToolStripMenuItem_Click(object sender, EventArgs e)
@@ -290,24 +322,6 @@ namespace ProjectMemo.Forms
             OpenTab(filePath);
         }
 
-        private void semesterSelector_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string[] courseFolder = Directory.GetDirectories(MainNoteDirectory + semesterSelector.SelectedItem);
-
-            courseSelector.Items.Clear();
-            string logStr = "{ ";
-
-            foreach (string folder in courseFolder)
-            {
-                courseSelector.Items.Add(folder.Replace(MainNoteDirectory + semesterSelector.SelectedItem, "").Replace("\\", ""));
-
-                logStr += (folder + ", ");
-            }
-
-            CustomConsole.Log("Updated courseSelector.Items based on the semester: " + semesterSelector.SelectedItem);
-            CustomConsole.Log("New courseSelector collection: " + logStr + " }");
-        }
-
         private void saveButton_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(MainNoteDirectory))
@@ -316,30 +330,12 @@ namespace ProjectMemo.Forms
                 return;
             }
 
-            string strng;
             CustomTab selectedTab = (CustomTab)mainTabControl.SelectedTab;
-
-            if (selectedTab.newFile)
-            {
-                strng = string.Format("{0}{1}\\{2}\\Notes\\{3}-{4}-{5}_{6}.rtf",
-                MainNoteDirectory, semesterSelector.SelectedItem, courseSelector.SelectedItem,
-                DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, classTypeSelector.SelectedItem);
-
-                ((CustomTab)mainTabControl.SelectedTab).mSemester = semesterSelector.SelectedItem.ToString();
-                ((CustomTab)mainTabControl.SelectedTab).mCourse = courseSelector.SelectedItem.ToString();
-                ((CustomTab)mainTabControl.SelectedTab).mClassType = classTypeSelector.SelectedItem.ToString();
-                ((CustomTab)mainTabControl.SelectedTab).mFullPath = strng;
-                mainTabControl.SelectedTab.Text = string.Format("[{0}] {1}", courseSelector.SelectedItem,
-                    string.Format("{0}-{1}-{2}_{3}.rtf", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, classTypeSelector.SelectedItem));
-            }
-            else
-            {
-                strng = selectedTab.mFullPath;
-            }
+            string strng = selectedTab.mFullPath;
 
             activeRichTextBox.SaveFile(strng);
+            activeRichTextBox.SetSavePoint();
             CustomConsole.Log("Saved file to: " + strng);
-            SaveLock = true;
         }
 
         private int GetNumberOfUntitledTabs()
@@ -357,6 +353,10 @@ namespace ProjectMemo.Forms
 
         private void format_boldButton_Click(object sender, EventArgs e)
         {
+            if (activeRichTextBox == null) {
+                return;
+            }
+
             if (activeRichTextBox.SelectedText != "")
             {
                 activeRichTextBox.SelectionFont = new Font("Microsoft Sans Serif", activeRichTextBox.Font.Size, FontStyle.Bold);
@@ -369,6 +369,10 @@ namespace ProjectMemo.Forms
 
         private void format_italicButton_Click(object sender, EventArgs e)
         {
+            if (activeRichTextBox == null) {
+                return;
+            }
+
             if (activeRichTextBox.SelectedText != "")
             {
                 activeRichTextBox.SelectionFont = new Font("Microsoft Sans Serif", activeRichTextBox.Font.Size, FontStyle.Italic);
@@ -381,6 +385,10 @@ namespace ProjectMemo.Forms
 
         private void format_strikeoutButton_Click(object sender, EventArgs e)
         {
+            if (activeRichTextBox == null) {
+                return;
+            }
+
             if (activeRichTextBox.SelectedText != "")
             {
                 activeRichTextBox.SelectionFont = new Font("Microsoft Sans Serif", activeRichTextBox.Font.Size, FontStyle.Strikeout);
@@ -393,6 +401,10 @@ namespace ProjectMemo.Forms
 
         private void format_underlineButton_Click(object sender, EventArgs e)
         {
+            if (activeRichTextBox == null) {
+                return;
+            }
+
             if (activeRichTextBox.SelectedText != "")
             {
                 activeRichTextBox.SelectionFont = new Font("Microsoft Sans Serif", activeRichTextBox.Font.Size, FontStyle.Underline);
@@ -497,6 +509,10 @@ namespace ProjectMemo.Forms
 
         private void format_formatCodeButton_Click(object sender, EventArgs e)
         {
+            if (activeRichTextBox == null) {
+                return;
+            }
+
             Font f;
             if (MainContent.GetFontFromStyleString("Code Fragment", out f))
             {
@@ -527,21 +543,29 @@ namespace ProjectMemo.Forms
 
             if (a_path == "NULL")
             {
-                // Create new tab, make sure all TabPage values are srt to null
-                CustomTab newTab = new CustomTab(null, null, null, true, null);
-                newTab.Text = "Untitled_" + GetNumberOfUntitledTabs();
-                newTab.Controls.Add(newBox);
+                using (NewTabDetailsForm form = new NewTabDetailsForm(mLoadedSemesters.ToArray())) {
+                    DialogResult result = form.ShowDialog();
 
-                mainTabControl.TabPages.Add(newTab);
+                    if (result == DialogResult.OK) {
 
-                if (mainTabControl.TabPages.Count == 1)
-                {
-                    foreach (Control ctrl in mainTabControl.SelectedTab.Controls)
-                    {
-                        if (ctrl.GetType() == typeof(CustomRichTextBox))
-                        {
-                            activeRichTextBox = (CustomRichTextBox)ctrl;
-                            CustomConsole.Log("Set the child of CustomTab with id: " + ((CustomTab)mainTabControl.SelectedTab).mTabId + " to the active CustomRichTextBox");
+                        // Create new tab, make sure all TabPage values are set to null
+                        CustomTab newTab = new CustomTab(form.Semester, form.Course, form.ClassType, MainNoteDirectory + form.Semester + "\\" + form.Course + "\\Notes\\" + string.Format("{0}-{1}-{2}_{3}.rtf", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, form.ClassType));
+                        newTab.Text = string.Format("[{0}] {1}", form.Course,
+                                      string.Format("{0}-{1}-{2}_{3}.rtf", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, form.ClassType));
+                        newTab.Controls.Add(newBox);
+
+                        mainTabControl.TabPages.Add(newTab);
+
+                        mainTabControl.SelectedIndex = mainTabControl.TabPages.Count - 1;
+
+                        // If the tab that was just added is the only tab (TabPages.Count == 1)
+                        if (mainTabControl.TabPages.Count == 1) {
+                            foreach (Control ctrl in mainTabControl.SelectedTab.Controls) {
+                                if (ctrl.GetType() == typeof(CustomRichTextBox)) {
+                                    activeRichTextBox = (CustomRichTextBox)ctrl;
+                                    CustomConsole.Log("Set the child of CustomTab with id: " + ((CustomTab)mainTabControl.SelectedTab).mTabId + " to the active CustomRichTextBox");
+                                }
+                            }
                         }
                     }
                 }
@@ -559,7 +583,7 @@ namespace ProjectMemo.Forms
                 newBox.LoadFile(a_path);
 
                 // Create new tab, make sure all TabPage values are srt to null
-                CustomTab newTab = new CustomTab(temp_semester, temp_course, temp_classtype, false, a_path);
+                CustomTab newTab = new CustomTab(temp_semester, temp_course, temp_classtype, a_path);
                 newTab.Text = string.Format("[{0}] {1}", temp_course, splitFileName[splitFileName.Length - 1]);
                 newTab.Controls.Add(newBox);
 
@@ -567,7 +591,15 @@ namespace ProjectMemo.Forms
 
                 CustomConsole.Log("Opened file to edit: " + a_path);
 
-                mainTabControl.SelectedIndex = mainTabControl.TabPages.Count - 1;
+                // If the tab that was just added is the only tab (TabPages.Count == 1)
+                if (mainTabControl.TabPages.Count == 1) {
+                    foreach (Control ctrl in mainTabControl.SelectedTab.Controls) {
+                        if (ctrl.GetType() == typeof(CustomRichTextBox)) {
+                            activeRichTextBox = (CustomRichTextBox)ctrl;
+                            CustomConsole.Log("Set the child of CustomTab with id: " + ((CustomTab)mainTabControl.SelectedTab).mTabId + " to the active CustomRichTextBox");
+                        }
+                    }
+                }
             }
         }
 
@@ -604,12 +636,7 @@ namespace ProjectMemo.Forms
         private void SetTabControlRTBSize()
         {
             // Set new width
-            int groupBoxWidth;
-
-            if (formatingGroupBox.Width > savingGroupBox.Width)
-                groupBoxWidth = formatingGroupBox.Width;
-            else
-                groupBoxWidth = savingGroupBox.Width;
+            int groupBoxWidth = formatingGroupBox.Width;
 
             int newWidth = (Size.Width - groupBoxWidth) - (mainTabControl.Location.X + 30);
             mainTabControl.Width = newWidth;
@@ -628,6 +655,16 @@ namespace ProjectMemo.Forms
         private void Event_OnActiveTextBoxLineChanged(object sender, EventArgs e)
         {
             SetTabControlRTBSize();
+        }
+
+        private void recoverToolStripMenuItem_Click(object sender, EventArgs e) {
+            /*
+            OpenFileDialog ofd = new OpenFileDialog();
+            DialogResult result = ofd.ShowDialog();
+
+            if (result == DialogResult.OK) {
+
+            }*/
         }
     }
 }

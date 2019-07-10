@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoSaveModule.cs" />
     <Compile Include="CustomControls\CustomRichTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -68,6 +69,12 @@
     </Compile>
     <Compile Include="Forms\LanguageThemeCreatorForm.Designer.cs">
       <DependentUpon>LanguageThemeCreatorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\NewTabDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\NewTabDetailsForm.Designer.cs">
+      <DependentUpon>NewTabDetailsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\NoteViewerForm.cs">
       <SubType>Form</SubType>
@@ -114,6 +121,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewTabDetailsForm.resx">
+      <DependentUpon>NewTabDetailsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\NoteViewerForm.resx">
       <DependentUpon>NoteViewerForm.cs</DependentUpon>

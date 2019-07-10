@@ -10,9 +10,21 @@ namespace ProjectMemo.CustomControls
 {
     class CustomRichTextBox : RichTextBox
     {
-        private int m_OldLineNumber;
+        private int mOldLineNumber;
+        private string mParentControlDefaultTitle;
+        private string mLastSavePointString = "";
 
         public event EventHandler OnLineNumberChanged;
+
+        public string ParentControlDefaultTitle
+        {
+            set { mParentControlDefaultTitle = value; }
+        }
+
+        public string TabPath
+        {
+            get { return ((CustomTab)this.Parent).mFullPath; }
+        }
 
         public CustomRichTextBox()
         {
@@ -20,7 +32,7 @@ namespace ProjectMemo.CustomControls
             //base.TabStop = false;
             base.AcceptsTab = true;
             base.SelectionTabs = new int[] { 15, 30, 45 };
-            m_OldLineNumber = 0;
+            mOldLineNumber = 0;
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -44,12 +56,29 @@ namespace ProjectMemo.CustomControls
 
             int newLineNumber = GetLineFromCharIndex(SelectionStart);
 
-            if (newLineNumber != m_OldLineNumber)
+            if (newLineNumber != mOldLineNumber)
             {
                 if (OnLineNumberChanged.GetInvocationList().Length != 0)
                     OnLineNumberChanged.Invoke(this, EventArgs.Empty);
-                m_OldLineNumber = newLineNumber;
+
+                mOldLineNumber = newLineNumber;
             }
+
+            if (this.Rtf != mLastSavePointString) {
+                if (this.Parent != null)
+                    this.Parent.Text = mParentControlDefaultTitle + " *";
+                //Console.WriteLine("{0} is different from {1}", mLastSavePointString, this.Rtf);
+            } else {
+                if (this.Parent != null)
+                    this.Parent.Text = mParentControlDefaultTitle;
+            }
+        }
+
+        public void SetSavePoint() {
+            mLastSavePointString = this.Rtf;
+            if (this.Parent != null)
+                this.Parent.Text = mParentControlDefaultTitle;
+            ProjectMemoConsole.CustomConsole.Log("Set save point of CustomRichTextBox");
         }
     }
 }
