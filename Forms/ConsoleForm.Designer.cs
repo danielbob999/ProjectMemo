@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConsoleForm));
             this.inputTextBox = new System.Windows.Forms.TextBox();
             this.consoleTimer = new System.Windows.Forms.Timer(this.components);
             this.consoleText = new System.Windows.Forms.TextBox();
@@ -64,6 +65,7 @@
             this.ClientSize = new System.Drawing.Size(934, 348);
             this.Controls.Add(this.consoleText);
             this.Controls.Add(this.inputTextBox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "ConsoleForm";
             this.Text = "ConsoleForm";

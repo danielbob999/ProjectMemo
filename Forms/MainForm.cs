@@ -22,7 +22,7 @@ namespace ProjectMemo.Forms
 
         private const int VERSION_MAJOR = 5;
         private const int VERSION_MINOR = 9;
-        private const int VERSION_PATCH = 2;
+        private const int VERSION_PATCH = 3;
 
         public static string Version
         {

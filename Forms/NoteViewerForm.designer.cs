@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NoteViewerForm));
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.tabControlContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -333,10 +334,11 @@
             this.Controls.Add(this.mainDirectoryLabel);
             this.Controls.Add(this.foldersGroupBox);
             this.Controls.Add(this.mainTabControl);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "NoteViewerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "NoteViewerForm";
+            this.Text = "Note Viewing";
             this.Load += new System.EventHandler(this.NoteViewerForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NoteViewerForm_KeyDown);
             this.Resize += new System.EventHandler(this.NoteViewerForm_Resize);
