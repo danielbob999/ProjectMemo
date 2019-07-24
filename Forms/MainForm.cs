@@ -21,8 +21,8 @@ namespace ProjectMemo.Forms
         public static MainForm ThisForm;
 
         private const int VERSION_MAJOR = 5;
-        private const int VERSION_MINOR = 9;
-        private const int VERSION_PATCH = 3;
+        private const int VERSION_MINOR = 10;
+        private const int VERSION_PATCH = 0;
 
         public static string Version
         {
@@ -81,10 +81,8 @@ namespace ProjectMemo.Forms
                     format_textStyleSelector.Items.Add(str);
             }
 
-            foreach (string str in RtfCodeFormatter.GetLanguageThemeTitles())
-            {
-                format_languageSelector.Items.Add(str);
-            }
+            format_languageSelector.Items.Clear();
+            format_languageSelector.Items.AddRange(RtfCodeFormatter.LoadedLanguageThemes);
 
             mainFormTimer.Start();
 
@@ -441,9 +439,26 @@ namespace ProjectMemo.Forms
         {
             if (activeRichTextBox.SelectedText != "")
             {
+                if (activeRichTextBox.SelectionStart > 0) {
+                    activeRichTextBox.SelectionStart = activeRichTextBox.SelectionStart - 1;
+                    activeRichTextBox.SelectionLength = activeRichTextBox.SelectionLength + 1;
+                }
+
                 activeRichTextBox.SelectionBullet = true;
                 activeRichTextBox.SelectionLength = 0;
                 activeRichTextBox.SelectionBullet = false;
+            }
+        }
+
+        private void FormatColourText(object sender, EventArgs e) {
+            if (activeRichTextBox.SelectedText != "") {
+                ColorDialog cd = new ColorDialog();
+                cd.AllowFullOpen = true;
+                cd.AnyColor = true;
+                cd.ShowDialog();
+
+                activeRichTextBox.SelectionColor = cd.Color;
+                activeRichTextBox.SelectionLength = 0;
             }
         }
 
@@ -457,13 +472,19 @@ namespace ProjectMemo.Forms
 
         private void langThemeCreatorMenuItem_Click(object sender, EventArgs e)
         {
+            /*
             MessageBox.Show("Not implemented yet", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
-
+            */
             using (LanguageThemeCreatorForm form = new LanguageThemeCreatorForm())
             {
                 form.ShowDialog();
             }
+
+            // Reload the language themes
+            //RtfCodeFormatter.LoadLanguageThemes();
+            format_languageSelector.Items.Clear();
+            format_languageSelector.Items.AddRange(RtfCodeFormatter.LoadedLanguageThemes);
         }
 
         [CommandMethod("mainform.closetab", "<int>", "<string:keyword>")]
@@ -535,7 +556,7 @@ namespace ProjectMemo.Forms
                     int s = activeRichTextBox.SelectionStart;
                     int l = activeRichTextBox.SelectionLength;
                     activeRichTextBox.SelectedText = activeRichTextBox.SelectedText.Replace("\t", "   ");
-                    RtfCodeFormatter.ColourCodeFragment(format_languageSelector.SelectedItem.ToString(), ref activeRichTextBox, s, s + l);
+                    RtfCodeFormatter.FormatCodeFragment(format_languageSelector.SelectedItem.ToString(), ref activeRichTextBox, s, s + l);
 
                     activeRichTextBox.SelectionStart = activeRichTextBox.SelectionStart + activeRichTextBox.SelectionLength;
                     activeRichTextBox.SelectionLength = 0;

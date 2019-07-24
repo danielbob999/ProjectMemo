@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 using System.Drawing;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using ProjectMemo.CustomControls;
 using ProjectMemo.ProjectMemoConsole;
 
@@ -17,103 +19,64 @@ namespace ProjectMemo.Formatting
         public const string THEME_FILE_EXTENSION = ".lgt";
 
         private static int activeThemeIndex;
-        private static List<LanguageTheme> allLanguageThemes = new List<LanguageTheme>();
+        private static List<LanguageTheme> sAllLanguageThemes = new List<LanguageTheme>();
 
-        public static void LoadLanguageThemes()
+        public static LanguageTheme[] LoadedLanguageThemes
         {
-            // Add a default theme
-            allLanguageThemes.Clear();
-            LanguageTheme defaultTheme = new LanguageTheme();
-            defaultTheme.SetName("Default");
-            allLanguageThemes.Add(defaultTheme);
+            get { return sAllLanguageThemes.ToArray(); }
+        }
 
-            try
-            {
-                string[] allThemeFiles = Directory.GetFiles(THEME_FOLDER_PATH);
+        public static void LoadLanguageThemes() {
+            sAllLanguageThemes.Clear();
+            sAllLanguageThemes.Add(new LanguageTheme("Default"));
 
-                foreach (string path in allThemeFiles)
-                {
-                    if (!path.EndsWith(THEME_FILE_EXTENSION))
-                        return;
+            try {
+                string[] languageFiles = Directory.GetFiles(Directory.GetCurrentDirectory() + "\\language_themes");
+                int count = 0;
 
-                    string themeName = path.Replace(Directory.GetCurrentDirectory(), "");
-                    themeName = themeName.Replace(THEME_FILE_EXTENSION, "");
-                    LanguageTheme newTheme = new LanguageTheme();
+                for (int i = 0; i < languageFiles.Length; i++) {
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    FileStream fs = File.Open(languageFiles[i], FileMode.Open);
 
-                    string[] allLines = File.ReadAllLines(path);
-                    bool definingColours = false;
-                    Dictionary<int, Color> definedColours = new Dictionary<int, Color>();
-                    int colourNum = 0;
+                    LanguageTheme newTheme = (LanguageTheme)formatter.Deserialize(fs);
 
-                    foreach (string line in allLines)
-                    {
-                        if (line.StartsWith("#title="))
-                        {
-                            string[] titleSplit = line.Split('=');
+                    sAllLanguageThemes.Add(newTheme);
+                    Console.WriteLine("Loaded new theme Name: " + newTheme.Name);
+                    count++;
 
-                            if (titleSplit.Length >= 2)
-                            {
-                                newTheme.SetName(titleSplit[1]);
-                            }
-
-                            continue;
-                        }
-
-                        if (line == "#define")
-                        {
-                            definingColours = true;
-                            continue;
-                        }
-
-                        if (line == "#end")
-                        {
-                            definingColours = false;
-                            continue;
-                        }
-
-
-                        if (definingColours)
-                        {
-                            string[] lineSplit = line.Split('=');
-                            string[] colourSplit = lineSplit[0].Split('|');
-                            Color c = Color.FromArgb(1, Convert.ToInt32(colourSplit[0]), Convert.ToInt32(colourSplit[1]), Convert.ToInt32(colourSplit[2]));
-
-                            definedColours.Add(Convert.ToInt32(lineSplit[1]), c);
-                        }
-                        else
-                        {
-                            string[] lineSplit = line.Split('=');
-
-                            if (definedColours.ContainsKey(Convert.ToInt32(lineSplit[1])))
-                            {
-                                newTheme.AddKeywordColour(lineSplit[0], definedColours[Convert.ToInt32(lineSplit[1])]);
-                                colourNum++;
-                            }
-                        }
-
-                    }
-
-                    allLanguageThemes.Add(newTheme);
-                    CustomConsole.Log("Added new LanguageTheme called " + newTheme.GetName() + ". " + newTheme.GetKeywords().Length + " keywords and " + newTheme.ColourCount + " colours loaded.");
+                    fs.Close();
                 }
 
-                if (allLanguageThemes.Count > 1)
-                    activeThemeIndex = 1;
-                else
-                    activeThemeIndex = 0;
-
+                CustomConsole.Log("Loaded " + count + " LanguageThemes");
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 CustomConsole.Log("Failed to load in LanguageThemes");
                 CustomConsole.Log(e.Message);
                 return;
             }
-
         }
 
-        public static void ColourCodeFragment(string a_languageName, ref CustomRichTextBox a_richTextBox, int a_start, int a_end)
+        public static void FormatCodeFragment(string a_languageName, ref CustomRichTextBox a_richTextBox, int a_start, int a_end)
         {
+            LanguageTheme activeTheme = null;
+
+            foreach (LanguageTheme theme in sAllLanguageThemes) {
+                if (theme.Name == a_languageName)
+                    activeTheme = theme;
+            }
+
+            if (activeTheme == null)
+                activeTheme = sAllLanguageThemes[0];
+
+            a_richTextBox.SelectionColor = Color.Black;
+
+            foreach (SingleKeywordDesign keyword in activeTheme.Keywords)
+                ColourSingleKeyword(keyword, ref a_richTextBox, a_start, a_end);
+
+            foreach (MultiwordDesign multiword in activeTheme.MultiWordDesigns)
+                FormatMultiwords(multiword, ref a_richTextBox, a_start, a_end);
+
+            /*
             LanguageTheme activeTheme = null;
 
             foreach (LanguageTheme theme in allLanguageThemes)
@@ -180,10 +143,48 @@ namespace ProjectMemo.Formatting
 
             ColourLiteralStrings(activeTheme, ref a_richTextBox, a_start, a_end);
             ColourComments(activeTheme, ref a_richTextBox, a_start, a_end);
+            */
+        }
+
+        private static void FormatMultiwords(MultiwordDesign aMultiword, ref CustomRichTextBox aRichTextBox, int aStart, int aEnd) {
+            string lastWord = "";
+            char nextChar = 'A';
+            int startingCharIndex = aStart, currentCharIndex = aStart;
+            bool lookingForEndingString;
+
+            string regexStatement = "(";
+
+            foreach (char startChar in aMultiword.StartString) {
+                regexStatement += "[" + startChar + "]";
+            }
+
+            regexStatement += ").*(";
+
+            foreach (char endChar in aMultiword.EndString) {
+                regexStatement += "[" + endChar + "]";
+            }
+
+            regexStatement += ")";
+
+            string inputStr = aRichTextBox.Text.Substring(aStart, (aEnd - aStart));
+
+            MatchCollection stringMatches = Regex.Matches(@inputStr, @regexStatement);
+
+            //Console.WriteLine("Looking for Regex matches based on pattern: " + regexStatement);
+            //Console.WriteLine("From input: " + inputStr);
+            //Console.WriteLine("Found " + stringMatches.Count + " matches");
+
+            foreach (Match match in stringMatches) {
+                aRichTextBox.SelectionStart = aStart + match.Index;
+                aRichTextBox.SelectionLength = match.Length + 1;
+                aRichTextBox.SelectionColor = aMultiword.Colour;
+                aRichTextBox.SelectionLength = 0;
+            }
         }
 
         private static void ColourLiteralStrings(LanguageTheme a_theme, ref CustomRichTextBox a_richTextBox, int a_start, int a_end)
         {
+            /*
             int currentIndex = 0;
             int selectionEnd = a_end;
             string str = a_richTextBox.Text;
@@ -225,11 +226,12 @@ namespace ProjectMemo.Formatting
                     lookingForEndOfString = false;
                 }
             }
-
+            */
         }
 
         private static void ColourComments(LanguageTheme a_theme, ref CustomRichTextBox a_richTextBox, int a_start, int a_end)
         {
+            /*
             int currentIndex = a_start;
             int selectionEnd = a_end;
             int stringStartIndex = -1;
@@ -279,18 +281,70 @@ namespace ProjectMemo.Formatting
                 }
 
                 currentIndex++;
+            }*/
+        }
+
+        private static void ColourSingleKeyword(SingleKeywordDesign aKeyword, ref CustomRichTextBox aRichTextBox, int aStart, int aEnd) {
+            string lastWord = "";
+            char nextChar = 'A';
+            int startingCharIndex = aStart, currentCharIndex = aStart;
+
+            Console.WriteLine("Looking for keyword: " + aKeyword.Keyword);
+
+            while (currentCharIndex < aEnd) {
+                //Console.WriteLine("Next character: " + aRichTextBox.Text[currentCharIndex] + ", valid: " + IsACharacterOrNumber(aRichTextBox.Text[currentCharIndex]));
+
+                // If the word has finished (found a space)
+                if (!IsACharacterOrNumber(aRichTextBox.Text[currentCharIndex])) {
+
+                    // Set selection
+                    if (lastWord != "") {
+                        //Console.WriteLine("Found a word: [" + lastWord + "]");
+
+                        int startingPosition = currentCharIndex - (lastWord.Length + 1);
+
+                        if (startingPosition > 0) {
+                            if (lastWord == aKeyword.Keyword) {
+                                aRichTextBox.SelectionStart = currentCharIndex - (lastWord.Length + 1);
+                                aRichTextBox.SelectionLength = lastWord.Length + 1;
+                                aRichTextBox.SelectionColor = aKeyword.Colour;
+                                aRichTextBox.SelectionLength = 0;
+                                aRichTextBox.SelectionColor = Color.Black;
+
+                                //Console.WriteLine("Set colour");
+                            }
+
+                            lastWord = "";
+                        }
+                    }
+
+                    currentCharIndex++;
+                    continue;
+                }
+
+                lastWord += aRichTextBox.Text[currentCharIndex];
+                currentCharIndex++;
             }
+            
+        }
+
+        private static bool IsACharacterOrNumber(char aChar) {
+            if (aChar >= 48 && aChar <= 57)
+                return true;
+
+            if (aChar >= 65 && aChar <= 90)
+                return true;
+
+            if (aChar >= 97 && aChar <= 122)
+                return true;
+
+            return false;
         }
 
         public static string[] GetLanguageThemeTitles()
         {
-            string[] titleArray = new string[allLanguageThemes.Count];
-
-            for (int i = 0; i < titleArray.Length; i++)
-            {
-                titleArray[i] = allLanguageThemes[i].GetName();
-            }
-
+            
+            string[] titleArray = new string[sAllLanguageThemes.Count];
             return titleArray;
         }
     }

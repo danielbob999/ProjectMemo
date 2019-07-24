@@ -4,99 +4,201 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ProjectMemo.Formatting
 {
+    [Serializable]
     public class LanguageTheme
     {
         private string mName;
-        private int m_ColourCount = 0;
-        private Dictionary<string, Color> keywordColours = new Dictionary<string, Color>();
-        private List<string> classNames = new List<string>();
+        private int mColourCount = 0;
+        private List<SingleKeywordDesign> mKeywords = new List<SingleKeywordDesign>();
+        private List<MultiwordDesign> mMultiwordDesigns = new List<MultiwordDesign>();
+
+        public string Name
+        {
+            get { return mName; }
+            set { mName = value; }
+        }
 
         public int ColourCount
         {
-            get { return m_ColourCount; }
+            get { return mColourCount; }
         }
 
-        public LanguageTheme()
+        public List<SingleKeywordDesign> Keywords
         {
+            get { return mKeywords; }
         }
 
-        public void AddKeywordColour(string a_word, Color a_colour)
+        public List<MultiwordDesign> MultiWordDesigns
         {
-            // If the colour is a unique colour, increase m_ColourCount
-            if (!keywordColours.ContainsValue(a_colour))
-            {
-                m_ColourCount++;
-            }
-
-            if (!keywordColours.ContainsKey(a_word))
-            {
-                keywordColours.Add(a_word, a_colour);
-                return;
-            }
-
-            ProjectMemo.ProjectMemoConsole.CustomConsole.Log("Failed to add new keyword colour to LanguageTheme: " + mName + ". Keyword already exists");
+            get { return mMultiwordDesigns; }
         }
 
-        public void AddClass(string a_class)
-        {
-            if (!classNames.Contains(a_class))
-            {
-                classNames.Add(a_class);
-                return;
-            }
-
-            ProjectMemo.ProjectMemoConsole.CustomConsole.Log("Failed to add class name to LanguageTheme: " + mName + ". The class name already exists");
+        public LanguageTheme(string aName){
+            mName = aName;
         }
 
-        public bool GetColourFromKeyword(string a_keyword, out Color a_out_colour)
-        {
-            if (classNames.Contains(a_keyword))
-            {
-                a_out_colour = keywordColours["__classname"];
-                return true;
-            }
+        public void AddKeyword(string aWord, Color aCol) {
+            int indx = -1;
 
-            if (keywordColours.ContainsKey(a_keyword))
-            {
-                a_out_colour = keywordColours[a_keyword];
-                return true;
-            }
-
-            a_out_colour = Color.Black;
-            return false;
-        }
-
-        public string GetName()
-        {
-            return mName;
-        }
-
-        public void SetName(string a_newName)
-        {
-            mName = a_newName;
-        }
-
-        public string[] GetKeywords()
-        {
-            List<string> allKeywords = new List<string>();
-
-            foreach (KeyValuePair<string, Color> pair in keywordColours)
-            {
-                if (!allKeywords.Contains(pair.Key))
-                {
-                    allKeywords.Add(pair.Key);
+            for (int i = 0; i < mKeywords.Count; i++) {
+                if (mKeywords[i].Keyword == aWord) {
+                    indx = i;
                 }
             }
 
-            return allKeywords.ToArray();
+            if (indx == -1) {
+                mKeywords.Add(new SingleKeywordDesign(aWord, aCol));
+            }
         }
 
-        public List<string> GetClassNames()
+        public void SetKeywordColour(string aWord, Color aCol) {
+            for (int i = 0; i < mKeywords.Count; i++) {
+                if (mKeywords[i].Keyword == aWord) {
+                    mKeywords[i].Colour = aCol;
+                }
+            }
+        }
+
+        public void RemoveKeyword(string aWord) {
+            int indx = -1;
+
+            for (int i = 0; i < mKeywords.Count; i++) {
+                if (mKeywords[i].Keyword == aWord) {
+                    indx = i;
+                }
+            }
+
+            if (indx != -1) {
+                mKeywords.RemoveAt(indx);
+            }
+        }
+
+        public void AddMultiword(string aName, string aStart, string aEnd, Color aCol) {
+            int indx = -1;
+
+            for (int i = 0; i < mMultiwordDesigns.Count; i++) {
+                if (mMultiwordDesigns[i].Name == aName) {
+                    indx = i;
+                }
+            }
+
+            if (indx == -1) {
+                mMultiwordDesigns.Add(new MultiwordDesign(aName, aStart, aEnd, aCol));
+            }
+        }
+
+        public void RemoveMultiword(string aName) {
+            int indx = -1;
+
+            for (int i = 0; i < mMultiwordDesigns.Count; i++) {
+                if (mMultiwordDesigns[i].Name == aName) {
+                    indx = i;
+                }
+            }
+
+            if (indx != -1) {
+                mMultiwordDesigns.RemoveAt(indx);
+            }
+        }
+
+        public void SetMultwordColor(string aName, Color aCol) {
+            for (int i = 0; i < mMultiwordDesigns.Count; i++) {
+                if (mMultiwordDesigns[i].Name == aName) {
+                    mMultiwordDesigns[i].Colour = aCol;
+                }
+            }
+        }
+
+        public void Save(string aPath) {
+            
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            try {
+                if (File.Exists(aPath))
+                    File.Delete(aPath);
+
+                FileStream fs = File.Create(aPath);
+
+                formatter.Serialize(fs, this);
+
+                fs.Close();
+
+                ProjectMemoConsole.CustomConsole.Log("Successfully saved LanguageTheme with Name: " + mName + " to: " + aPath);
+                return;
+            } catch (Exception e) {
+                ProjectMemoConsole.CustomConsole.Log("Failed to save LangaugeTheme to: " + aPath);
+                ProjectMemoConsole.CustomConsole.Log("Error: " + e.Message);
+            }
+        }
+
+        public override string ToString() {
+            return mName;
+        }
+    }
+
+    [Serializable]
+    public class SingleKeywordDesign
+    {
+        private string mKeyword;
+        private Color mColour;
+
+        public string Keyword
         {
-            return classNames;
+            get { return mKeyword; }
+            set { mKeyword = value; }
+        }
+
+        public Color Colour
+        {
+            get { return mColour; }
+            set { mColour = value; }
+        }
+
+        public SingleKeywordDesign(string aWord, Color aCol) {
+            mKeyword = aWord;
+            mColour = aCol;
+        }
+    }
+
+    [Serializable]
+    public class MultiwordDesign
+    {
+        private string mName;
+        private string mStartStr;
+        private string mEndStr;
+        private Color mColour;
+
+        public string Name
+        {
+            get { return mName; }
+        }
+
+        public String StartString
+        {
+            get { return mStartStr; }
+        }
+
+        public String EndString
+        {
+            get { return mEndStr; }
+        }
+
+        public Color Colour
+        {
+            get { return mColour; }
+            set { mColour = value; }
+        }
+
+        public MultiwordDesign(string aName, string aStart, string aEnd, Color aCol) {
+            mName = aName;
+            mStartStr = aStart;
+            mEndStr = aEnd;
+            mColour = aCol;
         }
     }
 }

@@ -35,6 +35,7 @@
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toEditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.recoverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,8 +58,9 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.mainFormTimer = new System.Windows.Forms.Timer(this.components);
             this.versionLabel = new System.Windows.Forms.Label();
-            this.recoverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.formatColourButton = new System.Windows.Forms.Button();
             this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
+            this.formatListButton = new System.Windows.Forms.Button();
             this.mainMenuStrip.SuspendLayout();
             this.mainTabControl.SuspendLayout();
             this.tabControlContextMenu.SuspendLayout();
@@ -92,7 +94,7 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -101,7 +103,7 @@
             this.openToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toEditToolStripMenuItem});
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.openToolStripMenuItem.Text = "Open";
             // 
             // toEditToolStripMenuItem
@@ -111,10 +113,17 @@
             this.toEditToolStripMenuItem.Text = "To Edit";
             this.toEditToolStripMenuItem.Click += new System.EventHandler(this.toEditToolStripMenuItem_Click);
             // 
+            // recoverToolStripMenuItem
+            // 
+            this.recoverToolStripMenuItem.Name = "recoverToolStripMenuItem";
+            this.recoverToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.recoverToolStripMenuItem.Text = "Recover";
+            this.recoverToolStripMenuItem.Click += new System.EventHandler(this.recoverToolStripMenuItem_Click);
+            // 
             // preferencesToolStripMenuItem
             // 
             this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.preferencesToolStripMenuItem.Text = "Preferences";
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
@@ -204,6 +213,8 @@
             // formatingGroupBox
             // 
             this.formatingGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.formatingGroupBox.Controls.Add(this.formatListButton);
+            this.formatingGroupBox.Controls.Add(this.formatColourButton);
             this.formatingGroupBox.Controls.Add(this.format_languageSelector);
             this.formatingGroupBox.Controls.Add(this.format_formatCodeButton);
             this.formatingGroupBox.Controls.Add(this.format_strikeoutButton);
@@ -214,7 +225,7 @@
             this.formatingGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.formatingGroupBox.Location = new System.Drawing.Point(1095, 43);
             this.formatingGroupBox.Name = "formatingGroupBox";
-            this.formatingGroupBox.Size = new System.Drawing.Size(235, 125);
+            this.formatingGroupBox.Size = new System.Drawing.Size(235, 159);
             this.formatingGroupBox.TabIndex = 101;
             this.formatingGroupBox.TabStop = false;
             this.formatingGroupBox.Text = "Format:";
@@ -317,12 +328,15 @@
             this.versionLabel.Text = "VERSION";
             this.versionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // recoverToolStripMenuItem
+            // formatColourButton
             // 
-            this.recoverToolStripMenuItem.Name = "recoverToolStripMenuItem";
-            this.recoverToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.recoverToolStripMenuItem.Text = "Recover";
-            this.recoverToolStripMenuItem.Click += new System.EventHandler(this.recoverToolStripMenuItem_Click);
+            this.formatColourButton.Location = new System.Drawing.Point(122, 123);
+            this.formatColourButton.Name = "formatColourButton";
+            this.formatColourButton.Size = new System.Drawing.Size(109, 26);
+            this.formatColourButton.TabIndex = 9;
+            this.formatColourButton.Text = "Colour";
+            this.formatColourButton.UseVisualStyleBackColor = true;
+            this.formatColourButton.Click += new System.EventHandler(this.FormatColourText);
             // 
             // template_richTextBox
             // 
@@ -335,6 +349,16 @@
             this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
             this.template_richTextBox.TabIndex = 0;
             this.template_richTextBox.Text = "Theres are some nootes!";
+            // 
+            // formatListButton
+            // 
+            this.formatListButton.Location = new System.Drawing.Point(6, 123);
+            this.formatListButton.Name = "formatListButton";
+            this.formatListButton.Size = new System.Drawing.Size(109, 26);
+            this.formatListButton.TabIndex = 10;
+            this.formatListButton.Text = "List";
+            this.formatListButton.UseVisualStyleBackColor = true;
+            this.formatListButton.Click += new System.EventHandler(this.format_listButton_Click);
             // 
             // MainForm
             // 
@@ -398,5 +422,7 @@
         private System.Windows.Forms.Button format_formatCodeButton;
         private System.Windows.Forms.ComboBox format_languageSelector;
         private System.Windows.Forms.ToolStripMenuItem recoverToolStripMenuItem;
+        private System.Windows.Forms.Button formatColourButton;
+        private System.Windows.Forms.Button formatListButton;
     }
 }
