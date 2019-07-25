@@ -48,6 +48,8 @@
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.default_tab = new System.Windows.Forms.TabPage();
             this.formatingGroupBox = new System.Windows.Forms.GroupBox();
+            this.formatListButton = new System.Windows.Forms.Button();
+            this.formatColourButton = new System.Windows.Forms.Button();
             this.format_languageSelector = new System.Windows.Forms.ComboBox();
             this.format_formatCodeButton = new System.Windows.Forms.Button();
             this.format_strikeoutButton = new System.Windows.Forms.Button();
@@ -58,9 +60,10 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.mainFormTimer = new System.Windows.Forms.Timer(this.components);
             this.versionLabel = new System.Windows.Forms.Label();
-            this.formatColourButton = new System.Windows.Forms.Button();
+            this.fontSizeUpButton = new System.Windows.Forms.Button();
+            this.fontSizeDownButton = new System.Windows.Forms.Button();
             this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
-            this.formatListButton = new System.Windows.Forms.Button();
+            this.wordCountLabel = new System.Windows.Forms.Label();
             this.mainMenuStrip.SuspendLayout();
             this.mainTabControl.SuspendLayout();
             this.tabControlContextMenu.SuspendLayout();
@@ -213,6 +216,8 @@
             // formatingGroupBox
             // 
             this.formatingGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.formatingGroupBox.Controls.Add(this.fontSizeUpButton);
+            this.formatingGroupBox.Controls.Add(this.fontSizeDownButton);
             this.formatingGroupBox.Controls.Add(this.formatListButton);
             this.formatingGroupBox.Controls.Add(this.formatColourButton);
             this.formatingGroupBox.Controls.Add(this.format_languageSelector);
@@ -225,10 +230,30 @@
             this.formatingGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.formatingGroupBox.Location = new System.Drawing.Point(1095, 43);
             this.formatingGroupBox.Name = "formatingGroupBox";
-            this.formatingGroupBox.Size = new System.Drawing.Size(235, 159);
+            this.formatingGroupBox.Size = new System.Drawing.Size(235, 191);
             this.formatingGroupBox.TabIndex = 101;
             this.formatingGroupBox.TabStop = false;
             this.formatingGroupBox.Text = "Format:";
+            // 
+            // formatListButton
+            // 
+            this.formatListButton.Location = new System.Drawing.Point(122, 155);
+            this.formatListButton.Name = "formatListButton";
+            this.formatListButton.Size = new System.Drawing.Size(109, 26);
+            this.formatListButton.TabIndex = 10;
+            this.formatListButton.Text = "List";
+            this.formatListButton.UseVisualStyleBackColor = true;
+            this.formatListButton.Click += new System.EventHandler(this.format_listButton_Click);
+            // 
+            // formatColourButton
+            // 
+            this.formatColourButton.Location = new System.Drawing.Point(122, 123);
+            this.formatColourButton.Name = "formatColourButton";
+            this.formatColourButton.Size = new System.Drawing.Size(109, 26);
+            this.formatColourButton.TabIndex = 9;
+            this.formatColourButton.Text = "Colour";
+            this.formatColourButton.UseVisualStyleBackColor = true;
+            this.formatColourButton.Click += new System.EventHandler(this.FormatColourText);
             // 
             // format_languageSelector
             // 
@@ -328,15 +353,27 @@
             this.versionLabel.Text = "VERSION";
             this.versionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // formatColourButton
+            // fontSizeUpButton
             // 
-            this.formatColourButton.Location = new System.Drawing.Point(122, 123);
-            this.formatColourButton.Name = "formatColourButton";
-            this.formatColourButton.Size = new System.Drawing.Size(109, 26);
-            this.formatColourButton.TabIndex = 9;
-            this.formatColourButton.Text = "Colour";
-            this.formatColourButton.UseVisualStyleBackColor = true;
-            this.formatColourButton.Click += new System.EventHandler(this.FormatColourText);
+            this.fontSizeUpButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fontSizeUpButton.Location = new System.Drawing.Point(62, 123);
+            this.fontSizeUpButton.Name = "fontSizeUpButton";
+            this.fontSizeUpButton.Size = new System.Drawing.Size(55, 26);
+            this.fontSizeUpButton.TabIndex = 12;
+            this.fontSizeUpButton.Text = "AA";
+            this.fontSizeUpButton.UseVisualStyleBackColor = true;
+            this.fontSizeUpButton.Click += new System.EventHandler(this.FormatIncreaseTextSize);
+            // 
+            // fontSizeDownButton
+            // 
+            this.fontSizeDownButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fontSizeDownButton.Location = new System.Drawing.Point(4, 123);
+            this.fontSizeDownButton.Name = "fontSizeDownButton";
+            this.fontSizeDownButton.Size = new System.Drawing.Size(55, 26);
+            this.fontSizeDownButton.TabIndex = 11;
+            this.fontSizeDownButton.Text = "AA";
+            this.fontSizeDownButton.UseVisualStyleBackColor = true;
+            this.fontSizeDownButton.Click += new System.EventHandler(this.FormatDecreaseTextSize);
             // 
             // template_richTextBox
             // 
@@ -350,21 +387,21 @@
             this.template_richTextBox.TabIndex = 0;
             this.template_richTextBox.Text = "Theres are some nootes!";
             // 
-            // formatListButton
+            // wordCountLabel
             // 
-            this.formatListButton.Location = new System.Drawing.Point(6, 123);
-            this.formatListButton.Name = "formatListButton";
-            this.formatListButton.Size = new System.Drawing.Size(109, 26);
-            this.formatListButton.TabIndex = 10;
-            this.formatListButton.Text = "List";
-            this.formatListButton.UseVisualStyleBackColor = true;
-            this.formatListButton.Click += new System.EventHandler(this.format_listButton_Click);
+            this.wordCountLabel.AutoSize = true;
+            this.wordCountLabel.Location = new System.Drawing.Point(15, 667);
+            this.wordCountLabel.Name = "wordCountLabel";
+            this.wordCountLabel.Size = new System.Drawing.Size(67, 13);
+            this.wordCountLabel.TabIndex = 104;
+            this.wordCountLabel.Text = "Word Count:";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1339, 686);
+            this.Controls.Add(this.wordCountLabel);
             this.Controls.Add(this.versionLabel);
             this.Controls.Add(this.formatingGroupBox);
             this.Controls.Add(this.saveButton);
@@ -424,5 +461,8 @@
         private System.Windows.Forms.ToolStripMenuItem recoverToolStripMenuItem;
         private System.Windows.Forms.Button formatColourButton;
         private System.Windows.Forms.Button formatListButton;
+        private System.Windows.Forms.Button fontSizeUpButton;
+        private System.Windows.Forms.Button fontSizeDownButton;
+        private System.Windows.Forms.Label wordCountLabel;
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using ProjectMemo.CustomControls;
@@ -286,6 +287,13 @@ namespace ProjectMemo.Forms
                     }
                 }
             }
+
+            if (activeRichTextBox != null) {
+                string regexPattern = @"\b[^\d\W]+\b";
+                MatchCollection matches = Regex.Matches(activeRichTextBox.Text, regexPattern);
+
+                wordCountLabel.Text = "Word Count: " + matches.Count;
+            }
         }
 
         private void toEditToolStripMenuItem_Click(object sender, EventArgs e)
@@ -459,6 +467,28 @@ namespace ProjectMemo.Forms
 
                 activeRichTextBox.SelectionColor = cd.Color;
                 activeRichTextBox.SelectionLength = 0;
+            }
+        }
+
+        private void FormatIncreaseTextSize(object sender, EventArgs e) {
+            if (activeRichTextBox.SelectedText != "") {
+                float fontSize = activeRichTextBox.SelectionFont.Size;
+                Font newFont = new Font(activeRichTextBox.SelectionFont.FontFamily, activeRichTextBox.SelectionFont.Size + 0.5f, activeRichTextBox.SelectionFont.Style);
+
+                activeRichTextBox.SelectionFont = newFont;
+                activeRichTextBox.SelectionLength = 0;
+                activeRichTextBox.SelectionFont = activeRichTextBox.Font;
+            }
+        }
+
+        private void FormatDecreaseTextSize(object sender, EventArgs e) {
+            if (activeRichTextBox.SelectedText != "") {
+                float fontSize = activeRichTextBox.SelectionFont.Size;
+                Font newFont = new Font(activeRichTextBox.SelectionFont.FontFamily, activeRichTextBox.SelectionFont.Size - 0.5f, activeRichTextBox.SelectionFont.Style);
+
+                activeRichTextBox.SelectionFont = newFont;
+                activeRichTextBox.SelectionLength = 0;
+                activeRichTextBox.SelectionFont = activeRichTextBox.Font;
             }
         }
 
