@@ -22,8 +22,8 @@ namespace ProjectMemo.Forms
         public static MainForm ThisForm;
 
         private const int VERSION_MAJOR = 5;
-        private const int VERSION_MINOR = 10;
-        private const int VERSION_PATCH = 2;
+        private const int VERSION_MINOR = 11;
+        private const int VERSION_PATCH = 0;
 
         public static string Version
         {
@@ -722,13 +722,19 @@ namespace ProjectMemo.Forms
         }
 
         private void recoverToolStripMenuItem_Click(object sender, EventArgs e) {
-            /*
+            
             OpenFileDialog ofd = new OpenFileDialog();
             DialogResult result = ofd.ShowDialog();
 
             if (result == DialogResult.OK) {
+                RichTextBox rtbSurrogate = new RichTextBox();
+                rtbSurrogate.LoadFile(ofd.FileName);
 
-            }*/
+                OpenTab();
+
+                if (activeRichTextBox != null)
+                    activeRichTextBox.Rtf = rtbSurrogate.Rtf;
+            }
         }
     }
 }
