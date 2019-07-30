@@ -32,6 +32,7 @@ namespace ProjectMemo
             mStopWatch.Start();
 
             while (mRunLoop) {
+                Thread.Sleep(1000);
                 //Console.WriteLine(mStopWatch.ElapsedMilliseconds);
                 if (mStopWatch.ElapsedMilliseconds > ProjectMemo.Forms.MainForm.AutoSaveInterval) {
                     Dictionary<string, string> rtbData = ProjectMemo.Forms.MainForm.RichTextBoxData;

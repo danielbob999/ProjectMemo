@@ -23,7 +23,7 @@ namespace ProjectMemo.Forms
 
         private const int VERSION_MAJOR = 5;
         private const int VERSION_MINOR = 10;
-        private const int VERSION_PATCH = 0;
+        private const int VERSION_PATCH = 1;
 
         public static string Version
         {
@@ -72,6 +72,7 @@ namespace ProjectMemo.Forms
 
             mAutoSaveModule = new AutoSaveModule();
 
+            
             Thread saveModuleThread = new Thread(mAutoSaveModule.Run);
             saveModuleThread.Start();
             openThreads.Add(saveModuleThread);
