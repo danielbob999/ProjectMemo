@@ -47,7 +47,10 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.default_tab = new System.Windows.Forms.TabPage();
+            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.formatingGroupBox = new System.Windows.Forms.GroupBox();
+            this.fontSizeUpButton = new System.Windows.Forms.Button();
+            this.fontSizeDownButton = new System.Windows.Forms.Button();
             this.formatListButton = new System.Windows.Forms.Button();
             this.formatColourButton = new System.Windows.Forms.Button();
             this.format_languageSelector = new System.Windows.Forms.ComboBox();
@@ -60,9 +63,6 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.mainFormTimer = new System.Windows.Forms.Timer(this.components);
             this.versionLabel = new System.Windows.Forms.Label();
-            this.fontSizeUpButton = new System.Windows.Forms.Button();
-            this.fontSizeDownButton = new System.Windows.Forms.Button();
-            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.wordCountLabel = new System.Windows.Forms.Label();
             this.mainMenuStrip.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -213,6 +213,18 @@
             this.default_tab.Text = "default_tab";
             this.default_tab.UseVisualStyleBackColor = true;
             // 
+            // template_richTextBox
+            // 
+            this.template_richTextBox.AcceptsTab = true;
+            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.template_richTextBox.HideSelection = false;
+            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
+            this.template_richTextBox.Name = "template_richTextBox";
+            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
+            this.template_richTextBox.TabIndex = 0;
+            this.template_richTextBox.Text = "Theres are some nootes!";
+            // 
             // formatingGroupBox
             // 
             this.formatingGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -234,6 +246,28 @@
             this.formatingGroupBox.TabIndex = 101;
             this.formatingGroupBox.TabStop = false;
             this.formatingGroupBox.Text = "Format:";
+            // 
+            // fontSizeUpButton
+            // 
+            this.fontSizeUpButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fontSizeUpButton.Location = new System.Drawing.Point(62, 123);
+            this.fontSizeUpButton.Name = "fontSizeUpButton";
+            this.fontSizeUpButton.Size = new System.Drawing.Size(55, 26);
+            this.fontSizeUpButton.TabIndex = 12;
+            this.fontSizeUpButton.Text = "AA";
+            this.fontSizeUpButton.UseVisualStyleBackColor = true;
+            this.fontSizeUpButton.Click += new System.EventHandler(this.FormatIncreaseTextSize);
+            // 
+            // fontSizeDownButton
+            // 
+            this.fontSizeDownButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fontSizeDownButton.Location = new System.Drawing.Point(4, 123);
+            this.fontSizeDownButton.Name = "fontSizeDownButton";
+            this.fontSizeDownButton.Size = new System.Drawing.Size(55, 26);
+            this.fontSizeDownButton.TabIndex = 11;
+            this.fontSizeDownButton.Text = "AA";
+            this.fontSizeDownButton.UseVisualStyleBackColor = true;
+            this.fontSizeDownButton.Click += new System.EventHandler(this.FormatDecreaseTextSize);
             // 
             // formatListButton
             // 
@@ -330,6 +364,7 @@
             // 
             // saveButton
             // 
+            this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.saveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveButton.Location = new System.Drawing.Point(1099, 614);
             this.saveButton.Name = "saveButton";
@@ -352,40 +387,6 @@
             this.versionLabel.TabIndex = 103;
             this.versionLabel.Text = "VERSION";
             this.versionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // fontSizeUpButton
-            // 
-            this.fontSizeUpButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fontSizeUpButton.Location = new System.Drawing.Point(62, 123);
-            this.fontSizeUpButton.Name = "fontSizeUpButton";
-            this.fontSizeUpButton.Size = new System.Drawing.Size(55, 26);
-            this.fontSizeUpButton.TabIndex = 12;
-            this.fontSizeUpButton.Text = "AA";
-            this.fontSizeUpButton.UseVisualStyleBackColor = true;
-            this.fontSizeUpButton.Click += new System.EventHandler(this.FormatIncreaseTextSize);
-            // 
-            // fontSizeDownButton
-            // 
-            this.fontSizeDownButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fontSizeDownButton.Location = new System.Drawing.Point(4, 123);
-            this.fontSizeDownButton.Name = "fontSizeDownButton";
-            this.fontSizeDownButton.Size = new System.Drawing.Size(55, 26);
-            this.fontSizeDownButton.TabIndex = 11;
-            this.fontSizeDownButton.Text = "AA";
-            this.fontSizeDownButton.UseVisualStyleBackColor = true;
-            this.fontSizeDownButton.Click += new System.EventHandler(this.FormatDecreaseTextSize);
-            // 
-            // template_richTextBox
-            // 
-            this.template_richTextBox.AcceptsTab = true;
-            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.template_richTextBox.HideSelection = false;
-            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
-            this.template_richTextBox.Name = "template_richTextBox";
-            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
-            this.template_richTextBox.TabIndex = 0;
-            this.template_richTextBox.Text = "Theres are some nootes!";
             // 
             // wordCountLabel
             // 
