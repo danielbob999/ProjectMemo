@@ -16,6 +16,8 @@ namespace ProjectMemo
     {
         private static AutoSaveModule ActiveInstance;
 
+        public event EventHandler OnAutoSave;
+
         private string mSaveDirectory;
         private bool mRunLoop = false;
         private Stopwatch mStopWatch;
@@ -35,6 +37,7 @@ namespace ProjectMemo
                 Thread.Sleep(1000);
                 //Console.WriteLine(mStopWatch.ElapsedMilliseconds);
                 if (mStopWatch.ElapsedMilliseconds > ProjectMemo.Forms.MainForm.AutoSaveInterval) {
+                    /*
                     Dictionary<string, string> rtbData = ProjectMemo.Forms.MainForm.RichTextBoxData;
                     int saveId = 0;
 
@@ -51,6 +54,13 @@ namespace ProjectMemo
                         File.WriteAllText(autoSaveFilePath, pair.Value);
                         CustomConsole.Log("Saved temp file to: " + autoSaveFilePath);
                         saveId++;
+                    }
+                    */
+
+                    if (OnAutoSave != null) {
+                        if (OnAutoSave.GetInvocationList().Length > 0) {
+                            OnAutoSave.Invoke(this, EventArgs.Empty);
+                        }
                     }
 
                     mStopWatch.Restart();

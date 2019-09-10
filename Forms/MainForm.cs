@@ -21,8 +21,8 @@ namespace ProjectMemo.Forms
     {
         public static MainForm ThisForm;
 
-        private const int VERSION_MAJOR = 5;
-        private const int VERSION_MINOR = 11;
+        private const int VERSION_MAJOR = 6;
+        private const int VERSION_MINOR = 0;
         private const int VERSION_PATCH = 0;
 
         public static string Version
@@ -71,6 +71,7 @@ namespace ProjectMemo.Forms
             RtfCodeFormatter.LoadLanguageThemes();
 
             mAutoSaveModule = new AutoSaveModule();
+            mAutoSaveModule.OnAutoSave += AutosaveAllNotes;
 
             
             Thread saveModuleThread = new Thread(mAutoSaveModule.Run);
@@ -205,7 +206,7 @@ namespace ProjectMemo.Forms
                 form.ShowDialog();
                 MainNoteDirectory = form.selectedDirectory;
                 mAutoSaveInterval = form.autoSaveInterval;
-                Console.WriteLine("AutoSaveInt is now: " + mAutoSaveInterval);
+                Console.WriteLine("AutoSaveInterval is now: " + mAutoSaveInterval);
             }
 
             // Set semester folders
@@ -284,7 +285,8 @@ namespace ProjectMemo.Forms
             foreach (CustomControls.CustomTab tab in ThisForm.mainTabControl.TabPages) {
                 foreach (Control ctrl in tab.Controls) {
                     if (ctrl.GetType() == typeof(CustomControls.CustomRichTextBox)) {
-                        mRtbData.Add(((CustomRichTextBox)ctrl).TabPath, ((CustomRichTextBox)ctrl).Rtf);
+                        string str = new string(((CustomRichTextBox)ctrl).Rtf.ToCharArray());
+                        mRtbData.Add(((CustomRichTextBox)ctrl).TabPath, str);
                     }
                 }
             }
@@ -343,6 +345,7 @@ namespace ProjectMemo.Forms
 
         private void saveButton_Click(object sender, EventArgs e)
         {
+            ((CustomTab)(mainTabControl.SelectedTab)).Save();
             if (string.IsNullOrEmpty(MainNoteDirectory))
             {
                 MessageBox.Show("You need to set a MainNoteDirectory before saving. (File -> Preferences)", "Error", MessageBoxButtons.OK);
@@ -350,11 +353,7 @@ namespace ProjectMemo.Forms
             }
 
             CustomTab selectedTab = (CustomTab)mainTabControl.SelectedTab;
-            string strng = selectedTab.mFullPath;
-
-            activeRichTextBox.SaveFile(strng);
-            activeRichTextBox.SetSavePoint();
-            CustomConsole.Log("Saved file to: " + strng);
+            selectedTab.Save();
         }
 
         private int GetNumberOfUntitledTabs()
@@ -734,6 +733,14 @@ namespace ProjectMemo.Forms
 
                 if (activeRichTextBox != null)
                     activeRichTextBox.Rtf = rtbSurrogate.Rtf;
+            }
+        }
+
+        private void AutosaveAllNotes(object sender, EventArgs e) {
+            CustomTab[] allTabs = mainTabControl.TabPages.OfType<CustomTab>().ToArray();
+
+            for (int i = 0; i < allTabs.Length; i++) {
+                allTabs[i].Save(true);
             }
         }
     }

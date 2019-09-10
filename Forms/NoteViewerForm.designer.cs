@@ -34,7 +34,14 @@
             this.tabControlContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.default_tab = new System.Windows.Forms.TabPage();
-            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
+            this.findTextPanel = new System.Windows.Forms.Panel();
+            this.findMatchesLabel = new System.Windows.Forms.Label();
+            this.findCloseButton = new System.Windows.Forms.Button();
+            this.nextFindItemButton = new System.Windows.Forms.Button();
+            this.previousFindItemButton = new System.Windows.Forms.Button();
+            this.caseSensitiveFindCheckBox = new System.Windows.Forms.CheckBox();
+            this.findInputBox = new System.Windows.Forms.TextBox();
+            this.findPanelTitle = new System.Windows.Forms.Label();
             this.foldersGroupBox = new System.Windows.Forms.GroupBox();
             this.courseSelectorLabel = new System.Windows.Forms.Label();
             this.semesterSelector = new System.Windows.Forms.ComboBox();
@@ -54,9 +61,11 @@
             this.resultsGroupBox = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.mainFormTimer = new System.Windows.Forms.Timer(this.components);
+            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.mainTabControl.SuspendLayout();
             this.tabControlContextMenu.SuspendLayout();
             this.default_tab.SuspendLayout();
+            this.findTextPanel.SuspendLayout();
             this.foldersGroupBox.SuspendLayout();
             this.filtersGroupBox.SuspendLayout();
             this.resultsGroupBox.SuspendLayout();
@@ -91,6 +100,7 @@
             // 
             // default_tab
             // 
+            this.default_tab.Controls.Add(this.findTextPanel);
             this.default_tab.Controls.Add(this.template_richTextBox);
             this.default_tab.Location = new System.Drawing.Point(4, 25);
             this.default_tab.Name = "default_tab";
@@ -100,17 +110,91 @@
             this.default_tab.Text = "default_tab";
             this.default_tab.UseVisualStyleBackColor = true;
             // 
-            // template_richTextBox
+            // findTextPanel
             // 
-            this.template_richTextBox.AcceptsTab = true;
-            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.template_richTextBox.HideSelection = false;
-            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
-            this.template_richTextBox.Name = "template_richTextBox";
-            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
-            this.template_richTextBox.TabIndex = 0;
-            this.template_richTextBox.Text = "Theres are some nootes!";
+            this.findTextPanel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.findTextPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.findTextPanel.Controls.Add(this.findMatchesLabel);
+            this.findTextPanel.Controls.Add(this.findCloseButton);
+            this.findTextPanel.Controls.Add(this.nextFindItemButton);
+            this.findTextPanel.Controls.Add(this.previousFindItemButton);
+            this.findTextPanel.Controls.Add(this.caseSensitiveFindCheckBox);
+            this.findTextPanel.Controls.Add(this.findInputBox);
+            this.findTextPanel.Controls.Add(this.findPanelTitle);
+            this.findTextPanel.Location = new System.Drawing.Point(735, 365);
+            this.findTextPanel.Name = "findTextPanel";
+            this.findTextPanel.Size = new System.Drawing.Size(200, 131);
+            this.findTextPanel.TabIndex = 107;
+            // 
+            // findMatchesLabel
+            // 
+            this.findMatchesLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.findMatchesLabel.Location = new System.Drawing.Point(59, 110);
+            this.findMatchesLabel.Name = "findMatchesLabel";
+            this.findMatchesLabel.Size = new System.Drawing.Size(134, 13);
+            this.findMatchesLabel.TabIndex = 6;
+            this.findMatchesLabel.Text = "Matches: 0";
+            this.findMatchesLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // findCloseButton
+            // 
+            this.findCloseButton.BackColor = System.Drawing.Color.Red;
+            this.findCloseButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.findCloseButton.Location = new System.Drawing.Point(172, 0);
+            this.findCloseButton.Name = "findCloseButton";
+            this.findCloseButton.Size = new System.Drawing.Size(22, 22);
+            this.findCloseButton.TabIndex = 5;
+            this.findCloseButton.Text = "X";
+            this.findCloseButton.UseVisualStyleBackColor = false;
+            this.findCloseButton.Click += new System.EventHandler(this.findCloseButton_Click);
+            // 
+            // nextFindItemButton
+            // 
+            this.nextFindItemButton.Location = new System.Drawing.Point(37, 80);
+            this.nextFindItemButton.Name = "nextFindItemButton";
+            this.nextFindItemButton.Size = new System.Drawing.Size(75, 28);
+            this.nextFindItemButton.TabIndex = 4;
+            this.nextFindItemButton.Text = "Next";
+            this.nextFindItemButton.UseVisualStyleBackColor = true;
+            this.nextFindItemButton.Click += new System.EventHandler(this.nextFindItemButton_Click);
+            // 
+            // previousFindItemButton
+            // 
+            this.previousFindItemButton.Location = new System.Drawing.Point(118, 80);
+            this.previousFindItemButton.Name = "previousFindItemButton";
+            this.previousFindItemButton.Size = new System.Drawing.Size(75, 28);
+            this.previousFindItemButton.TabIndex = 3;
+            this.previousFindItemButton.Text = "Previous";
+            this.previousFindItemButton.UseVisualStyleBackColor = true;
+            this.previousFindItemButton.Click += new System.EventHandler(this.previousFindItemButton_Click);
+            // 
+            // caseSensitiveFindCheckBox
+            // 
+            this.caseSensitiveFindCheckBox.AutoSize = true;
+            this.caseSensitiveFindCheckBox.Location = new System.Drawing.Point(5, 53);
+            this.caseSensitiveFindCheckBox.Name = "caseSensitiveFindCheckBox";
+            this.caseSensitiveFindCheckBox.Size = new System.Drawing.Size(120, 21);
+            this.caseSensitiveFindCheckBox.TabIndex = 2;
+            this.caseSensitiveFindCheckBox.Text = "Case Sensitive";
+            this.caseSensitiveFindCheckBox.UseVisualStyleBackColor = true;
+            this.caseSensitiveFindCheckBox.CheckedChanged += new System.EventHandler(this.caseSensitiveFindCheckBox_CheckedChanged);
+            // 
+            // findInputBox
+            // 
+            this.findInputBox.Location = new System.Drawing.Point(5, 23);
+            this.findInputBox.Name = "findInputBox";
+            this.findInputBox.Size = new System.Drawing.Size(189, 23);
+            this.findInputBox.TabIndex = 1;
+            this.findInputBox.TextChanged += new System.EventHandler(this.findInputBox_TextChanged);
+            // 
+            // findPanelTitle
+            // 
+            this.findPanelTitle.AutoSize = true;
+            this.findPanelTitle.Location = new System.Drawing.Point(3, 3);
+            this.findPanelTitle.Name = "findPanelTitle";
+            this.findPanelTitle.Size = new System.Drawing.Size(39, 17);
+            this.findPanelTitle.TabIndex = 0;
+            this.findPanelTitle.Text = "Find:";
             // 
             // foldersGroupBox
             // 
@@ -324,6 +408,18 @@
             // 
             this.mainFormTimer.Tick += new System.EventHandler(this.mainFormTimer_Tick);
             // 
+            // template_richTextBox
+            // 
+            this.template_richTextBox.AcceptsTab = true;
+            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.template_richTextBox.HideSelection = false;
+            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
+            this.template_richTextBox.Name = "template_richTextBox";
+            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
+            this.template_richTextBox.TabIndex = 0;
+            this.template_richTextBox.Text = "Theres are some nootes!";
+            // 
             // NoteViewerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -345,6 +441,8 @@
             this.mainTabControl.ResumeLayout(false);
             this.tabControlContextMenu.ResumeLayout(false);
             this.default_tab.ResumeLayout(false);
+            this.findTextPanel.ResumeLayout(false);
+            this.findTextPanel.PerformLayout();
             this.foldersGroupBox.ResumeLayout(false);
             this.filtersGroupBox.ResumeLayout(false);
             this.filtersGroupBox.PerformLayout();
@@ -379,5 +477,13 @@
         private System.Windows.Forms.CheckBox filterByDateCheckBox;
         private System.Windows.Forms.ContextMenuStrip tabControlContextMenu;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+        private System.Windows.Forms.Panel findTextPanel;
+        private System.Windows.Forms.Button findCloseButton;
+        private System.Windows.Forms.Button nextFindItemButton;
+        private System.Windows.Forms.Button previousFindItemButton;
+        private System.Windows.Forms.CheckBox caseSensitiveFindCheckBox;
+        private System.Windows.Forms.TextBox findInputBox;
+        private System.Windows.Forms.Label findPanelTitle;
+        private System.Windows.Forms.Label findMatchesLabel;
     }
 }

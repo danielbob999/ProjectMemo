@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.IO;
 using System.Windows.Forms;
 using ProjectMemo.ProjectMemoConsole;
@@ -29,6 +30,7 @@ namespace ProjectMemo.Forms
         private string mSelectedClassType = "";
         private string mSearchTerm = "";
         private bool mCanDisplaySearch = false;
+        private int mCurrentFindSearchIndex;
 
         // dsadasd
         public bool shiftActive = false;
@@ -79,6 +81,8 @@ namespace ProjectMemo.Forms
 
             mainFormTimer.Start();
             ResizeTabControlAndChildren();
+
+            mCurrentFindSearchIndex = 0;
         }
 
         public void OpenNote(string a_filePath, string a_fileName, string a_course)
@@ -242,6 +246,11 @@ namespace ProjectMemo.Forms
                     form.ShowDialog();
                 }
             }
+
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.F) {
+                findTextPanel.Visible = true;
+                Console.WriteLine("Panel should be visible");
+            }
         }
 
         private void ResizeTabControlAndChildren()
@@ -274,6 +283,75 @@ namespace ProjectMemo.Forms
         private void NoteViewerForm_Resize(object sender, EventArgs e)
         {
             ResizeTabControlAndChildren();
+        }
+
+        private void findInputBox_TextChanged(object sender, EventArgs e) {
+
+        }
+
+        private void caseSensitiveFindCheckBox_CheckedChanged(object sender, EventArgs e) {
+
+        }
+
+        private void previousFindItemButton_Click(object sender, EventArgs e) {
+            mCurrentFindSearchIndex--;
+            CustomRichTextBox rtb = FindRTBFromTabPage(mainTabControl.SelectedTab);
+
+            MatchCollection allMatches = FindAllTextMatches(rtb);
+
+            if (mCurrentFindSearchIndex < allMatches.Count) {
+
+            } else {
+                mCurrentFindSearchIndex = 0;
+            }
+        }
+
+        private void nextFindItemButton_Click(object sender, EventArgs e) {
+            mCurrentFindSearchIndex = 0;
+
+            CustomRichTextBox rtb = FindRTBFromTabPage(mainTabControl.SelectedTab);
+
+            if (rtb == null) {
+                return;
+            }
+
+            MatchCollection allMatches = FindAllTextMatches(rtb);
+
+            if (mCurrentFindSearchIndex < allMatches.Count) {
+                SelectFindMatch(allMatches[mCurrentFindSearchIndex], rtb);
+            } else {
+                mCurrentFindSearchIndex = 0;
+            }
+        }
+
+        private MatchCollection FindAllTextMatches(CustomRichTextBox aRtb) {
+            string regexPattern = "(" + findInputBox.Text + ")";
+
+            MatchCollection matches = Regex.Matches(aRtb.Text, regexPattern);
+
+            return matches;
+        }
+
+        private void SelectFindMatch(Match aMatch, CustomRichTextBox rtb) {
+            rtb.SelectionStart = aMatch.Index;
+            rtb.SelectionLength = aMatch.Length;
+        }
+
+        private CustomRichTextBox FindRTBFromTabPage(TabPage aPage) {
+            CustomRichTextBox rtb = null;
+
+            foreach (Control ctrl in aPage.Controls) {
+                if (ctrl.GetType() == typeof(CustomRichTextBox)) {
+                    rtb = (CustomRichTextBox)ctrl;
+                    break;
+                }
+            }
+
+            return rtb;
+        }
+
+        private void findCloseButton_Click(object sender, EventArgs e) {
+            findTextPanel.Visible = false;
         }
     }
 }

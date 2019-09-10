@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.ComponentModel;
 using ProjectMemo.Forms;
+using System.IO;
 
 namespace ProjectMemo.CustomControls
 {
@@ -56,8 +57,30 @@ namespace ProjectMemo.CustomControls
 
             if (e.Control.GetType() == typeof(CustomRichTextBox)) {
                 ((CustomRichTextBox)e.Control).ParentControlDefaultTitle = this.Text;
-                Console.WriteLine("DONE");
             }
+        }
+
+        public void Save(bool aIsAutosave = false) {
+            CustomRichTextBox thisTextBox = Controls.OfType<CustomRichTextBox>().ToArray()[0];
+
+            if (thisTextBox == null) {
+                ProjectMemoConsole.CustomConsole.Log("Failed to save note. There is not CustomRichTextBox in the CustomTab with " + mTabId);
+                return;
+            }
+
+            if (aIsAutosave) {
+                string savePath = Directory.GetCurrentDirectory() + "\\autosaves\\";
+                string fileName = "autosave_" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "_" + DateTime.Now.Second + ".tmp";
+
+                thisTextBox.SaveFile(savePath);
+                thisTextBox.SetSavePoint();
+                ProjectMemoConsole.CustomConsole.Log("Saved file to " + savePath + fileName + ". IsAutoSave=true");
+                return;
+            }
+
+            thisTextBox.SaveFile(mFullPath);
+            thisTextBox.SetSavePoint();
+            ProjectMemoConsole.CustomConsole.Log("Saved file to " + mFullPath + ". IsAutoSave=false");
         }
     }
 }
