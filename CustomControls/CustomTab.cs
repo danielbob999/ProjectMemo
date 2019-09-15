@@ -36,7 +36,6 @@ namespace ProjectMemo.CustomControls
                 Console.WriteLine("here2");
             } else {
                 mFullPath = _fullPath;
-                Console.WriteLine("Here1");
             }
         }
 
