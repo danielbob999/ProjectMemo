@@ -47,6 +47,7 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.default_tab = new System.Windows.Forms.TabPage();
+            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.formatingGroupBox = new System.Windows.Forms.GroupBox();
             this.fontSizeUpButton = new System.Windows.Forms.Button();
             this.fontSizeDownButton = new System.Windows.Forms.Button();
@@ -63,7 +64,7 @@
             this.mainFormTimer = new System.Windows.Forms.Timer(this.components);
             this.versionLabel = new System.Windows.Forms.Label();
             this.wordCountLabel = new System.Windows.Forms.Label();
-            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
+            this.formatAddObjectButton = new System.Windows.Forms.Button();
             this.mainMenuStrip.SuspendLayout();
             this.mainTabControl.SuspendLayout();
             this.tabControlContextMenu.SuspendLayout();
@@ -213,9 +214,22 @@
             this.default_tab.Text = "default_tab";
             this.default_tab.UseVisualStyleBackColor = true;
             // 
+            // template_richTextBox
+            // 
+            this.template_richTextBox.AcceptsTab = true;
+            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.template_richTextBox.HideSelection = false;
+            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
+            this.template_richTextBox.Name = "template_richTextBox";
+            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
+            this.template_richTextBox.TabIndex = 0;
+            this.template_richTextBox.Text = "Theres are some nootes!";
+            // 
             // formatingGroupBox
             // 
             this.formatingGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.formatingGroupBox.Controls.Add(this.formatAddObjectButton);
             this.formatingGroupBox.Controls.Add(this.fontSizeUpButton);
             this.formatingGroupBox.Controls.Add(this.fontSizeDownButton);
             this.formatingGroupBox.Controls.Add(this.formatListButton);
@@ -385,17 +399,15 @@
             this.wordCountLabel.TabIndex = 104;
             this.wordCountLabel.Text = "Word Count:";
             // 
-            // template_richTextBox
+            // formatAddObjectButton
             // 
-            this.template_richTextBox.AcceptsTab = true;
-            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.template_richTextBox.HideSelection = false;
-            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
-            this.template_richTextBox.Name = "template_richTextBox";
-            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
-            this.template_richTextBox.TabIndex = 0;
-            this.template_richTextBox.Text = "Theres are some nootes!";
+            this.formatAddObjectButton.Location = new System.Drawing.Point(4, 155);
+            this.formatAddObjectButton.Name = "formatAddObjectButton";
+            this.formatAddObjectButton.Size = new System.Drawing.Size(113, 26);
+            this.formatAddObjectButton.TabIndex = 13;
+            this.formatAddObjectButton.Text = "Add Object";
+            this.formatAddObjectButton.UseVisualStyleBackColor = true;
+            this.formatAddObjectButton.Click += new System.EventHandler(this.OpenInsertObjectForm);
             // 
             // MainForm
             // 
@@ -465,5 +477,6 @@
         private System.Windows.Forms.Button fontSizeUpButton;
         private System.Windows.Forms.Button fontSizeDownButton;
         private System.Windows.Forms.Label wordCountLabel;
+        private System.Windows.Forms.Button formatAddObjectButton;
     }
 }

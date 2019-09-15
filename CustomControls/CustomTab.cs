@@ -72,7 +72,7 @@ namespace ProjectMemo.CustomControls
                 string savePath = Directory.GetCurrentDirectory() + "\\autosaves\\";
                 string fileName = "autosave_" + DateTime.Now.Day + "_" + DateTime.Now.Month + "_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "_" + DateTime.Now.Second + ".tmp";
 
-                thisTextBox.SaveFile(savePath);
+                thisTextBox.SaveFile(savePath + fileName);
                 thisTextBox.SetSavePoint();
                 ProjectMemoConsole.CustomConsole.Log("Saved file to " + savePath + fileName + ". IsAutoSave=true");
                 return;

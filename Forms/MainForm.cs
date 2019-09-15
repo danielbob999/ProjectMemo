@@ -22,7 +22,7 @@ namespace ProjectMemo.Forms
         public static MainForm ThisForm;
 
         private const int VERSION_MAJOR = 6;
-        private const int VERSION_MINOR = 0;
+        private const int VERSION_MINOR = 1;
         private const int VERSION_PATCH = 0;
 
         public static string Version
@@ -741,6 +741,18 @@ namespace ProjectMemo.Forms
 
             for (int i = 0; i < allTabs.Length; i++) {
                 allTabs[i].Save(true);
+            }
+        }
+
+        private void OpenInsertObjectForm(object sender, EventArgs e) {
+            using (InsertObjectForm form = new InsertObjectForm()) {
+                DialogResult res = form.ShowDialog();
+
+                if (res == DialogResult.OK) {
+                    // Paste in the active textbox. Data will already be saved in clipboard at this point
+                    activeRichTextBox.Paste();
+                    ProjectMemoConsole.CustomConsole.Log("Pasted DataObject into activeRichTextBox");
+                }
             }
         }
     }
