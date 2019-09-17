@@ -23,7 +23,7 @@ namespace ProjectMemo.Forms
 
         private const int VERSION_MAJOR = 6;
         private const int VERSION_MINOR = 1;
-        private const int VERSION_PATCH = 1;
+        private const int VERSION_PATCH = 2;
 
         public static string Version
         {
@@ -61,6 +61,8 @@ namespace ProjectMemo.Forms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            ProjectMemoConsole.CustomConsole.Log("Loading ProjectMemo.MainForm on thread: " + Thread.CurrentThread.ManagedThreadId);
+
             IOModule.SetupCurrentDirectory();
             CustomConsole.Init();
             ThisForm = this;
@@ -246,21 +248,7 @@ namespace ProjectMemo.Forms
         {
             mainFormTimer.Stop();
 
-            List<Thread> tempThreads = new List<Thread>(openThreads);
-            foreach (Thread t in tempThreads)
-            {
-                try
-                {
-                    int threadId = t.ManagedThreadId;
-                    t.Abort();
-                    openThreads.Remove(t);
-                    CustomConsole.Log("Closed thread with id: " + threadId);
-                }
-                catch (ThreadAbortException ex)
-                {
-                    //CustomConsole.Log(ex.Message);
-                }
-            }
+            ShutdownChildThreads();
 
             CustomConsole.Log("Thread count: " + openThreads.Count);
 
@@ -302,45 +290,18 @@ namespace ProjectMemo.Forms
         private void toEditToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.ShowDialog();
+            DialogResult res = fileDialog.ShowDialog();
 
-            string filePath = fileDialog.FileName;
+            if (res == DialogResult.OK) {
+                string filePath = fileDialog.FileName;
 
-            if (!filePath.EndsWith(".rtf"))
-            {
-                MessageBox.Show("You can only open files with the extension .rtf!", "Error", MessageBoxButtons.OK);
-                return;
+                if (!filePath.EndsWith(".rtf")) {
+                    MessageBox.Show("You can only open files with the extension .rtf!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                OpenTab(filePath);
             }
-
-            /*
-            string[] splitFileName = filePath.Split('\\');
-
-            string temp_semester = splitFileName[splitFileName.Length - 4];
-
-            string[] classTypeSplit = splitFileName[splitFileName.Length - 1].Split('_');
-            string temp_classtype = classTypeSplit[1].Split('.')[0];
-            string temp_course = splitFileName[splitFileName.Length - 3];
-
-            // Copied from newTab click event code
-            CustomRichTextBox newBox = new CustomRichTextBox();
-            newBox.LoadFile(filePath);
-            newBox.Font = new Font(newBox.Font.FontFamily, 10.5f, FontStyle.Regular);
-            newBox.Size = template_rtb.Size;
-            newBox.Location = template_rtb.Location;
-            newBox.HideSelection = false;
-
-            // Create new tab, make sure all TabPage values are srt to null
-            CustomTab newTab = new CustomTab(temp_semester, temp_course, temp_classtype, false, filePath);
-            newTab.Text = string.Format("[{0}] {1}", temp_course, splitFileName[splitFileName.Length - 1]);
-            newTab.Controls.Add(newBox);
-
-            mainTabControl.TabPages.Add(newTab);
-
-            CustomConsole.Log("Opened file to edit: " + filePath);
-
-            mainTabControl.SelectedIndex = mainTabControl.TabPages.Count - 1;*/
-
-            OpenTab(filePath);
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -567,6 +528,13 @@ namespace ProjectMemo.Forms
                 {
                     form.ShowDialog();
                 }
+
+                return;
+            }
+
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.S) {
+                ((CustomTab)mainTabControl.SelectedTab).Save();
+                return;
             }
         }
 
@@ -754,6 +722,22 @@ namespace ProjectMemo.Forms
                     ProjectMemoConsole.CustomConsole.Log("Pasted DataObject into activeRichTextBox");
                 }
             }
+        }
+
+        public void ShutdownChildThreads() {
+            List<Thread> tempThreads = new List<Thread>(openThreads);
+            foreach (Thread t in tempThreads) {
+                try {
+                    int threadId = t.ManagedThreadId;
+                    t.Abort();
+                    openThreads.Remove(t);
+                    CustomConsole.Log("Closed thread with id: " + threadId);
+                } catch (ThreadAbortException ex) {
+                    //CustomConsole.Log(ex.Message);
+                }
+            }
+
+            CustomConsole.Log("Thread count: " + openThreads.Count);
         }
     }
 }
