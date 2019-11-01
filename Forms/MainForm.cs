@@ -14,6 +14,7 @@ using ProjectMemo.CustomControls;
 using ProjectMemo.ProjectMemoConsole;
 using ProjectMemo.ProjectMemoConsole.CommandAttributes;
 using ProjectMemo.Formatting;
+using ProjectMemo.AutoSave;
 
 namespace ProjectMemo.Forms
 {
@@ -23,7 +24,7 @@ namespace ProjectMemo.Forms
 
         private const int VERSION_MAJOR = 6;
         private const int VERSION_MINOR = 1;
-        private const int VERSION_PATCH = 2;
+        private const int VERSION_PATCH = 3;
 
         public static string Version
         {
@@ -37,16 +38,10 @@ namespace ProjectMemo.Forms
             get { return ThisForm.mRtbData; }
         }
 
-        public static int AutoSaveInterval
-        {
-            get { return ((int)(ThisForm.mAutoSaveInterval * 60)) * 1000; }
-        }
-
         private List<Thread> openThreads = new List<Thread>();
         private Dictionary<string, string> mRtbData = new Dictionary<string, string>();
         private CustomRichTextBox template_rtb;
         private CustomRichTextBox activeRichTextBox;
-        private float mAutoSaveInterval = 5.0f;
         private List<string> mLoadedSemesters = new List<string>();
         private bool mSaveLock = false;
         private AutoSaveModule mAutoSaveModule;
@@ -73,12 +68,7 @@ namespace ProjectMemo.Forms
             RtfCodeFormatter.LoadLanguageThemes();
 
             mAutoSaveModule = new AutoSaveModule();
-            mAutoSaveModule.OnAutoSave += AutosaveAllNotes;
-
-            
-            Thread saveModuleThread = new Thread(mAutoSaveModule.Run);
-            saveModuleThread.Start();
-            openThreads.Add(saveModuleThread);
+            mAutoSaveModule.OnAutoSaveTriggered += AutosaveAllNotes;
 
             foreach (string str in MainContent.GetFontStyleList())
             {
@@ -97,7 +87,7 @@ namespace ProjectMemo.Forms
             if (IOModule.ReadPreferencesFromFile(out prefs))
             {
                 MainNoteDirectory = prefs[0];
-                mAutoSaveInterval = Convert.ToInt32(prefs[1]);
+                //mAutoSaveInterval = Convert.ToInt32(prefs[1]);
             }
 
             // Set the valid semester choices
@@ -203,13 +193,14 @@ namespace ProjectMemo.Forms
 
         private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            /*
             using (PreferencesForm form = new PreferencesForm(MainNoteDirectory, (int)mAutoSaveInterval))
             {
                 form.ShowDialog();
                 MainNoteDirectory = form.selectedDirectory;
-                mAutoSaveInterval = form.autoSaveInterval;
-                Console.WriteLine("AutoSaveInterval is now: " + mAutoSaveInterval);
-            }
+                //mAutoSaveInterval = form.autoSaveInterval;
+                //Console.WriteLine("AutoSaveInterval is now: " + mAutoSaveInterval);
+            }*/
 
             // Set semester folders
             string[] semesterFolders = new string[] { };
@@ -258,6 +249,8 @@ namespace ProjectMemo.Forms
         }
 
         private void mainFormTimer_Tick(object sender, EventArgs e) {
+
+            mAutoSaveModule.Update();
 
             if (mainTabControl.TabPages.Count > 0) {
                 if (mainTabControl.SelectedTab.Text.Contains("*")) {

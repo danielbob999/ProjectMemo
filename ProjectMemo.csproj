@@ -49,7 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoSaveModule.cs" />
+    <Compile Include="AutoSave\AutoSaveModule.cs" />
+    <Compile Include="Config\PMConfig.cs" />
     <Compile Include="CustomControls\CustomRichTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
