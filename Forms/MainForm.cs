@@ -24,7 +24,7 @@ namespace ProjectMemo.Forms
 
         private const int VERSION_MAJOR = 6;
         private const int VERSION_MINOR = 1;
-        private const int VERSION_PATCH = 3;
+        private const int VERSION_PATCH = 4;
 
         public static string Version
         {
@@ -399,6 +399,10 @@ namespace ProjectMemo.Forms
 
         private void format_listButton_Click(object sender, EventArgs e)
         {
+            if (activeRichTextBox == null) {
+                return;
+            }
+
             if (activeRichTextBox.SelectedText != "")
             {
                 if (activeRichTextBox.SelectionStart > 0) {
@@ -413,6 +417,10 @@ namespace ProjectMemo.Forms
         }
 
         private void FormatColourText(object sender, EventArgs e) {
+            if (activeRichTextBox == null) {
+                return;
+            }
+
             if (activeRichTextBox.SelectedText != "") {
                 ColorDialog cd = new ColorDialog();
                 cd.AllowFullOpen = true;
@@ -425,6 +433,10 @@ namespace ProjectMemo.Forms
         }
 
         private void FormatIncreaseTextSize(object sender, EventArgs e) {
+            if (activeRichTextBox == null) {
+                return;
+            }
+
             if (activeRichTextBox.SelectedText != "") {
                 float fontSize = activeRichTextBox.SelectionFont.Size;
                 Font newFont = new Font(activeRichTextBox.SelectionFont.FontFamily, activeRichTextBox.SelectionFont.Size + 0.5f, activeRichTextBox.SelectionFont.Style);
@@ -436,6 +448,10 @@ namespace ProjectMemo.Forms
         }
 
         private void FormatDecreaseTextSize(object sender, EventArgs e) {
+            if (activeRichTextBox == null) {
+                return;
+            }
+
             if (activeRichTextBox.SelectedText != "") {
                 float fontSize = activeRichTextBox.SelectionFont.Size;
                 Font newFont = new Font(activeRichTextBox.SelectionFont.FontFamily, activeRichTextBox.SelectionFont.Size - 0.5f, activeRichTextBox.SelectionFont.Style);

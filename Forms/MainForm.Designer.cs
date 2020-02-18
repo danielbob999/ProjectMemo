@@ -49,6 +49,7 @@
             this.default_tab = new System.Windows.Forms.TabPage();
             this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.formatingGroupBox = new System.Windows.Forms.GroupBox();
+            this.formatAddObjectButton = new System.Windows.Forms.Button();
             this.fontSizeUpButton = new System.Windows.Forms.Button();
             this.fontSizeDownButton = new System.Windows.Forms.Button();
             this.formatListButton = new System.Windows.Forms.Button();
@@ -64,7 +65,10 @@
             this.mainFormTimer = new System.Windows.Forms.Timer(this.components);
             this.versionLabel = new System.Windows.Forms.Label();
             this.wordCountLabel = new System.Windows.Forms.Label();
-            this.formatAddObjectButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.mainMenuStrip.SuspendLayout();
             this.mainTabControl.SuspendLayout();
             this.tabControlContextMenu.SuspendLayout();
@@ -113,7 +117,7 @@
             // toEditToolStripMenuItem
             // 
             this.toEditToolStripMenuItem.Name = "toEditToolStripMenuItem";
-            this.toEditToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.toEditToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.toEditToolStripMenuItem.Text = "To Edit";
             this.toEditToolStripMenuItem.Click += new System.EventHandler(this.toEditToolStripMenuItem_Click);
             // 
@@ -150,21 +154,21 @@
             // consoleToolStripMenuItem
             // 
             this.consoleToolStripMenuItem.Name = "consoleToolStripMenuItem";
-            this.consoleToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.consoleToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.consoleToolStripMenuItem.Text = "Console";
             this.consoleToolStripMenuItem.Click += new System.EventHandler(this.consoleToolStripMenuItem_Click);
             // 
             // langThemeCreatorMenuItem
             // 
             this.langThemeCreatorMenuItem.Name = "langThemeCreatorMenuItem";
-            this.langThemeCreatorMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.langThemeCreatorMenuItem.Size = new System.Drawing.Size(207, 22);
             this.langThemeCreatorMenuItem.Text = "Language Theme Creator";
             this.langThemeCreatorMenuItem.Click += new System.EventHandler(this.langThemeCreatorMenuItem_Click);
             // 
             // noteViewerToolStripMenuItem
             // 
             this.noteViewerToolStripMenuItem.Name = "noteViewerToolStripMenuItem";
-            this.noteViewerToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.noteViewerToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.noteViewerToolStripMenuItem.Text = "Note Viewer";
             this.noteViewerToolStripMenuItem.Click += new System.EventHandler(this.noteViewerToolStripMenuItem_Click);
             // 
@@ -229,6 +233,10 @@
             // formatingGroupBox
             // 
             this.formatingGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.formatingGroupBox.Controls.Add(this.label4);
+            this.formatingGroupBox.Controls.Add(this.label3);
+            this.formatingGroupBox.Controls.Add(this.label2);
+            this.formatingGroupBox.Controls.Add(this.label1);
             this.formatingGroupBox.Controls.Add(this.formatAddObjectButton);
             this.formatingGroupBox.Controls.Add(this.fontSizeUpButton);
             this.formatingGroupBox.Controls.Add(this.fontSizeDownButton);
@@ -244,15 +252,24 @@
             this.formatingGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.formatingGroupBox.Location = new System.Drawing.Point(1095, 43);
             this.formatingGroupBox.Name = "formatingGroupBox";
-            this.formatingGroupBox.Size = new System.Drawing.Size(235, 191);
+            this.formatingGroupBox.Size = new System.Drawing.Size(235, 269);
             this.formatingGroupBox.TabIndex = 101;
             this.formatingGroupBox.TabStop = false;
-            this.formatingGroupBox.Text = "Format:";
+            // 
+            // formatAddObjectButton
+            // 
+            this.formatAddObjectButton.Location = new System.Drawing.Point(2, 232);
+            this.formatAddObjectButton.Name = "formatAddObjectButton";
+            this.formatAddObjectButton.Size = new System.Drawing.Size(113, 26);
+            this.formatAddObjectButton.TabIndex = 13;
+            this.formatAddObjectButton.Text = "Object";
+            this.formatAddObjectButton.UseVisualStyleBackColor = true;
+            this.formatAddObjectButton.Click += new System.EventHandler(this.OpenInsertObjectForm);
             // 
             // fontSizeUpButton
             // 
             this.fontSizeUpButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fontSizeUpButton.Location = new System.Drawing.Point(62, 123);
+            this.fontSizeUpButton.Location = new System.Drawing.Point(63, 176);
             this.fontSizeUpButton.Name = "fontSizeUpButton";
             this.fontSizeUpButton.Size = new System.Drawing.Size(55, 26);
             this.fontSizeUpButton.TabIndex = 12;
@@ -263,7 +280,7 @@
             // fontSizeDownButton
             // 
             this.fontSizeDownButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fontSizeDownButton.Location = new System.Drawing.Point(4, 123);
+            this.fontSizeDownButton.Location = new System.Drawing.Point(3, 176);
             this.fontSizeDownButton.Name = "fontSizeDownButton";
             this.fontSizeDownButton.Size = new System.Drawing.Size(55, 26);
             this.fontSizeDownButton.TabIndex = 11;
@@ -273,9 +290,9 @@
             // 
             // formatListButton
             // 
-            this.formatListButton.Location = new System.Drawing.Point(122, 155);
+            this.formatListButton.Location = new System.Drawing.Point(177, 176);
             this.formatListButton.Name = "formatListButton";
-            this.formatListButton.Size = new System.Drawing.Size(109, 26);
+            this.formatListButton.Size = new System.Drawing.Size(55, 26);
             this.formatListButton.TabIndex = 10;
             this.formatListButton.Text = "List";
             this.formatListButton.UseVisualStyleBackColor = true;
@@ -283,9 +300,10 @@
             // 
             // formatColourButton
             // 
-            this.formatColourButton.Location = new System.Drawing.Point(122, 123);
+            this.formatColourButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.formatColourButton.Location = new System.Drawing.Point(121, 176);
             this.formatColourButton.Name = "formatColourButton";
-            this.formatColourButton.Size = new System.Drawing.Size(109, 26);
+            this.formatColourButton.Size = new System.Drawing.Size(53, 26);
             this.formatColourButton.TabIndex = 9;
             this.formatColourButton.Text = "Colour";
             this.formatColourButton.UseVisualStyleBackColor = true;
@@ -295,14 +313,14 @@
             // 
             this.format_languageSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.format_languageSelector.FormattingEnabled = true;
-            this.format_languageSelector.Location = new System.Drawing.Point(4, 57);
+            this.format_languageSelector.Location = new System.Drawing.Point(4, 91);
             this.format_languageSelector.Name = "format_languageSelector";
             this.format_languageSelector.Size = new System.Drawing.Size(110, 26);
             this.format_languageSelector.TabIndex = 8;
             // 
             // format_formatCodeButton
             // 
-            this.format_formatCodeButton.Location = new System.Drawing.Point(120, 57);
+            this.format_formatCodeButton.Location = new System.Drawing.Point(120, 91);
             this.format_formatCodeButton.Name = "format_formatCodeButton";
             this.format_formatCodeButton.Size = new System.Drawing.Size(111, 28);
             this.format_formatCodeButton.TabIndex = 7;
@@ -313,7 +331,7 @@
             // format_strikeoutButton
             // 
             this.format_strikeoutButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Strikeout, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.format_strikeoutButton.Location = new System.Drawing.Point(120, 91);
+            this.format_strikeoutButton.Location = new System.Drawing.Point(119, 145);
             this.format_strikeoutButton.Name = "format_strikeoutButton";
             this.format_strikeoutButton.Size = new System.Drawing.Size(55, 26);
             this.format_strikeoutButton.TabIndex = 5;
@@ -324,7 +342,7 @@
             // format_underlineButton
             // 
             this.format_underlineButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.format_underlineButton.Location = new System.Drawing.Point(177, 91);
+            this.format_underlineButton.Location = new System.Drawing.Point(176, 145);
             this.format_underlineButton.Name = "format_underlineButton";
             this.format_underlineButton.Size = new System.Drawing.Size(55, 26);
             this.format_underlineButton.TabIndex = 4;
@@ -335,7 +353,7 @@
             // format_italicButton
             // 
             this.format_italicButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.format_italicButton.Location = new System.Drawing.Point(62, 91);
+            this.format_italicButton.Location = new System.Drawing.Point(61, 145);
             this.format_italicButton.Name = "format_italicButton";
             this.format_italicButton.Size = new System.Drawing.Size(55, 26);
             this.format_italicButton.TabIndex = 3;
@@ -346,7 +364,7 @@
             // format_boldButton
             // 
             this.format_boldButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.format_boldButton.Location = new System.Drawing.Point(4, 91);
+            this.format_boldButton.Location = new System.Drawing.Point(3, 145);
             this.format_boldButton.Name = "format_boldButton";
             this.format_boldButton.Size = new System.Drawing.Size(55, 26);
             this.format_boldButton.TabIndex = 2;
@@ -358,7 +376,7 @@
             // 
             this.format_textStyleSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.format_textStyleSelector.FormattingEnabled = true;
-            this.format_textStyleSelector.Location = new System.Drawing.Point(4, 25);
+            this.format_textStyleSelector.Location = new System.Drawing.Point(4, 37);
             this.format_textStyleSelector.Name = "format_textStyleSelector";
             this.format_textStyleSelector.Size = new System.Drawing.Size(227, 26);
             this.format_textStyleSelector.TabIndex = 0;
@@ -392,6 +410,7 @@
             // 
             // wordCountLabel
             // 
+            this.wordCountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.wordCountLabel.AutoSize = true;
             this.wordCountLabel.Location = new System.Drawing.Point(15, 667);
             this.wordCountLabel.Name = "wordCountLabel";
@@ -399,15 +418,45 @@
             this.wordCountLabel.TabIndex = 104;
             this.wordCountLabel.Text = "Word Count:";
             // 
-            // formatAddObjectButton
+            // label1
             // 
-            this.formatAddObjectButton.Location = new System.Drawing.Point(4, 155);
-            this.formatAddObjectButton.Name = "formatAddObjectButton";
-            this.formatAddObjectButton.Size = new System.Drawing.Size(113, 26);
-            this.formatAddObjectButton.TabIndex = 13;
-            this.formatAddObjectButton.Text = "Add Object";
-            this.formatAddObjectButton.UseVisualStyleBackColor = true;
-            this.formatAddObjectButton.Click += new System.EventHandler(this.OpenInsertObjectForm);
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(5, 17);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(70, 16);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "Text Style:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(5, 72);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(110, 16);
+            this.label2.TabIndex = 15;
+            this.label2.Text = "Code Formatting:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(5, 126);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(80, 16);
+            this.label3.TabIndex = 16;
+            this.label3.Text = "Text Effects:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(5, 213);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(43, 16);
+            this.label4.TabIndex = 17;
+            this.label4.Text = "Insert:";
             // 
             // MainForm
             // 
@@ -436,6 +485,7 @@
             this.tabControlContextMenu.ResumeLayout(false);
             this.default_tab.ResumeLayout(false);
             this.formatingGroupBox.ResumeLayout(false);
+            this.formatingGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -478,5 +528,9 @@
         private System.Windows.Forms.Button fontSizeDownButton;
         private System.Windows.Forms.Label wordCountLabel;
         private System.Windows.Forms.Button formatAddObjectButton;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
     }
 }
