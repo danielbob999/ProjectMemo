@@ -24,7 +24,7 @@ namespace ProjectMemo.Forms
 
         private const int VERSION_MAJOR = 6;
         private const int VERSION_MINOR = 1;
-        private const int VERSION_PATCH = 4;
+        private const int VERSION_PATCH = 5;
 
         public static string Version
         {
@@ -81,7 +81,10 @@ namespace ProjectMemo.Forms
 
             mainFormTimer.Start();
 
-            Config.PMConfig.LoadFromFile(Directory.GetCurrentDirectory() + "/preferences.conf");
+            // If the preferences file cannot be loaded, generate a default config file
+            if (!Config.PMConfig.LoadFromFile(Directory.GetCurrentDirectory() + "/preferences.conf")) {
+                Config.PMConfig.GenerateDefaultConfigFile(Directory.GetCurrentDirectory() + "/preferences.conf");
+            }
 
             if (Config.PMConfig.GetConfigValue<string>("mainnotedir", out string res)) {
                 MainNoteDirectory = res;
@@ -438,7 +441,7 @@ namespace ProjectMemo.Forms
 
             if (activeRichTextBox.SelectedText != "") {
                 float fontSize = activeRichTextBox.SelectionFont.Size;
-                Font newFont = new Font(activeRichTextBox.SelectionFont.FontFamily, activeRichTextBox.SelectionFont.Size + 0.5f, activeRichTextBox.SelectionFont.Style);
+                Font newFont = new Font(activeRichTextBox.SelectionFont.FontFamily, activeRichTextBox.SelectionFont.Size + 0.7f, activeRichTextBox.SelectionFont.Style);
 
                 activeRichTextBox.SelectionFont = newFont;
                 activeRichTextBox.SelectionLength = 0;
@@ -453,7 +456,7 @@ namespace ProjectMemo.Forms
 
             if (activeRichTextBox.SelectedText != "") {
                 float fontSize = activeRichTextBox.SelectionFont.Size;
-                Font newFont = new Font(activeRichTextBox.SelectionFont.FontFamily, activeRichTextBox.SelectionFont.Size - 0.5f, activeRichTextBox.SelectionFont.Style);
+                Font newFont = new Font(activeRichTextBox.SelectionFont.FontFamily, activeRichTextBox.SelectionFont.Size - 0.7f, activeRichTextBox.SelectionFont.Style);
 
                 activeRichTextBox.SelectionFont = newFont;
                 activeRichTextBox.SelectionLength = 0;

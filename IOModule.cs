@@ -23,6 +23,11 @@ namespace ProjectMemo
             if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\logs")) {
                 Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\logs");
             }
+
+            // Check to see if the language_themes folder exists, if not, create it
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\language_themes")) {
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\language_themes");
+            }
         }
 
         public static void GetNoteDetailsFromFile(string _path, string _mainDir, string _semesterFold, out string _courseId, out string _classType)

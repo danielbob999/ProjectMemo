@@ -28,9 +28,14 @@ namespace ProjectMemo.Config
             }
         }
         
-        public static void LoadFromFile(string path) {
+        public static bool LoadFromFile(string path) {
             mConfigOptions.Clear();
             int lineNum = 1;
+
+            if (!File.Exists(path)) {
+                CustomConsole.Log("No config file present at: " + path);
+                return false;
+            }
 
             try {
                 using (StreamReader reader = new StreamReader(path)) {
@@ -46,9 +51,11 @@ namespace ProjectMemo.Config
                 }
 
                 CustomConsole.Log("Successfully read in all preferences from '" + path + "'");
+                return true;
             } catch (Exception e) {
                 CustomConsole.Log("Failed to load preferences from '" + path + "'. Error in line: " + lineNum);
                 CustomConsole.Log(e.Message);
+                return false;
             }
         }
 
@@ -70,6 +77,34 @@ namespace ProjectMemo.Config
 
             value = default(T);
             return false;
+        }
+
+        public static void GenerateDefaultConfigFile(string path) {
+            CustomConsole.Log("Generating a new, default, config file");
+
+            mConfigOptions = new Dictionary<string, object>();
+            mConfigOptions.Add("mainnotedir", "");
+
+            SaveToFile(path);
+        }
+
+        public static void SaveToFile(string path) {
+            List<string> configAsText = new List<string>();
+
+            foreach (KeyValuePair<string, object> pair in mConfigOptions) {
+                configAsText.Add(string.Format("{0}={1}", pair.Key, pair.Value.ToString()));
+            }
+
+            try {
+                if (File.Exists(path)) {
+                    File.Delete(path);
+                }
+
+                File.WriteAllLines(path, configAsText.ToArray());
+            } catch (Exception e) {
+                CustomConsole.Log("Error when saving the config file.");
+                CustomConsole.Log(e.Message);
+            }
         }
     }
 }
