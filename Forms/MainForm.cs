@@ -81,13 +81,12 @@ namespace ProjectMemo.Forms
 
             mainFormTimer.Start();
 
-            List<string> prefs = new List<string>();
+            Config.PMConfig.LoadFromFile(Directory.GetCurrentDirectory() + "/preferences.conf");
 
-            // Read in preferences from the file
-            if (IOModule.ReadPreferencesFromFile(out prefs))
-            {
-                MainNoteDirectory = prefs[0];
-                //mAutoSaveInterval = Convert.ToInt32(prefs[1]);
+            if (Config.PMConfig.GetConfigValue<string>("mainnotedir", out string res)) {
+                MainNoteDirectory = res;
+            } else {
+                MainNoteDirectory = "ERRORDIR";
             }
 
             // Set the valid semester choices
@@ -722,6 +721,10 @@ namespace ProjectMemo.Forms
         }
 
         private void OpenInsertObjectForm(object sender, EventArgs e) {
+            if (activeRichTextBox == null) {
+                return;
+            }
+
             using (InsertObjectForm form = new InsertObjectForm()) {
                 DialogResult res = form.ShowDialog();
 

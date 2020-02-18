@@ -11,6 +11,22 @@ namespace ProjectMemo.Config
     class PMConfig
     {
         private static Dictionary<string, object> mConfigOptions = new Dictionary<string, object>();
+
+        [ProjectMemoConsole.CommandAttributes.CommandMethod("config.printOptions", "")]
+        public static void PrintAllConfigOptions(string[] args) {
+            if (mConfigOptions.Count == 0) {
+                CustomConsole.Log("No config options loaded.");
+                return;
+            }
+
+            foreach (KeyValuePair<string, object> pair in mConfigOptions) {
+                try {
+                    CustomConsole.Log(string.Format("{0}={1}", pair.Key, pair.Value.ToString()), true);
+                } catch (Exception) {
+                    CustomConsole.Log("Failed to print config option. Key: " + pair.Key + ", Value Type: " + pair.Value.GetType().Name, true);
+                }
+            }
+        }
         
         public static void LoadFromFile(string path) {
             mConfigOptions.Clear();
@@ -46,7 +62,7 @@ namespace ProjectMemo.Config
                 try {
                     value = (T)Convert.ChangeType(mConfigOptions[configName], typeof(T));
                     return true;
-                } catch (InvalidCastException e) {
+                } catch (InvalidCastException) {
                     value = default(T);
                     return false;
                 }
