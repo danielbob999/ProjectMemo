@@ -1,29 +1,25 @@
-﻿using System;
+﻿using ProjectMemo.AutoSave;
+using ProjectMemo.CustomControls;
+using ProjectMemo.Formatting;
+using ProjectMemo.ProjectMemoConsole;
+using ProjectMemo.ProjectMemoConsole.CommandAttributes;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using ProjectMemo.CustomControls;
-using ProjectMemo.ProjectMemoConsole;
-using ProjectMemo.ProjectMemoConsole.CommandAttributes;
-using ProjectMemo.Formatting;
-using ProjectMemo.AutoSave;
 
-namespace ProjectMemo.Forms
-{
+namespace ProjectMemo.Forms {
     public partial class MainForm : Form
     {
         public static MainForm ThisForm;
 
-        private const int VERSION_MAJOR = 6;
-        private const int VERSION_MINOR = 2;
+        // Full Release
+        private const int VERSION_MAJOR = 1;
+        private const int VERSION_MINOR = 0;
         private const int VERSION_PATCH = 0;
 
         public static string Version
