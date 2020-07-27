@@ -47,6 +47,7 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.default_tab = new System.Windows.Forms.TabPage();
+            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.formatingGroupBox = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -71,7 +72,6 @@
             this.filesGroupBox = new System.Windows.Forms.GroupBox();
             this.addFileButton = new System.Windows.Forms.Button();
             this.filesListBox = new ProjectMemo.CustomControls.CustomFilesListBox();
-            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.mainMenuStrip.SuspendLayout();
             this.mainTabControl.SuspendLayout();
             this.tabControlContextMenu.SuspendLayout();
@@ -221,6 +221,18 @@
             this.default_tab.TabIndex = 0;
             this.default_tab.Text = "default_tab";
             this.default_tab.UseVisualStyleBackColor = true;
+            // 
+            // template_richTextBox
+            // 
+            this.template_richTextBox.AcceptsTab = true;
+            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.template_richTextBox.HideSelection = false;
+            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
+            this.template_richTextBox.Name = "template_richTextBox";
+            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
+            this.template_richTextBox.TabIndex = 0;
+            this.template_richTextBox.Text = "Theres are some nootes!";
             // 
             // formatingGroupBox
             // 
@@ -478,35 +490,11 @@
             this.filesListBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.filesListBox.FormattingEnabled = true;
             this.filesListBox.ItemHeight = 32;
-            this.filesListBox.Items.AddRange(new object[] {
-            "C:\\Users\\Daniel\\Desktop\\17380915.sql",
-            "C:\\Users\\Daniel\\Desktop\\m8_livery.xcf",
-            "C:\\Users\\Daniel\\Desktop\\projectmemoicon.png",
-            "C:\\Users\\Daniel\\Desktop\\17380915.sql",
-            "C:\\Users\\Daniel\\Desktop\\m8_livery.xcf",
-            "C:\\Users\\Daniel\\Desktop\\projectmemoicon.png",
-            "C:\\Users\\Daniel\\Desktop\\17380915.sql",
-            "C:\\Users\\Daniel\\Desktop\\m8_livery.xcf",
-            "C:\\Users\\Daniel\\Desktop\\projectmemoicon.png",
-            "C:\\Users\\Daniel\\Desktop\\17380915.sql",
-            "C:\\Users\\Daniel\\Desktop\\m8_livery.xcf",
-            "C:\\Users\\Daniel\\Desktop\\projectmemoicon.png"});
             this.filesListBox.Location = new System.Drawing.Point(8, 22);
             this.filesListBox.Name = "filesListBox";
             this.filesListBox.Size = new System.Drawing.Size(221, 228);
             this.filesListBox.TabIndex = 0;
-            // 
-            // template_richTextBox
-            // 
-            this.template_richTextBox.AcceptsTab = true;
-            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.template_richTextBox.HideSelection = false;
-            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
-            this.template_richTextBox.Name = "template_richTextBox";
-            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
-            this.template_richTextBox.TabIndex = 0;
-            this.template_richTextBox.Text = "Theres are some nootes!";
+            this.filesListBox.TimeSinceLastUpdate = ((long)(0));
             // 
             // MainForm
             // 
