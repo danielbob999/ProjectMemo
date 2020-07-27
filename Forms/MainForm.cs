@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace ProjectMemo.Forms {
     public partial class MainForm : Form
@@ -19,7 +20,7 @@ namespace ProjectMemo.Forms {
 
         // Full Release
         private const int VERSION_MAJOR = 1;
-        private const int VERSION_MINOR = 0;
+        private const int VERSION_MINOR = 1;
         private const int VERSION_PATCH = 0;
 
         public static string Version
@@ -41,6 +42,7 @@ namespace ProjectMemo.Forms {
         private List<string> mLoadedSemesters = new List<string>();
         private bool mSaveLock = false;
         private AutoSaveModule mAutoSaveModule;
+        private Stopwatch mStopwatch;
 
         private bool formLoaded = false;
 
@@ -57,6 +59,10 @@ namespace ProjectMemo.Forms {
             IOModule.SetupCurrentDirectory();
             CustomConsole.Init();
             ThisForm = this;
+
+            mStopwatch = new Stopwatch();
+            mStopwatch.Start();
+            filesListBox.TimeSinceLastUpdate = mStopwatch.ElapsedMilliseconds;
 
             versionLabel.Text = Version;
 
@@ -275,6 +281,11 @@ namespace ProjectMemo.Forms {
                 MatchCollection matches = Regex.Matches(activeRichTextBox.Text, regexPattern);
 
                 wordCountLabel.Text = "Word Count: " + matches.Count;
+            }
+
+            if (mStopwatch.ElapsedMilliseconds - filesListBox.TimeSinceLastUpdate > 5000) {
+                UpdateFilesListBox(true);
+                filesListBox.TimeSinceLastUpdate = mStopwatch.ElapsedMilliseconds;
             }
         }
 
@@ -641,7 +652,7 @@ namespace ProjectMemo.Forms {
             }
         }
 
-        [CommandMethod("mainform.opentab", "", "<string:Path")]
+        [CommandMethod("mainform.opentab", "", "<string:Path>")]
         public static void AddTabCommand(string[] a_args)
         {
             if (a_args.Length == 1)
@@ -749,6 +760,94 @@ namespace ProjectMemo.Forms {
             }
 
             CustomConsole.Log("Thread count: " + openThreads.Count);
+        }
+
+        public void UpdateFilesListBox(bool logMsg = true) {
+            if (activeRichTextBox == null) {
+                filesListBox.Items.Clear();
+                if (logMsg) {
+                    CustomConsole.Log("Cannot update filesListBox because activeRichTextBox is null");
+                }
+                return;
+            }
+
+            // Get file directories
+            List<string> resourceFileDirs = new List<string>();
+            string currLine = null;
+
+            if (activeRichTextBox.Lines.Length > 0) {
+                currLine = activeRichTextBox.Lines[0];
+            }
+
+            int nullLineCount = 0;
+
+            for (int i = 0; i < activeRichTextBox.Lines.Length; i++) {
+                currLine = activeRichTextBox.Lines[i];
+
+                if (nullLineCount > 5) {
+                    break;
+                }
+
+                if (string.IsNullOrWhiteSpace(currLine)) {
+                    nullLineCount++;
+                    continue;
+                }
+
+                if (currLine.StartsWith("[resource=")) {
+                    string[] splitStr = currLine.Split('=');
+
+                    string dir = splitStr[splitStr.Length - 1].TrimEnd(']');
+
+                    if (File.Exists(dir)) {
+                        resourceFileDirs.Add(dir);
+                    }
+
+                    Console.WriteLine("dir : " + splitStr[splitStr.Length - 1].TrimEnd(']'));
+                    nullLineCount = 0;
+                }
+            }
+
+            if (resourceFileDirs.Count > 0) {
+                // Add dirs to list box
+                filesListBox.Items.Clear();
+                filesListBox.Items.AddRange(resourceFileDirs.ToArray());
+                if (logMsg) {
+                    CustomConsole.Log("Updated filesListBox with " + resourceFileDirs.Count + " items");
+                }
+            } else {
+                if (logMsg) {
+                    CustomConsole.Log("Tried to update filesListBox but the current note has no resource files attached");
+                }
+            }
+
+            //filesListBox.Refresh();
+        }
+
+        private void addFileButton_Click(object sender, EventArgs e) {
+            if (activeRichTextBox == null) {
+                CustomConsole.Log("Cannot add resource because activeRichTextBox is null");
+                return;
+            }
+
+            OpenFileDialog ofd = new OpenFileDialog();
+            DialogResult res = ofd.ShowDialog();
+
+            Console.WriteLine(res);
+
+            if (res == DialogResult.OK) {
+                List<string> linesList = new List<string>();
+                linesList.Add(string.Format("[resource={0}]", ofd.FileName));
+                linesList.AddRange(activeRichTextBox.Lines);
+
+                activeRichTextBox.Lines = linesList.ToArray();
+            }
+
+            UpdateFilesListBox();
+        }
+
+        [CommandMethod("mainform.updatefilesbox", "")]
+        public static void UpdateFilesBoxCommand(string[] args) {
+            ThisForm.UpdateFilesListBox();
         }
     }
 }

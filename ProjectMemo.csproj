@@ -51,6 +51,12 @@
   <ItemGroup>
     <Compile Include="AutoSave\AutoSaveModule.cs" />
     <Compile Include="Config\PMConfig.cs" />
+    <Compile Include="CustomControls\CustomFilesListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControls\CustomFilesListBox.Designer.cs">
+      <DependentUpon>CustomFilesListBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomControls\CustomRichTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
