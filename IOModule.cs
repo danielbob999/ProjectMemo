@@ -15,18 +15,18 @@ namespace ProjectMemo
 
         public static void SetupCurrentDirectory() {
             // Check to see if the autosaves folder exists, if not, create it
-            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\autosaves")) {
-                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\autosaves");
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + Config.PMConfig.GetConfigValueString("autoSaveDir"))) {
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + Config.PMConfig.GetConfigValueString("autoSaveDir"));
             }
 
             // Check to see if the logs folder exists, if not, create it
-            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\logs")) {
-                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\logs");
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + Config.PMConfig.GetConfigValueString("logDir"))) {
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + Config.PMConfig.GetConfigValueString("logDir"));
             }
 
             // Check to see if the language_themes folder exists, if not, create it
-            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\language_themes")) {
-                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\language_themes");
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + Config.PMConfig.GetConfigValueString("languageThemesDir"))) {
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + Config.PMConfig.GetConfigValueString("languageThemesDir"));
             }
         }
 

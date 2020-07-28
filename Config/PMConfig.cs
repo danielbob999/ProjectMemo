@@ -10,18 +10,18 @@ namespace ProjectMemo.Config
 {
     class PMConfig
     {
-        private static Dictionary<string, object> mConfigOptions = new Dictionary<string, object>();
+        private static Dictionary<string, Tuple<string, string>> s_configOptions = new Dictionary<string, Tuple<string, string>>();
 
         [ProjectMemoConsole.CommandAttributes.CommandMethod("config.printOptions", "")]
         public static void PrintAllConfigOptions(string[] args) {
-            if (mConfigOptions.Count == 0) {
+            if (s_configOptions.Count == 0) {
                 CustomConsole.Log("No config options loaded.");
                 return;
             }
 
-            foreach (KeyValuePair<string, object> pair in mConfigOptions) {
+            foreach (KeyValuePair<string, Tuple<string, string>> pair in s_configOptions) {
                 try {
-                    CustomConsole.Log(string.Format("{0}={1}", pair.Key, pair.Value.ToString()), true);
+                    CustomConsole.Log(string.Format("{0}:{1}={2}", pair.Value.Item1, pair.Key, pair.Value.Item2.ToString()), true);
                 } catch (Exception) {
                     CustomConsole.Log("Failed to print config option. Key: " + pair.Key + ", Value Type: " + pair.Value.GetType().Name, true);
                 }
@@ -29,7 +29,7 @@ namespace ProjectMemo.Config
         }
         
         public static bool LoadFromFile(string path) {
-            mConfigOptions.Clear();
+            s_configOptions.Clear();
             int lineNum = 1;
 
             if (!File.Exists(path)) {
@@ -43,13 +43,18 @@ namespace ProjectMemo.Config
                         string line = reader.ReadLine();
                         string[] splitString = line.Split('=');
 
+                        string[] nameSplit = splitString[0].Split(':');
+
+                        Console.WriteLine(string.Format("[{0}:{1}={2}]", nameSplit[0], nameSplit[1], splitString[1]));
+
                         if (splitString.Length == 2) {
-                            mConfigOptions.Add(splitString[0], splitString[1]);
+                            s_configOptions.Add(nameSplit[1], new Tuple<string, string>(nameSplit[0], splitString[1]));
                             lineNum++;
                         }
                     }
                 }
 
+                Console.WriteLine("read in all pmconfig");
                 CustomConsole.Log("Successfully read in all preferences from '" + path + "'");
                 return true;
             } catch (Exception e) {
@@ -59,31 +64,53 @@ namespace ProjectMemo.Config
             }
         }
 
-        public static bool GetConfigValue<T>(string configName, out T value) {
-            if (mConfigOptions.ContainsKey(configName)) {
-                if (mConfigOptions[configName] is T) {
-                    value = (T)mConfigOptions[configName];
-                    return true;
-                }
+        public static bool DoesConfigValueExist(string configName) {
+            return s_configOptions.ContainsKey(configName);
+        }
 
+        public static float GetConfigValueFloat(string configName) {
+            if (DoesConfigValueExist(configName)) {
                 try {
-                    value = (T)Convert.ChangeType(mConfigOptions[configName], typeof(T));
-                    return true;
-                } catch (InvalidCastException) {
-                    value = default(T);
-                    return false;
+                    return float.Parse(s_configOptions[configName].Item2);
+                } catch (Exception e) {
+                    return 0;
                 }
+            } else {
+                return 0;
             }
+        }
 
-            value = default(T);
-            return false;
+        public static int GetConfigValueInt(string configName) {
+            if (DoesConfigValueExist(configName)) {
+                try {
+                    return Convert.ToInt32(s_configOptions[configName].Item2);
+                } catch (Exception e) {
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        }
+
+        public static string GetConfigValueString(string configName) {
+            if (DoesConfigValueExist(configName)) {
+                return s_configOptions[configName].Item2;
+            } else {
+                return "";
+            }
         }
 
         public static void GenerateDefaultConfigFile(string path) {
             CustomConsole.Log("Generating a new, default, config file");
 
-            mConfigOptions = new Dictionary<string, object>();
-            mConfigOptions.Add("mainnotedir", "");
+            s_configOptions = new Dictionary<string, Tuple<string, string>>();
+            //s_configOptions.Add("mainnotedir", "");
+            s_configOptions.Add("mainNoteDir", new Tuple<string, string>("s", ""));
+            s_configOptions.Add("logDir", new Tuple<string, string>("s", "\\logs"));
+            s_configOptions.Add("autoSaveDir", new Tuple<string, string>("s", "\\auto_saves"));
+            s_configOptions.Add("languageThemesDir", new Tuple<string, string>("s", "\\language_themes"));
+            s_configOptions.Add("autoSaveIntervalMs", new Tuple<string, string>("i", "5000"));
+            s_configOptions.Add("filesListBoxRefreshIntervalMs", new Tuple<string, string>("i", "5000"));
 
             SaveToFile(path);
         }
@@ -91,8 +118,8 @@ namespace ProjectMemo.Config
         public static void SaveToFile(string path) {
             List<string> configAsText = new List<string>();
 
-            foreach (KeyValuePair<string, object> pair in mConfigOptions) {
-                configAsText.Add(string.Format("{0}={1}", pair.Key, pair.Value.ToString()));
+            foreach (KeyValuePair<string, Tuple<string, string>> pair in s_configOptions) {
+                configAsText.Add(string.Format("{0}:{1}={2}", pair.Value.Item1, pair.Key, pair.Value.Item2.ToString()));
             }
 
             try {

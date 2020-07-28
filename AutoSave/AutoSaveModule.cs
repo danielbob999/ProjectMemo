@@ -24,7 +24,8 @@ namespace ProjectMemo.AutoSave
 
         public AutoSaveModule() {
             ActiveInstance = this;
-            mSaveDirectory = Directory.GetCurrentDirectory() + "\\autosaves\\";
+            mSaveDirectory = Directory.GetCurrentDirectory() + Config.PMConfig.GetConfigValueString("autoSaveDir");
+            SetInterval(Config.PMConfig.GetConfigValueInt("autoSaveIntervalMs"));
             mStopWatch = new Stopwatch();
         }
 

@@ -21,7 +21,7 @@ namespace ProjectMemo.Forms {
         // Full Release
         private const int VERSION_MAJOR = 1;
         private const int VERSION_MINOR = 1;
-        private const int VERSION_PATCH = 1;
+        private const int VERSION_PATCH = 2;
 
         public static string Version
         {
@@ -56,6 +56,13 @@ namespace ProjectMemo.Forms {
         {
             ProjectMemoConsole.CustomConsole.Log("Loading ProjectMemo.MainForm on thread: " + Thread.CurrentThread.ManagedThreadId);
 
+            // If the preferences file cannot be loaded, generate a default config file
+            if (!Config.PMConfig.LoadFromFile(Directory.GetCurrentDirectory() + "/preferences.conf")) {
+                Config.PMConfig.GenerateDefaultConfigFile(Directory.GetCurrentDirectory() + "/preferences.conf");
+            }
+
+            Console.WriteLine("[" + Config.PMConfig.GetConfigValueString("mainNoteDir") + "]");
+
             IOModule.SetupCurrentDirectory();
             CustomConsole.Init();
             ThisForm = this;
@@ -83,13 +90,8 @@ namespace ProjectMemo.Forms {
 
             mainFormTimer.Start();
 
-            // If the preferences file cannot be loaded, generate a default config file
-            if (!Config.PMConfig.LoadFromFile(Directory.GetCurrentDirectory() + "/preferences.conf")) {
-                Config.PMConfig.GenerateDefaultConfigFile(Directory.GetCurrentDirectory() + "/preferences.conf");
-            }
-
-            if (Config.PMConfig.GetConfigValue<string>("mainnotedir", out string res)) {
-                MainNoteDirectory = res;
+            if (Config.PMConfig.DoesConfigValueExist("mainNoteDir")) {
+                MainNoteDirectory = Config.PMConfig.GetConfigValueString("mainNoteDir");
             } else {
                 MainNoteDirectory = "ERRORDIR";
             }
@@ -283,7 +285,7 @@ namespace ProjectMemo.Forms {
                 wordCountLabel.Text = "Word Count: " + matches.Count;
             }
 
-            if (mStopwatch.ElapsedMilliseconds - filesListBox.TimeSinceLastUpdate > 5000) {
+            if (mStopwatch.ElapsedMilliseconds - filesListBox.TimeSinceLastUpdate > Config.PMConfig.GetConfigValueInt("filesListBoxRefreshIntervalMs")) {
                 UpdateFilesListBox(true);
                 filesListBox.TimeSinceLastUpdate = mStopwatch.ElapsedMilliseconds;
             }
