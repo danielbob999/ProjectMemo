@@ -47,7 +47,6 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.default_tab = new System.Windows.Forms.TabPage();
-            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.formatingGroupBox = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -72,6 +71,7 @@
             this.filesGroupBox = new System.Windows.Forms.GroupBox();
             this.addFileButton = new System.Windows.Forms.Button();
             this.filesListBox = new ProjectMemo.CustomControls.CustomFilesListBox();
+            this.template_richTextBox = new ProjectMemo.CustomControls.CustomRichTextBox();
             this.mainMenuStrip.SuspendLayout();
             this.mainTabControl.SuspendLayout();
             this.tabControlContextMenu.SuspendLayout();
@@ -221,18 +221,6 @@
             this.default_tab.TabIndex = 0;
             this.default_tab.Text = "default_tab";
             this.default_tab.UseVisualStyleBackColor = true;
-            // 
-            // template_richTextBox
-            // 
-            this.template_richTextBox.AcceptsTab = true;
-            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.template_richTextBox.HideSelection = false;
-            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
-            this.template_richTextBox.Name = "template_richTextBox";
-            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
-            this.template_richTextBox.TabIndex = 0;
-            this.template_richTextBox.Text = "Theres are some nootes!";
             // 
             // formatingGroupBox
             // 
@@ -465,19 +453,21 @@
             // 
             // filesGroupBox
             // 
+            this.filesGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.filesGroupBox.Controls.Add(this.addFileButton);
             this.filesGroupBox.Controls.Add(this.filesListBox);
             this.filesGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.filesGroupBox.Location = new System.Drawing.Point(1095, 318);
             this.filesGroupBox.Name = "filesGroupBox";
-            this.filesGroupBox.Size = new System.Drawing.Size(235, 290);
+            this.filesGroupBox.Size = new System.Drawing.Size(235, 255);
             this.filesGroupBox.TabIndex = 105;
             this.filesGroupBox.TabStop = false;
             this.filesGroupBox.Text = "Files";
             // 
             // addFileButton
             // 
-            this.addFileButton.Location = new System.Drawing.Point(119, 257);
+            this.addFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.addFileButton.Location = new System.Drawing.Point(119, 222);
             this.addFileButton.Name = "addFileButton";
             this.addFileButton.Size = new System.Drawing.Size(110, 27);
             this.addFileButton.TabIndex = 1;
@@ -492,9 +482,21 @@
             this.filesListBox.ItemHeight = 32;
             this.filesListBox.Location = new System.Drawing.Point(8, 22);
             this.filesListBox.Name = "filesListBox";
-            this.filesListBox.Size = new System.Drawing.Size(221, 228);
+            this.filesListBox.Size = new System.Drawing.Size(221, 196);
             this.filesListBox.TabIndex = 0;
             this.filesListBox.TimeSinceLastUpdate = ((long)(0));
+            // 
+            // template_richTextBox
+            // 
+            this.template_richTextBox.AcceptsTab = true;
+            this.template_richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.template_richTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.template_richTextBox.HideSelection = false;
+            this.template_richTextBox.Location = new System.Drawing.Point(2, 3);
+            this.template_richTextBox.Name = "template_richTextBox";
+            this.template_richTextBox.Size = new System.Drawing.Size(1064, 602);
+            this.template_richTextBox.TabIndex = 0;
+            this.template_richTextBox.Text = "Theres are some nootes!";
             // 
             // MainForm
             // 
@@ -511,6 +513,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.mainMenuStrip;
+            this.MinimumSize = new System.Drawing.Size(600, 695);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ProjectMemo";
