@@ -21,7 +21,7 @@ namespace ProjectMemo.Forms {
         // Full Release
         private const int VERSION_MAJOR = 1;
         private const int VERSION_MINOR = 1;
-        private const int VERSION_PATCH = 3;
+        private const int VERSION_PATCH = 4;
 
         public static string Version
         {

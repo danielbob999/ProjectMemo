@@ -27,6 +27,7 @@
         private void InitializeComponent() {
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.imageTabPage = new System.Windows.Forms.TabPage();
+            this.insertButton = new System.Windows.Forms.Button();
             this.imageDetailsGroupBox = new System.Windows.Forms.GroupBox();
             this.sizeLabel = new System.Windows.Forms.Label();
             this.yImageSize = new System.Windows.Forms.NumericUpDown();
@@ -35,8 +36,6 @@
             this.clearButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.previewTextBox = new System.Windows.Forms.RichTextBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.insertButton = new System.Windows.Forms.Button();
             this.mainTabControl.SuspendLayout();
             this.imageTabPage.SuspendLayout();
             this.imageDetailsGroupBox.SuspendLayout();
@@ -47,7 +46,6 @@
             // mainTabControl
             // 
             this.mainTabControl.Controls.Add(this.imageTabPage);
-            this.mainTabControl.Controls.Add(this.tabPage2);
             this.mainTabControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mainTabControl.Location = new System.Drawing.Point(13, 13);
             this.mainTabControl.Name = "mainTabControl";
@@ -69,6 +67,18 @@
             this.imageTabPage.TabIndex = 0;
             this.imageTabPage.Text = "Image";
             this.imageTabPage.UseVisualStyleBackColor = true;
+            // 
+            // insertButton
+            // 
+            this.insertButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.insertButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.insertButton.Location = new System.Drawing.Point(655, 350);
+            this.insertButton.Name = "insertButton";
+            this.insertButton.Size = new System.Drawing.Size(134, 34);
+            this.insertButton.TabIndex = 5;
+            this.insertButton.Text = "Insert";
+            this.insertButton.UseVisualStyleBackColor = true;
+            this.insertButton.Click += new System.EventHandler(this.OnInsertButtonPressed);
             // 
             // imageDetailsGroupBox
             // 
@@ -181,28 +191,6 @@
             this.previewTextBox.TabIndex = 0;
             this.previewTextBox.Text = "";
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 27);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(795, 390);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // insertButton
-            // 
-            this.insertButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.insertButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.insertButton.Location = new System.Drawing.Point(655, 350);
-            this.insertButton.Name = "insertButton";
-            this.insertButton.Size = new System.Drawing.Size(134, 34);
-            this.insertButton.TabIndex = 5;
-            this.insertButton.Text = "Insert";
-            this.insertButton.UseVisualStyleBackColor = true;
-            this.insertButton.Click += new System.EventHandler(this.OnInsertButtonPressed);
-            // 
             // InsertObjectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -225,7 +213,6 @@
 
         private System.Windows.Forms.TabControl mainTabControl;
         private System.Windows.Forms.TabPage imageTabPage;
-        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RichTextBox previewTextBox;
         private System.Windows.Forms.GroupBox imageDetailsGroupBox;
