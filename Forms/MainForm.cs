@@ -21,7 +21,7 @@ namespace ProjectMemo.Forms {
         // Full Release
         private const int VERSION_MAJOR = 1;
         private const int VERSION_MINOR = 1;
-        private const int VERSION_PATCH = 4;
+        private const int VERSION_PATCH = 5;
 
         public static string Version
         {
@@ -786,7 +786,9 @@ namespace ProjectMemo.Forms {
             for (int i = 0; i < activeRichTextBox.Lines.Length; i++) {
                 currLine = activeRichTextBox.Lines[i];
 
+                // Loop for resources in the first 5 lines. If none are found, clear filesListBox and break from loop
                 if (nullLineCount > 5) {
+                    filesListBox.Items.Clear();
                     break;
                 }
 
@@ -809,9 +811,10 @@ namespace ProjectMemo.Forms {
                 }
             }
 
+            filesListBox.Items.Clear();
+
             if (resourceFileDirs.Count > 0) {
                 // Add dirs to list box
-                filesListBox.Items.Clear();
                 filesListBox.Items.AddRange(resourceFileDirs.ToArray());
                 if (logMsg) {
                     CustomConsole.Log("Updated filesListBox with " + resourceFileDirs.Count + " items");
@@ -821,8 +824,6 @@ namespace ProjectMemo.Forms {
                     CustomConsole.Log("Tried to update filesListBox but the current note has no resource files attached");
                 }
             }
-
-            //filesListBox.Refresh();
         }
 
         private void addFileButton_Click(object sender, EventArgs e) {
