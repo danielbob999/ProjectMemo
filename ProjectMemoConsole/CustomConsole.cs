@@ -197,5 +197,20 @@ namespace ProjectMemo.ProjectMemoConsole
                 }
             }
         }
+
+        [CommandMethod("console.autoscroll", "", "<bool:Value>")]
+        public static void SetAutoScrollCommand(string[] args) {
+            if (args.Length == 1) {
+                Log("console.autoscroll: " + Forms.ConsoleForm.CaretAutoScroll.ToString());
+            } else if (args.Length == 2) {
+                if (bool.TryParse(args[1], out bool res)) {
+                    Forms.ConsoleForm.CaretAutoScroll = res;
+                } else {
+                    Log("Cannot convert '" + args[1] + "' to bool");
+                }
+            } else {
+                Log("Incorrect number of arguments for command console.autoscroll");
+            }
+        }
     }
 }

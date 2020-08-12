@@ -15,11 +15,36 @@ namespace ProjectMemo.Forms
 {
     public partial class ConsoleForm : Form
     {
+        private static ConsoleForm ActiveInstance = null;
+
         private string m_CallingTypeString;
+        private bool m_ScrollToCaretAuto;
+
+        public static bool CaretAutoScroll {
+            get {
+                if (ActiveInstance != null) {
+                    return ActiveInstance.m_ScrollToCaretAuto;
+                } else {
+                    return false;
+                }
+            }
+
+            set {
+                if (ActiveInstance != null) {
+                    ActiveInstance.m_ScrollToCaretAuto = value;
+                }
+            }
+        }
 
         public ConsoleForm(string a_callingStr)
         {
+            if (ActiveInstance != null) {
+                ActiveInstance.Close();
+            }
+
+            ActiveInstance = this;
             m_CallingTypeString = a_callingStr;
+            m_ScrollToCaretAuto = true;
             InitializeComponent();
         }
 
@@ -61,6 +86,11 @@ namespace ProjectMemo.Forms
         private void consoleTimer_Tick(object sender, EventArgs e)
         {
             consoleText.Lines = CustomConsole.GetMessageQueueAsArray();
+
+            if (m_ScrollToCaretAuto) {
+                consoleText.SelectionStart = consoleText.Text.Length - 1;
+                consoleText.ScrollToCaret();
+            }
         }
 
         private void ConsoleForm_KeyDown(object sender, KeyEventArgs e)
